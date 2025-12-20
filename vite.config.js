@@ -1,4 +1,5 @@
 import { defineConfig } from 'vite'
+import fs from 'fs'
 
 export default defineConfig({
     //define: { global: {} },
@@ -14,5 +15,12 @@ export default defineConfig({
                 global: 'globalThis'
             }
         }
-    }
+    },
+    server: {
+        port: 8000,
+        https: {
+            key: fs.readFileSync('./certs/key.pem'),
+            cert: fs.readFileSync('./certs/certificate.pem'),
+        },
+    },
 })

@@ -18,6 +18,10 @@ app.use(languageStore)
 app.use(extensionStore)
 app.route('/', mainView)
 app.route('/dev', mainView)
+app.route('/hydra', mainView)
+app.route('/hydra/', mainView)
+app.route('/hydra/index.html', mainView)
+app.route('*', mainView)  // Catch-all fallback
 app.mount('body')
 
 

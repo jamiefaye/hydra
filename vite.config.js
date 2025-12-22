@@ -4,6 +4,10 @@ import fs from 'fs'
 export default defineConfig({
     //define: { global: {} },
     base: '',
+    build: {
+        minify: false,
+        sourcemap: true
+    },
     define: {
         'process.env': {},
         // 'global.window': 'window'

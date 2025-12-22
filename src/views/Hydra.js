@@ -4,6 +4,7 @@ import Component from 'choo/component'
 // const HydraSynth = require('./../../../../../hydra-synth')
 import P5 from './../lib/p5-wrapper.js'
 import PatchBay from './../lib/patch-bay/pb-live.js'
+import { install as installInAct } from 'hydra-synth/extensions/inact'
 
 let pb
 
@@ -51,6 +52,10 @@ export default class HydraCanvas extends Component {
 
     window.P5 = P5
     // window.pb = pb
+
+    // Install InAct extension (recording/playback toolbar)
+    installInAct(this.hydra)
+
     this.emit('hydra loaded')
   }
 

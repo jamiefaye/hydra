@@ -22,6 +22,13 @@ const infoText = (t) => html`
 <p> ///////////////////////////////////////////////////////////<br><br><br>
   ${t('info.description-detailed')}
 </p>
+<p>${t('info.built-in-extensions')}<ul>
+${t('info.built-in-extensions-list', { returnObjects: true }).map((text) => html`<li>${text}</li>`)}
+</ul>
+${raw(t('info.vertex-docs', {
+  'vertex-ref': link("https://github.com/jamiefaye/hydra-synth/blob/extensions/docs/vertex-reference.md")
+}))}
+</p>
 <p>${t('info.uses')}<ul>
 ${t('info.uses-list', { returnObjects: true }).map((text) => html`<li>${text}</li>`)}
 </ul></p>

@@ -13,9 +13,9 @@ export default {
                 "hide-info": "hide info window"
             },
             info: {
-                title: 'hydra',
-                subtitle: 'live coding video synth',
-                description: 'Hydra is live code-able video synth and coding environment that runs directly in the browser. It is free and open-source and made for beginners and experts alike.',
+                title: 'hydra+',
+                subtitle: 'live coding video synth with 3D & recording',
+                description: 'This enhanced version of Hydra includes built-in extensions for 3D geometry (vertex shaders) and InAct (recording/playback). All standard Hydra features plus new capabilities for live performance.',
                 'get-started-title': 'To get started:',
                 'get-started-list': [
                     'Close this window',
@@ -23,6 +23,13 @@ export default {
                     'Type Ctrl + Shift + Enter'
                 ],
                 'description-detailed': 'Hydra is written in JavaScript and compiles to WebGL under the hood. The syntax is inspired by analog modular synthesis, in which chaining or patching a set of transformations together generates a visual result.',
+                'built-in-extensions': 'Built-in Extensions:',
+                'built-in-extensions-list': [
+                    'Vertex/3D: sphere(), cube(), torus() and other 3D primitives with lighting (diffuse, specular, fresnel)',
+                    'InAct: Record and playback code sequences for live performance (toolbar at top of screen)',
+                    'Custom geometry via VertexSource for procedural shapes'
+                ],
+                'vertex-docs': 'See the <a {{vertex-ref}}>Vertex/3D Reference</a> for complete documentation.',
                 'uses': 'Hydra can be used:',
                 'uses-list': [
                     'to mix and add effects to camera feeds, screenshares, live streams, and videos',

@@ -29,7 +29,7 @@ export default {
                     'InAct: Record and playback code sequences for live performance (toolbar at top of screen)',
                     'Custom geometry via VertexSource for procedural shapes'
                 ],
-                'vertex-docs': 'See the <a {{vertex-ref}}>Vertex/3D Reference</a> for complete documentation.',
+                'extension-docs': 'See the <a {{vertex-ref}}>Vertex/3D Reference</a> and <a {{inact-ref}}>InAct Reference</a> for complete documentation.',
                 'uses': 'Hydra can be used:',
                 'uses-list': [
                     'to mix and add effects to camera feeds, screenshares, live streams, and videos',

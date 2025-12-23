@@ -6722,7 +6722,7 @@ const languageResources = {
           "InAct: Record and playback code sequences for live performance (toolbar at top of screen)",
           "Custom geometry via VertexSource for procedural shapes"
         ],
-        "vertex-docs": "See the <a {{vertex-ref}}>Vertex/3D Reference</a> for complete documentation.",
+        "extension-docs": "See the <a {{vertex-ref}}>Vertex/3D Reference</a> and <a {{inact-ref}}>InAct Reference</a> for complete documentation.",
         "uses": "Hydra can be used:",
         "uses-list": [
           "to mix and add effects to camera feeds, screenshares, live streams, and videos",
@@ -7550,7 +7550,7 @@ var objectInspect = function inspect_(obj, options2, depth, seen) {
     depth = 0;
   }
   if (depth >= maxDepth && maxDepth > 0 && typeof obj === "object") {
-    return isArray$6(obj) ? "[Array]" : "[Object]";
+    return isArray$5(obj) ? "[Array]" : "[Object]";
   }
   var indent = getIndent(opts, depth);
   if (typeof seen === "undefined") {
@@ -7596,7 +7596,7 @@ var objectInspect = function inspect_(obj, options2, depth, seen) {
     s2 += "</" + $toLowerCase.call(String(obj.nodeName)) + ">";
     return s2;
   }
-  if (isArray$6(obj)) {
+  if (isArray$5(obj)) {
     if (obj.length === 0) {
       return "[]";
     }
@@ -7686,7 +7686,7 @@ function wrapQuotes(s2, defaultStyle, opts) {
 function quote(s2) {
   return $replace.call(String(s2), /"/g, "&quot;");
 }
-function isArray$6(obj) {
+function isArray$5(obj) {
   return toStr(obj) === "[object Array]" && (!toStringTag || !(typeof obj === "object" && toStringTag in obj));
 }
 function isDate(obj) {
@@ -7912,7 +7912,7 @@ function indentedJoin(xs, indent) {
   return lineJoiner + $join.call(xs, "," + lineJoiner) + "\n" + indent.prev;
 }
 function arrObjKeys(obj, inspect2) {
-  var isArr = isArray$6(obj);
+  var isArr = isArray$5(obj);
   var xs = [];
   if (isArr) {
     xs.length = obj.length;
@@ -8077,7 +8077,7 @@ var formats$3 = {
 };
 var formats$2 = formats$3;
 var has$3 = Object.prototype.hasOwnProperty;
-var isArray$5 = Array.isArray;
+var isArray$4 = Array.isArray;
 var hexTable = function() {
   var array = [];
   for (var i = 0; i < 256; ++i) {
@@ -8089,7 +8089,7 @@ var compactQueue = function compactQueue2(queue) {
   while (queue.length > 1) {
     var item = queue.pop();
     var obj = item.obj[item.prop];
-    if (isArray$5(obj)) {
+    if (isArray$4(obj)) {
       var compacted = [];
       for (var j = 0; j < obj.length; ++j) {
         if (typeof obj[j] !== "undefined") {
@@ -8114,7 +8114,7 @@ var merge = function merge2(target, source, options2) {
     return target;
   }
   if (typeof source !== "object") {
-    if (isArray$5(target)) {
+    if (isArray$4(target)) {
       target.push(source);
     } else if (target && typeof target === "object") {
       if (options2 && (options2.plainObjects || options2.allowPrototypes) || !has$3.call(Object.prototype, source)) {
@@ -8129,10 +8129,10 @@ var merge = function merge2(target, source, options2) {
     return [target].concat(source);
   }
   var mergeTarget = target;
-  if (isArray$5(target) && !isArray$5(source)) {
+  if (isArray$4(target) && !isArray$4(source)) {
     mergeTarget = arrayToObject(target, options2);
   }
-  if (isArray$5(target) && isArray$5(source)) {
+  if (isArray$4(target) && isArray$4(source)) {
     source.forEach(function(item, i) {
       if (has$3.call(target, i)) {
         var targetItem = target[i];
@@ -8246,7 +8246,7 @@ var combine = function combine2(a, b) {
   return [].concat(a, b);
 };
 var maybeMap = function maybeMap2(val, fn) {
-  if (isArray$5(val)) {
+  if (isArray$4(val)) {
     var mapped = [];
     for (var i = 0; i < val.length; i += 1) {
       mapped.push(fn(val[i]));
@@ -8283,10 +8283,10 @@ var arrayPrefixGenerators = {
     return prefix2;
   }
 };
-var isArray$4 = Array.isArray;
+var isArray$3 = Array.isArray;
 var push = Array.prototype.push;
 var pushToArray = function(arr2, valueOrArray) {
-  push.apply(arr2, isArray$4(valueOrArray) ? valueOrArray : [valueOrArray]);
+  push.apply(arr2, isArray$3(valueOrArray) ? valueOrArray : [valueOrArray]);
 };
 var toISO = Date.prototype.toISOString;
 var defaultFormat = formats$1["default"];
@@ -8336,7 +8336,7 @@ var stringify$2 = function stringify(object, prefix2, generateArrayPrefix, comma
     obj = filter(prefix2, obj);
   } else if (obj instanceof Date) {
     obj = serializeDate2(obj);
-  } else if (generateArrayPrefix === "comma" && isArray$4(obj)) {
+  } else if (generateArrayPrefix === "comma" && isArray$3(obj)) {
     obj = utils$3.maybeMap(obj, function(value2) {
       if (value2 instanceof Date) {
         return serializeDate2(value2);
@@ -8362,25 +8362,25 @@ var stringify$2 = function stringify(object, prefix2, generateArrayPrefix, comma
     return values;
   }
   var objKeys;
-  if (generateArrayPrefix === "comma" && isArray$4(obj)) {
+  if (generateArrayPrefix === "comma" && isArray$3(obj)) {
     if (encodeValuesOnly && encoder) {
       obj = utils$3.maybeMap(obj, encoder);
     }
     objKeys = [{ value: obj.length > 0 ? obj.join(",") || null : void 0 }];
-  } else if (isArray$4(filter)) {
+  } else if (isArray$3(filter)) {
     objKeys = filter;
   } else {
     var keys3 = Object.keys(obj);
     objKeys = sort ? keys3.sort(sort) : keys3;
   }
-  var adjustedPrefix = commaRoundTrip && isArray$4(obj) && obj.length === 1 ? prefix2 + "[]" : prefix2;
+  var adjustedPrefix = commaRoundTrip && isArray$3(obj) && obj.length === 1 ? prefix2 + "[]" : prefix2;
   for (var j = 0; j < objKeys.length; ++j) {
     var key = objKeys[j];
     var value = typeof key === "object" && typeof key.value !== "undefined" ? key.value : obj[key];
     if (skipNulls && value === null) {
       continue;
     }
-    var keyPrefix = isArray$4(obj) ? typeof generateArrayPrefix === "function" ? generateArrayPrefix(adjustedPrefix, key) : adjustedPrefix : adjustedPrefix + (allowDots ? "." + key : "[" + key + "]");
+    var keyPrefix = isArray$3(obj) ? typeof generateArrayPrefix === "function" ? generateArrayPrefix(adjustedPrefix, key) : adjustedPrefix : adjustedPrefix + (allowDots ? "." + key : "[" + key + "]");
     sideChannel2.set(object, step);
     var valueSideChannel = getSideChannel2();
     valueSideChannel.set(sentinel, sideChannel2);
@@ -8391,7 +8391,7 @@ var stringify$2 = function stringify(object, prefix2, generateArrayPrefix, comma
       commaRoundTrip,
       strictNullHandling,
       skipNulls,
-      generateArrayPrefix === "comma" && encodeValuesOnly && isArray$4(obj) ? null : encoder,
+      generateArrayPrefix === "comma" && encodeValuesOnly && isArray$3(obj) ? null : encoder,
       filter,
       sort,
       allowDots,
@@ -8425,7 +8425,7 @@ var normalizeStringifyOptions = function normalizeStringifyOptions2(opts) {
   }
   var formatter = formats$1.formatters[format2];
   var filter = defaults$1.filter;
-  if (typeof opts.filter === "function" || isArray$4(opts.filter)) {
+  if (typeof opts.filter === "function" || isArray$3(opts.filter)) {
     filter = opts.filter;
   }
   return {
@@ -8454,7 +8454,7 @@ var stringify_1 = function(object, opts) {
   if (typeof options2.filter === "function") {
     filter = options2.filter;
     obj = filter("", obj);
-  } else if (isArray$4(options2.filter)) {
+  } else if (isArray$3(options2.filter)) {
     filter = options2.filter;
     objKeys = filter;
   }
@@ -8519,7 +8519,7 @@ var stringify_1 = function(object, opts) {
 };
 var utils$2 = utils$4;
 var has$1 = Object.prototype.hasOwnProperty;
-var isArray$3 = Array.isArray;
+var isArray$2 = Array.isArray;
 var defaults = {
   allowDots: false,
   allowPrototypes: false,
@@ -8596,7 +8596,7 @@ var parseValues = function parseQueryStringValues(str, options2) {
       val = interpretNumericEntities(val);
     }
     if (part.indexOf("[]=") > -1) {
-      val = isArray$3(val) ? [val] : val;
+      val = isArray$2(val) ? [val] : val;
     }
     if (has$1.call(obj, key)) {
       obj[key] = utils$2.combine(obj[key], val);
@@ -11156,9 +11156,9 @@ const html$2 = /* @__PURE__ */ getDefaultExportFromCjs(html$1);
 function nanohtmlRawBrowser(tag) {
   var el = document.createElement("div");
   el.innerHTML = tag;
-  return toArray$1(el.childNodes);
+  return toArray(el.childNodes);
 }
-function toArray$1(arr2) {
+function toArray(arr2) {
   return Array.isArray(arr2) ? arr2 : [].slice.call(arr2);
 }
 var rawBrowser = nanohtmlRawBrowser;
@@ -11266,8 +11266,9 @@ const infoText = (t) => html$2`
 <p>${t("info.built-in-extensions")}<ul>
 ${t("info.built-in-extensions-list", { returnObjects: true }).map((text) => html$2`<li>${text}</li>`)}
 </ul>
-${raw$1(t("info.vertex-docs", {
-  "vertex-ref": link("https://github.com/jamiefaye/hydra-synth/blob/extensions/docs/vertex-reference.md")
+${raw$1(t("info.extension-docs", {
+  "vertex-ref": link("https://github.com/jamiefaye/hydra-synth/blob/extensions/docs/vertex-reference.md"),
+  "inact-ref": link("https://github.com/jamiefaye/hydra-synth/blob/extensions/docs/inact-reference.md")
 }))}
 </p>
 <p>${t("info.uses")}<ul>
@@ -12484,9 +12485,9 @@ var debugExports$1 = debug$7.exports;
 })(browser$5, browser$5.exports);
 var browserExports$3 = browser$5.exports;
 var binary = {};
-var toString$4 = {}.toString;
+var toString$2 = {}.toString;
 var isarray$1 = Array.isArray || function(arr2) {
-  return toString$4.call(arr2) == "[object Array]";
+  return toString$2.call(arr2) == "[object Array]";
 };
 var isBuffer3 = isBuf$1;
 var withNativeBuffer = typeof Buffer === "function" && typeof Buffer.isBuffer === "function";
@@ -12497,11 +12498,11 @@ var isView = function(obj) {
 function isBuf$1(obj) {
   return withNativeBuffer && Buffer.isBuffer(obj) || withNativeArrayBuffer && (obj instanceof ArrayBuffer || isView(obj));
 }
-var isArray$2 = isarray$1;
+var isArray$1 = isarray$1;
 var isBuf = isBuffer3;
-var toString$3 = Object.prototype.toString;
-var withNativeBlob$1 = typeof Blob === "function" || typeof Blob !== "undefined" && toString$3.call(Blob) === "[object BlobConstructor]";
-var withNativeFile$1 = typeof File === "function" || typeof File !== "undefined" && toString$3.call(File) === "[object FileConstructor]";
+var toString$1 = Object.prototype.toString;
+var withNativeBlob = typeof Blob === "function" || typeof Blob !== "undefined" && toString$1.call(Blob) === "[object BlobConstructor]";
+var withNativeFile = typeof File === "function" || typeof File !== "undefined" && toString$1.call(File) === "[object FileConstructor]";
 binary.deconstructPacket = function(packet) {
   var buffers = [];
   var packetData = packet.data;
@@ -12517,7 +12518,7 @@ function _deconstructPacket(data2, buffers) {
     var placeholder = { _placeholder: true, num: buffers.length };
     buffers.push(data2);
     return placeholder;
-  } else if (isArray$2(data2)) {
+  } else if (isArray$1(data2)) {
     var newData = new Array(data2.length);
     for (var i = 0; i < data2.length; i++) {
       newData[i] = _deconstructPacket(data2[i], buffers);
@@ -12547,7 +12548,7 @@ function _reconstructPacket(data2, buffers) {
     } else {
       throw new Error("illegal attachments");
     }
-  } else if (isArray$2(data2)) {
+  } else if (isArray$1(data2)) {
     for (var i = 0; i < data2.length; i++) {
       data2[i] = _reconstructPacket(data2[i], buffers);
     }
@@ -12562,7 +12563,7 @@ binary.removeBlobs = function(data2, callback) {
   function _removeBlobs(obj, curKey, containingObject) {
     if (!obj)
       return obj;
-    if (withNativeBlob$1 && obj instanceof Blob || withNativeFile$1 && obj instanceof File) {
+    if (withNativeBlob && obj instanceof Blob || withNativeFile && obj instanceof File) {
       pendingBlobs++;
       var fileReader = new FileReader();
       fileReader.onload = function() {
@@ -12576,7 +12577,7 @@ binary.removeBlobs = function(data2, callback) {
         }
       };
       fileReader.readAsArrayBuffer(obj);
-    } else if (isArray$2(obj)) {
+    } else if (isArray$1(obj)) {
       for (var i = 0; i < obj.length; i++) {
         _removeBlobs(obj[i], i, obj);
       }
@@ -12850,39 +12851,55 @@ var keys = Object.keys || function keys2(obj) {
   }
   return arr2;
 };
-var toString$2 = {}.toString;
-var isarray = Array.isArray || function(arr2) {
-  return toString$2.call(arr2) == "[object Array]";
-};
-var isArray$1 = isarray;
-var toString$1 = Object.prototype.toString;
-var withNativeBlob = typeof Blob === "function" || typeof Blob !== "undefined" && toString$1.call(Blob) === "[object BlobConstructor]";
-var withNativeFile = typeof File === "function" || typeof File !== "undefined" && toString$1.call(File) === "[object FileConstructor]";
-var hasBinary2 = hasBinary;
-function hasBinary(obj) {
-  if (!obj || typeof obj !== "object") {
-    return false;
-  }
-  if (isArray$1(obj)) {
-    for (var i = 0, l = obj.length; i < l; i++) {
-      if (hasBinary(obj[i])) {
+var isarray;
+var hasRequiredIsarray;
+function requireIsarray() {
+  if (hasRequiredIsarray)
+    return isarray;
+  hasRequiredIsarray = 1;
+  var toString2 = {}.toString;
+  isarray = Array.isArray || function(arr2) {
+    return toString2.call(arr2) == "[object Array]";
+  };
+  return isarray;
+}
+var hasBinary2;
+var hasRequiredHasBinary2;
+function requireHasBinary2() {
+  if (hasRequiredHasBinary2)
+    return hasBinary2;
+  hasRequiredHasBinary2 = 1;
+  var isArray2 = requireIsarray();
+  var toString2 = Object.prototype.toString;
+  var withNativeBlob2 = typeof Blob === "function" || typeof Blob !== "undefined" && toString2.call(Blob) === "[object BlobConstructor]";
+  var withNativeFile2 = typeof File === "function" || typeof File !== "undefined" && toString2.call(File) === "[object FileConstructor]";
+  hasBinary2 = hasBinary;
+  function hasBinary(obj) {
+    if (!obj || typeof obj !== "object") {
+      return false;
+    }
+    if (isArray2(obj)) {
+      for (var i = 0, l = obj.length; i < l; i++) {
+        if (hasBinary(obj[i])) {
+          return true;
+        }
+      }
+      return false;
+    }
+    if (typeof Buffer === "function" && Buffer.isBuffer && Buffer.isBuffer(obj) || typeof ArrayBuffer === "function" && obj instanceof ArrayBuffer || withNativeBlob2 && obj instanceof Blob || withNativeFile2 && obj instanceof File) {
+      return true;
+    }
+    if (obj.toJSON && typeof obj.toJSON === "function" && arguments.length === 1) {
+      return hasBinary(obj.toJSON(), true);
+    }
+    for (var key in obj) {
+      if (Object.prototype.hasOwnProperty.call(obj, key) && hasBinary(obj[key])) {
         return true;
       }
     }
     return false;
   }
-  if (typeof Buffer === "function" && Buffer.isBuffer && Buffer.isBuffer(obj) || typeof ArrayBuffer === "function" && obj instanceof ArrayBuffer || withNativeBlob && obj instanceof Blob || withNativeFile && obj instanceof File) {
-    return true;
-  }
-  if (obj.toJSON && typeof obj.toJSON === "function" && arguments.length === 1) {
-    return hasBinary(obj.toJSON(), true);
-  }
-  for (var key in obj) {
-    if (Object.prototype.hasOwnProperty.call(obj, key) && hasBinary(obj[key])) {
-      return true;
-    }
-  }
-  return false;
+  return hasBinary2;
 }
 var arraybuffer_slice = function(arraybuffer, start, end) {
   var bytes = arraybuffer.byteLength;
@@ -13211,7 +13228,7 @@ function requireBlob() {
 }
 (function(exports2) {
   var keys$1 = keys;
-  var hasBinary3 = hasBinary2;
+  var hasBinary = requireHasBinary2();
   var sliceBuffer = arraybuffer_slice;
   var after2 = after_1;
   var utf8$1 = utf8;
@@ -13378,7 +13395,7 @@ function requireBlob() {
       callback = supportsBinary;
       supportsBinary = null;
     }
-    var isBinary = hasBinary3(packets2);
+    var isBinary = hasBinary(packets2);
     if (supportsBinary && isBinary) {
       if (Blob2 && !dontSendBlobs) {
         return exports2.encodePayloadAsBlob(packets2, callback);
@@ -13658,26 +13675,33 @@ function requireTransport() {
   return transport;
 }
 var parseqs$3 = {};
-parseqs$3.encode = function(obj) {
-  var str = "";
-  for (var i in obj) {
-    if (obj.hasOwnProperty(i)) {
-      if (str.length)
-        str += "&";
-      str += encodeURIComponent(i) + "=" + encodeURIComponent(obj[i]);
+var hasRequiredParseqs;
+function requireParseqs() {
+  if (hasRequiredParseqs)
+    return parseqs$3;
+  hasRequiredParseqs = 1;
+  parseqs$3.encode = function(obj) {
+    var str = "";
+    for (var i in obj) {
+      if (obj.hasOwnProperty(i)) {
+        if (str.length)
+          str += "&";
+        str += encodeURIComponent(i) + "=" + encodeURIComponent(obj[i]);
+      }
     }
-  }
-  return str;
-};
-parseqs$3.decode = function(qs2) {
-  var qry = {};
-  var pairs = qs2.split("&");
-  for (var i = 0, l = pairs.length; i < l; i++) {
-    var pair = pairs[i].split("=");
-    qry[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]);
-  }
-  return qry;
-};
+    return str;
+  };
+  parseqs$3.decode = function(qs2) {
+    var qry = {};
+    var pairs = qs2.split("&");
+    for (var i = 0, l = pairs.length; i < l; i++) {
+      var pair = pairs[i].split("=");
+      qry[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]);
+    }
+    return qry;
+  };
+  return parseqs$3;
+}
 var componentInherit = function(a, b) {
   var fn = function() {
   };
@@ -14095,7 +14119,7 @@ var debugExports = debug$6.exports;
 })(browser$3, browser$3.exports);
 var browserExports$2 = browser$3.exports;
 var Transport$1 = requireTransport();
-var parseqs$2 = parseqs$3;
+var parseqs$2 = requireParseqs();
 var parser$3 = browser$4;
 var inherit$3 = componentInherit;
 var yeast$1 = yeast_1;
@@ -14612,7 +14636,7 @@ JSONPPolling.prototype.doWrite = function(data2, fn) {
 };
 var Transport = requireTransport();
 var parser$2 = browser$4;
-var parseqs$1 = parseqs$3;
+var parseqs$1 = requireParseqs();
 var inherit = componentInherit;
 var yeast = yeast_1;
 var debug$3 = browserExports$2("engine.io-client:websocket");
@@ -14819,7 +14843,7 @@ var debug$2 = browserExports$2("engine.io-client:socket");
 var index = indexof;
 var parser$1 = browser$4;
 var parseuri2 = parseuri$2;
-var parseqs = parseqs$3;
+var parseqs = requireParseqs();
 var socket$1 = Socket$1;
 function Socket$1(uri, opts) {
   if (!(this instanceof Socket$1))
@@ -15278,14 +15302,22 @@ lib$1.exports = socket$1;
 lib$1.exports.parser = browser$4;
 var libExports$2 = lib$1.exports;
 var socket = { exports: {} };
-var toArray_1 = toArray;
-function toArray(list, index2) {
-  var array = [];
-  index2 = index2 || 0;
-  for (var i = index2 || 0; i < list.length; i++) {
-    array[i - index2] = list[i];
+var toArray_1;
+var hasRequiredToArray;
+function requireToArray() {
+  if (hasRequiredToArray)
+    return toArray_1;
+  hasRequiredToArray = 1;
+  toArray_1 = toArray2;
+  function toArray2(list, index2) {
+    var array = [];
+    index2 = index2 || 0;
+    for (var i = index2 || 0; i < list.length; i++) {
+      array[i - index2] = list[i];
+    }
+    return array;
   }
-  return array;
+  return toArray_1;
 }
 var on_1 = on$1;
 function on$1(obj, ev, fn) {
@@ -15307,245 +15339,251 @@ var componentBind = function(obj, fn) {
     return fn.apply(obj, args.concat(slice.call(arguments)));
   };
 };
-(function(module, exports2) {
-  var parser2 = socket_ioParser;
-  var Emitter2 = componentEmitterExports;
-  var toArray2 = toArray_1;
-  var on2 = on_1;
-  var bind3 = componentBind;
-  var debug2 = browserExports$4("socket.io-client:socket");
-  var parseqs2 = parseqs$3;
-  var hasBin = hasBinary2;
-  module.exports = Socket2;
-  var events2 = {
-    connect: 1,
-    connect_error: 1,
-    connect_timeout: 1,
-    connecting: 1,
-    disconnect: 1,
-    error: 1,
-    reconnect: 1,
-    reconnect_attempt: 1,
-    reconnect_failed: 1,
-    reconnect_error: 1,
-    reconnecting: 1,
-    ping: 1,
-    pong: 1
-  };
-  var emit2 = Emitter2.prototype.emit;
-  function Socket2(io2, nsp, opts) {
-    this.io = io2;
-    this.nsp = nsp;
-    this.json = this;
-    this.ids = 0;
-    this.acks = {};
-    this.receiveBuffer = [];
-    this.sendBuffer = [];
-    this.connected = false;
-    this.disconnected = true;
-    this.flags = {};
-    if (opts && opts.query) {
-      this.query = opts.query;
-    }
-    if (this.io.autoConnect)
-      this.open();
-  }
-  Emitter2(Socket2.prototype);
-  Socket2.prototype.subEvents = function() {
-    if (this.subs)
-      return;
-    var io2 = this.io;
-    this.subs = [
-      on2(io2, "open", bind3(this, "onopen")),
-      on2(io2, "packet", bind3(this, "onpacket")),
-      on2(io2, "close", bind3(this, "onclose"))
-    ];
-  };
-  Socket2.prototype.open = Socket2.prototype.connect = function() {
-    if (this.connected)
-      return this;
-    this.subEvents();
-    if (!this.io.reconnecting)
-      this.io.open();
-    if ("open" === this.io.readyState)
-      this.onopen();
-    this.emit("connecting");
-    return this;
-  };
-  Socket2.prototype.send = function() {
-    var args = toArray2(arguments);
-    args.unshift("message");
-    this.emit.apply(this, args);
-    return this;
-  };
-  Socket2.prototype.emit = function(ev) {
-    if (events2.hasOwnProperty(ev)) {
-      emit2.apply(this, arguments);
-      return this;
-    }
-    var args = toArray2(arguments);
-    var packet = {
-      type: (this.flags.binary !== void 0 ? this.flags.binary : hasBin(args)) ? parser2.BINARY_EVENT : parser2.EVENT,
-      data: args
+var hasRequiredSocket;
+function requireSocket() {
+  if (hasRequiredSocket)
+    return socket.exports;
+  hasRequiredSocket = 1;
+  (function(module, exports2) {
+    var parser2 = socket_ioParser;
+    var Emitter2 = componentEmitterExports;
+    var toArray2 = requireToArray();
+    var on2 = on_1;
+    var bind3 = componentBind;
+    var debug2 = browserExports$4("socket.io-client:socket");
+    var parseqs2 = requireParseqs();
+    var hasBin = requireHasBinary2();
+    module.exports = Socket2;
+    var events2 = {
+      connect: 1,
+      connect_error: 1,
+      connect_timeout: 1,
+      connecting: 1,
+      disconnect: 1,
+      error: 1,
+      reconnect: 1,
+      reconnect_attempt: 1,
+      reconnect_failed: 1,
+      reconnect_error: 1,
+      reconnecting: 1,
+      ping: 1,
+      pong: 1
     };
-    packet.options = {};
-    packet.options.compress = !this.flags || false !== this.flags.compress;
-    if ("function" === typeof args[args.length - 1]) {
-      debug2("emitting packet with ack id %d", this.ids);
-      this.acks[this.ids] = args.pop();
-      packet.id = this.ids++;
-    }
-    if (this.connected) {
-      this.packet(packet);
-    } else {
-      this.sendBuffer.push(packet);
-    }
-    this.flags = {};
-    return this;
-  };
-  Socket2.prototype.packet = function(packet) {
-    packet.nsp = this.nsp;
-    this.io.packet(packet);
-  };
-  Socket2.prototype.onopen = function() {
-    debug2("transport is open - connecting");
-    if ("/" !== this.nsp) {
-      if (this.query) {
-        var query = typeof this.query === "object" ? parseqs2.encode(this.query) : this.query;
-        debug2("sending connect packet with query %s", query);
-        this.packet({ type: parser2.CONNECT, query });
-      } else {
-        this.packet({ type: parser2.CONNECT });
+    var emit2 = Emitter2.prototype.emit;
+    function Socket2(io2, nsp, opts) {
+      this.io = io2;
+      this.nsp = nsp;
+      this.json = this;
+      this.ids = 0;
+      this.acks = {};
+      this.receiveBuffer = [];
+      this.sendBuffer = [];
+      this.connected = false;
+      this.disconnected = true;
+      this.flags = {};
+      if (opts && opts.query) {
+        this.query = opts.query;
       }
+      if (this.io.autoConnect)
+        this.open();
     }
-  };
-  Socket2.prototype.onclose = function(reason) {
-    debug2("close (%s)", reason);
-    this.connected = false;
-    this.disconnected = true;
-    delete this.id;
-    this.emit("disconnect", reason);
-  };
-  Socket2.prototype.onpacket = function(packet) {
-    var sameNamespace = packet.nsp === this.nsp;
-    var rootNamespaceError = packet.type === parser2.ERROR && packet.nsp === "/";
-    if (!sameNamespace && !rootNamespaceError)
-      return;
-    switch (packet.type) {
-      case parser2.CONNECT:
-        this.onconnect();
-        break;
-      case parser2.EVENT:
-        this.onevent(packet);
-        break;
-      case parser2.BINARY_EVENT:
-        this.onevent(packet);
-        break;
-      case parser2.ACK:
-        this.onack(packet);
-        break;
-      case parser2.BINARY_ACK:
-        this.onack(packet);
-        break;
-      case parser2.DISCONNECT:
-        this.ondisconnect();
-        break;
-      case parser2.ERROR:
-        this.emit("error", packet.data);
-        break;
-    }
-  };
-  Socket2.prototype.onevent = function(packet) {
-    var args = packet.data || [];
-    debug2("emitting event %j", args);
-    if (null != packet.id) {
-      debug2("attaching ack callback to event");
-      args.push(this.ack(packet.id));
-    }
-    if (this.connected) {
-      emit2.apply(this, args);
-    } else {
-      this.receiveBuffer.push(args);
-    }
-  };
-  Socket2.prototype.ack = function(id) {
-    var self2 = this;
-    var sent = false;
-    return function() {
-      if (sent)
+    Emitter2(Socket2.prototype);
+    Socket2.prototype.subEvents = function() {
+      if (this.subs)
         return;
-      sent = true;
-      var args = toArray2(arguments);
-      debug2("sending ack %j", args);
-      self2.packet({
-        type: hasBin(args) ? parser2.BINARY_ACK : parser2.ACK,
-        id,
-        data: args
-      });
+      var io2 = this.io;
+      this.subs = [
+        on2(io2, "open", bind3(this, "onopen")),
+        on2(io2, "packet", bind3(this, "onpacket")),
+        on2(io2, "close", bind3(this, "onclose"))
+      ];
     };
-  };
-  Socket2.prototype.onack = function(packet) {
-    var ack = this.acks[packet.id];
-    if ("function" === typeof ack) {
-      debug2("calling ack %s with %j", packet.id, packet.data);
-      ack.apply(this, packet.data);
-      delete this.acks[packet.id];
-    } else {
-      debug2("bad ack %s", packet.id);
-    }
-  };
-  Socket2.prototype.onconnect = function() {
-    this.connected = true;
-    this.disconnected = false;
-    this.emitBuffered();
-    this.emit("connect");
-  };
-  Socket2.prototype.emitBuffered = function() {
-    var i;
-    for (i = 0; i < this.receiveBuffer.length; i++) {
-      emit2.apply(this, this.receiveBuffer[i]);
-    }
-    this.receiveBuffer = [];
-    for (i = 0; i < this.sendBuffer.length; i++) {
-      this.packet(this.sendBuffer[i]);
-    }
-    this.sendBuffer = [];
-  };
-  Socket2.prototype.ondisconnect = function() {
-    debug2("server disconnect (%s)", this.nsp);
-    this.destroy();
-    this.onclose("io server disconnect");
-  };
-  Socket2.prototype.destroy = function() {
-    if (this.subs) {
-      for (var i = 0; i < this.subs.length; i++) {
-        this.subs[i].destroy();
+    Socket2.prototype.open = Socket2.prototype.connect = function() {
+      if (this.connected)
+        return this;
+      this.subEvents();
+      if (!this.io.reconnecting)
+        this.io.open();
+      if ("open" === this.io.readyState)
+        this.onopen();
+      this.emit("connecting");
+      return this;
+    };
+    Socket2.prototype.send = function() {
+      var args = toArray2(arguments);
+      args.unshift("message");
+      this.emit.apply(this, args);
+      return this;
+    };
+    Socket2.prototype.emit = function(ev) {
+      if (events2.hasOwnProperty(ev)) {
+        emit2.apply(this, arguments);
+        return this;
       }
-      this.subs = null;
-    }
-    this.io.destroy(this);
-  };
-  Socket2.prototype.close = Socket2.prototype.disconnect = function() {
-    if (this.connected) {
-      debug2("performing disconnect (%s)", this.nsp);
-      this.packet({ type: parser2.DISCONNECT });
-    }
-    this.destroy();
-    if (this.connected) {
-      this.onclose("io client disconnect");
-    }
-    return this;
-  };
-  Socket2.prototype.compress = function(compress) {
-    this.flags.compress = compress;
-    return this;
-  };
-  Socket2.prototype.binary = function(binary2) {
-    this.flags.binary = binary2;
-    return this;
-  };
-})(socket);
-var socketExports = socket.exports;
+      var args = toArray2(arguments);
+      var packet = {
+        type: (this.flags.binary !== void 0 ? this.flags.binary : hasBin(args)) ? parser2.BINARY_EVENT : parser2.EVENT,
+        data: args
+      };
+      packet.options = {};
+      packet.options.compress = !this.flags || false !== this.flags.compress;
+      if ("function" === typeof args[args.length - 1]) {
+        debug2("emitting packet with ack id %d", this.ids);
+        this.acks[this.ids] = args.pop();
+        packet.id = this.ids++;
+      }
+      if (this.connected) {
+        this.packet(packet);
+      } else {
+        this.sendBuffer.push(packet);
+      }
+      this.flags = {};
+      return this;
+    };
+    Socket2.prototype.packet = function(packet) {
+      packet.nsp = this.nsp;
+      this.io.packet(packet);
+    };
+    Socket2.prototype.onopen = function() {
+      debug2("transport is open - connecting");
+      if ("/" !== this.nsp) {
+        if (this.query) {
+          var query = typeof this.query === "object" ? parseqs2.encode(this.query) : this.query;
+          debug2("sending connect packet with query %s", query);
+          this.packet({ type: parser2.CONNECT, query });
+        } else {
+          this.packet({ type: parser2.CONNECT });
+        }
+      }
+    };
+    Socket2.prototype.onclose = function(reason) {
+      debug2("close (%s)", reason);
+      this.connected = false;
+      this.disconnected = true;
+      delete this.id;
+      this.emit("disconnect", reason);
+    };
+    Socket2.prototype.onpacket = function(packet) {
+      var sameNamespace = packet.nsp === this.nsp;
+      var rootNamespaceError = packet.type === parser2.ERROR && packet.nsp === "/";
+      if (!sameNamespace && !rootNamespaceError)
+        return;
+      switch (packet.type) {
+        case parser2.CONNECT:
+          this.onconnect();
+          break;
+        case parser2.EVENT:
+          this.onevent(packet);
+          break;
+        case parser2.BINARY_EVENT:
+          this.onevent(packet);
+          break;
+        case parser2.ACK:
+          this.onack(packet);
+          break;
+        case parser2.BINARY_ACK:
+          this.onack(packet);
+          break;
+        case parser2.DISCONNECT:
+          this.ondisconnect();
+          break;
+        case parser2.ERROR:
+          this.emit("error", packet.data);
+          break;
+      }
+    };
+    Socket2.prototype.onevent = function(packet) {
+      var args = packet.data || [];
+      debug2("emitting event %j", args);
+      if (null != packet.id) {
+        debug2("attaching ack callback to event");
+        args.push(this.ack(packet.id));
+      }
+      if (this.connected) {
+        emit2.apply(this, args);
+      } else {
+        this.receiveBuffer.push(args);
+      }
+    };
+    Socket2.prototype.ack = function(id) {
+      var self2 = this;
+      var sent = false;
+      return function() {
+        if (sent)
+          return;
+        sent = true;
+        var args = toArray2(arguments);
+        debug2("sending ack %j", args);
+        self2.packet({
+          type: hasBin(args) ? parser2.BINARY_ACK : parser2.ACK,
+          id,
+          data: args
+        });
+      };
+    };
+    Socket2.prototype.onack = function(packet) {
+      var ack = this.acks[packet.id];
+      if ("function" === typeof ack) {
+        debug2("calling ack %s with %j", packet.id, packet.data);
+        ack.apply(this, packet.data);
+        delete this.acks[packet.id];
+      } else {
+        debug2("bad ack %s", packet.id);
+      }
+    };
+    Socket2.prototype.onconnect = function() {
+      this.connected = true;
+      this.disconnected = false;
+      this.emitBuffered();
+      this.emit("connect");
+    };
+    Socket2.prototype.emitBuffered = function() {
+      var i;
+      for (i = 0; i < this.receiveBuffer.length; i++) {
+        emit2.apply(this, this.receiveBuffer[i]);
+      }
+      this.receiveBuffer = [];
+      for (i = 0; i < this.sendBuffer.length; i++) {
+        this.packet(this.sendBuffer[i]);
+      }
+      this.sendBuffer = [];
+    };
+    Socket2.prototype.ondisconnect = function() {
+      debug2("server disconnect (%s)", this.nsp);
+      this.destroy();
+      this.onclose("io server disconnect");
+    };
+    Socket2.prototype.destroy = function() {
+      if (this.subs) {
+        for (var i = 0; i < this.subs.length; i++) {
+          this.subs[i].destroy();
+        }
+        this.subs = null;
+      }
+      this.io.destroy(this);
+    };
+    Socket2.prototype.close = Socket2.prototype.disconnect = function() {
+      if (this.connected) {
+        debug2("performing disconnect (%s)", this.nsp);
+        this.packet({ type: parser2.DISCONNECT });
+      }
+      this.destroy();
+      if (this.connected) {
+        this.onclose("io client disconnect");
+      }
+      return this;
+    };
+    Socket2.prototype.compress = function(compress) {
+      this.flags.compress = compress;
+      return this;
+    };
+    Socket2.prototype.binary = function(binary2) {
+      this.flags.binary = binary2;
+      return this;
+    };
+  })(socket);
+  return socket.exports;
+}
 var backo2 = Backoff$1;
 function Backoff$1(opts) {
   opts = opts || {};
@@ -15577,7 +15615,7 @@ Backoff$1.prototype.setJitter = function(jitter) {
   this.jitter = jitter;
 };
 var eio = libExports$2;
-var Socket = socketExports;
+var Socket = requireSocket();
 var Emitter = componentEmitterExports;
 var parser = socket_ioParser;
 var on = on_1;
@@ -15938,7 +15976,7 @@ Manager.prototype.onreconnect = function() {
   exports2.protocol = parser2.protocol;
   exports2.connect = lookup10;
   exports2.Manager = manager;
-  exports2.Socket = socketExports;
+  exports2.Socket = requireSocket();
 })(lib$2, lib$2.exports);
 var libExports$1 = lib$2.exports;
 const io = /* @__PURE__ */ getDefaultExportFromCjs(libExports$1);
@@ -28555,6896 +28593,6889 @@ class HydraCanvas extends Component {
   }
 }
 var codemirror = { exports: {} };
-var hasRequiredCodemirror;
-function requireCodemirror() {
-  if (hasRequiredCodemirror)
-    return codemirror.exports;
-  hasRequiredCodemirror = 1;
-  (function(module, exports2) {
-    var $jscomp = $jscomp || {};
-    $jscomp.scope = {};
-    $jscomp.findInternal = function(y2, E, D) {
-      y2 instanceof String && (y2 = String(y2));
-      for (var v2 = y2.length, M = 0; M < v2; M++) {
-        var ja = y2[M];
-        if (E.call(D, ja, M, y2))
-          return { i: M, v: ja };
-      }
-      return { i: -1, v: void 0 };
-    };
-    $jscomp.ASSUME_ES5 = false;
-    $jscomp.ASSUME_NO_NATIVE_MAP = false;
-    $jscomp.ASSUME_NO_NATIVE_SET = false;
-    $jscomp.SIMPLE_FROUND_POLYFILL = false;
-    $jscomp.ISOLATE_POLYFILLS = false;
-    $jscomp.FORCE_POLYFILL_PROMISE = false;
-    $jscomp.FORCE_POLYFILL_PROMISE_WHEN_NO_UNHANDLED_REJECTION = false;
-    $jscomp.defineProperty = $jscomp.ASSUME_ES5 || "function" == typeof Object.defineProperties ? Object.defineProperty : function(y2, E, D) {
-      if (y2 == Array.prototype || y2 == Object.prototype)
-        return y2;
-      y2[E] = D.value;
+(function(module, exports2) {
+  var $jscomp = $jscomp || {};
+  $jscomp.scope = {};
+  $jscomp.findInternal = function(y2, E, D) {
+    y2 instanceof String && (y2 = String(y2));
+    for (var v2 = y2.length, M = 0; M < v2; M++) {
+      var ja = y2[M];
+      if (E.call(D, ja, M, y2))
+        return { i: M, v: ja };
+    }
+    return { i: -1, v: void 0 };
+  };
+  $jscomp.ASSUME_ES5 = false;
+  $jscomp.ASSUME_NO_NATIVE_MAP = false;
+  $jscomp.ASSUME_NO_NATIVE_SET = false;
+  $jscomp.SIMPLE_FROUND_POLYFILL = false;
+  $jscomp.ISOLATE_POLYFILLS = false;
+  $jscomp.FORCE_POLYFILL_PROMISE = false;
+  $jscomp.FORCE_POLYFILL_PROMISE_WHEN_NO_UNHANDLED_REJECTION = false;
+  $jscomp.defineProperty = $jscomp.ASSUME_ES5 || "function" == typeof Object.defineProperties ? Object.defineProperty : function(y2, E, D) {
+    if (y2 == Array.prototype || y2 == Object.prototype)
       return y2;
+    y2[E] = D.value;
+    return y2;
+  };
+  $jscomp.getGlobal = function(y2) {
+    y2 = ["object" == typeof globalThis && globalThis, y2, "object" == typeof window && window, "object" == typeof self && self, "object" == typeof commonjsGlobal && commonjsGlobal];
+    for (var E = 0; E < y2.length; ++E) {
+      var D = y2[E];
+      if (D && D.Math == Math)
+        return D;
+    }
+    throw Error("Cannot find global object");
+  };
+  $jscomp.global = $jscomp.getGlobal(commonjsGlobal);
+  $jscomp.IS_SYMBOL_NATIVE = "function" === typeof Symbol && "symbol" === typeof Symbol("x");
+  $jscomp.TRUST_ES6_POLYFILLS = !$jscomp.ISOLATE_POLYFILLS || $jscomp.IS_SYMBOL_NATIVE;
+  $jscomp.polyfills = {};
+  $jscomp.propertyToPolyfillSymbol = {};
+  $jscomp.POLYFILL_PREFIX = "$jscp$";
+  $jscomp.polyfill = function(y2, E, D, v2) {
+    E && ($jscomp.ISOLATE_POLYFILLS ? $jscomp.polyfillIsolated(y2, E, D, v2) : $jscomp.polyfillUnisolated(y2, E, D, v2));
+  };
+  $jscomp.polyfillUnisolated = function(y2, E, D, v2) {
+    D = $jscomp.global;
+    y2 = y2.split(".");
+    for (v2 = 0; v2 < y2.length - 1; v2++) {
+      var M = y2[v2];
+      if (!(M in D))
+        return;
+      D = D[M];
+    }
+    y2 = y2[y2.length - 1];
+    v2 = D[y2];
+    E = E(v2);
+    E != v2 && null != E && $jscomp.defineProperty(D, y2, { configurable: true, writable: true, value: E });
+  };
+  $jscomp.polyfillIsolated = function(y2, E, D, v2) {
+    var M = y2.split(".");
+    y2 = 1 === M.length;
+    v2 = M[0];
+    v2 = !y2 && v2 in $jscomp.polyfills ? $jscomp.polyfills : $jscomp.global;
+    for (var ja = 0; ja < M.length - 1; ja++) {
+      var ka = M[ja];
+      if (!(ka in v2))
+        return;
+      v2 = v2[ka];
+    }
+    M = M[M.length - 1];
+    D = $jscomp.IS_SYMBOL_NATIVE && "es6" === D ? v2[M] : null;
+    E = E(D);
+    null != E && (y2 ? $jscomp.defineProperty($jscomp.polyfills, M, { configurable: true, writable: true, value: E }) : E !== D && (void 0 === $jscomp.propertyToPolyfillSymbol[M] && (D = 1e9 * Math.random() >>> 0, $jscomp.propertyToPolyfillSymbol[M] = $jscomp.IS_SYMBOL_NATIVE ? $jscomp.global.Symbol(M) : $jscomp.POLYFILL_PREFIX + D + "$" + M), $jscomp.defineProperty(v2, $jscomp.propertyToPolyfillSymbol[M], { configurable: true, writable: true, value: E })));
+  };
+  $jscomp.polyfill("Array.prototype.find", function(y2) {
+    return y2 ? y2 : function(E, D) {
+      return $jscomp.findInternal(this, E, D).v;
     };
-    $jscomp.getGlobal = function(y2) {
-      y2 = ["object" == typeof globalThis && globalThis, y2, "object" == typeof window && window, "object" == typeof self && self, "object" == typeof commonjsGlobal && commonjsGlobal];
-      for (var E = 0; E < y2.length; ++E) {
-        var D = y2[E];
-        if (D && D.Math == Math)
-          return D;
+  }, "es6", "es3");
+  (function(y2, E) {
+    module.exports = E();
+  })(commonjsGlobal, function() {
+    function y2(a) {
+      return new RegExp("(^|\\s)" + a + "(?:$|\\s)\\s*");
+    }
+    function E(a) {
+      for (var b = a.childNodes.length; 0 < b; --b)
+        a.removeChild(a.firstChild);
+      return a;
+    }
+    function D(a, b) {
+      return E(a).appendChild(b);
+    }
+    function v2(a, b, d2, c) {
+      a = document.createElement(a);
+      d2 && (a.className = d2);
+      c && (a.style.cssText = c);
+      if ("string" == typeof b)
+        a.appendChild(document.createTextNode(b));
+      else if (b)
+        for (d2 = 0; d2 < b.length; ++d2)
+          a.appendChild(b[d2]);
+      return a;
+    }
+    function M(a, b, d2, c) {
+      a = v2(a, b, d2, c);
+      a.setAttribute("role", "presentation");
+      return a;
+    }
+    function ja(a, b) {
+      3 == b.nodeType && (b = b.parentNode);
+      if (a.contains)
+        return a.contains(b);
+      do
+        if (11 == b.nodeType && (b = b.host), b == a)
+          return true;
+      while (b = b.parentNode);
+    }
+    function ka(a) {
+      try {
+        var b = a.activeElement;
+      } catch (d2) {
+        b = a.body || null;
       }
-      throw Error("Cannot find global object");
-    };
-    $jscomp.global = $jscomp.getGlobal(commonjsGlobal);
-    $jscomp.IS_SYMBOL_NATIVE = "function" === typeof Symbol && "symbol" === typeof Symbol("x");
-    $jscomp.TRUST_ES6_POLYFILLS = !$jscomp.ISOLATE_POLYFILLS || $jscomp.IS_SYMBOL_NATIVE;
-    $jscomp.polyfills = {};
-    $jscomp.propertyToPolyfillSymbol = {};
-    $jscomp.POLYFILL_PREFIX = "$jscp$";
-    $jscomp.polyfill = function(y2, E, D, v2) {
-      E && ($jscomp.ISOLATE_POLYFILLS ? $jscomp.polyfillIsolated(y2, E, D, v2) : $jscomp.polyfillUnisolated(y2, E, D, v2));
-    };
-    $jscomp.polyfillUnisolated = function(y2, E, D, v2) {
-      D = $jscomp.global;
-      y2 = y2.split(".");
-      for (v2 = 0; v2 < y2.length - 1; v2++) {
-        var M = y2[v2];
-        if (!(M in D))
-          return;
-        D = D[M];
-      }
-      y2 = y2[y2.length - 1];
-      v2 = D[y2];
-      E = E(v2);
-      E != v2 && null != E && $jscomp.defineProperty(D, y2, { configurable: true, writable: true, value: E });
-    };
-    $jscomp.polyfillIsolated = function(y2, E, D, v2) {
-      var M = y2.split(".");
-      y2 = 1 === M.length;
-      v2 = M[0];
-      v2 = !y2 && v2 in $jscomp.polyfills ? $jscomp.polyfills : $jscomp.global;
-      for (var ja = 0; ja < M.length - 1; ja++) {
-        var ka = M[ja];
-        if (!(ka in v2))
-          return;
-        v2 = v2[ka];
-      }
-      M = M[M.length - 1];
-      D = $jscomp.IS_SYMBOL_NATIVE && "es6" === D ? v2[M] : null;
-      E = E(D);
-      null != E && (y2 ? $jscomp.defineProperty($jscomp.polyfills, M, { configurable: true, writable: true, value: E }) : E !== D && (void 0 === $jscomp.propertyToPolyfillSymbol[M] && (D = 1e9 * Math.random() >>> 0, $jscomp.propertyToPolyfillSymbol[M] = $jscomp.IS_SYMBOL_NATIVE ? $jscomp.global.Symbol(M) : $jscomp.POLYFILL_PREFIX + D + "$" + M), $jscomp.defineProperty(v2, $jscomp.propertyToPolyfillSymbol[M], { configurable: true, writable: true, value: E })));
-    };
-    $jscomp.polyfill("Array.prototype.find", function(y2) {
-      return y2 ? y2 : function(E, D) {
-        return $jscomp.findInternal(this, E, D).v;
+      for (; b && b.shadowRoot && b.shadowRoot.activeElement; )
+        b = b.shadowRoot.activeElement;
+      return b;
+    }
+    function Ya(a, b) {
+      var d2 = a.className;
+      y2(b).test(d2) || (a.className += (d2 ? " " : "") + b);
+    }
+    function fd(a, b) {
+      a = a.split(" ");
+      for (var d2 = 0; d2 < a.length; d2++)
+        a[d2] && !y2(a[d2]).test(b) && (b += " " + a[d2]);
+      return b;
+    }
+    function qa(a) {
+      return a.display.wrapper.ownerDocument;
+    }
+    function gd(a) {
+      var b = Array.prototype.slice.call(arguments, 1);
+      return function() {
+        return a.apply(null, b);
       };
-    }, "es6", "es3");
-    (function(y2, E) {
-      module.exports = E();
-    })(commonjsGlobal, function() {
-      function y2(a) {
-        return new RegExp("(^|\\s)" + a + "(?:$|\\s)\\s*");
+    }
+    function Za(a, b, d2) {
+      b || (b = {});
+      for (var c in a)
+        !a.hasOwnProperty(c) || false === d2 && b.hasOwnProperty(c) || (b[c] = a[c]);
+      return b;
+    }
+    function wa(a, b, d2, c, e) {
+      null == b && (b = a.search(/[^\s\u00a0]/), -1 == b && (b = a.length));
+      c = c || 0;
+      for (e = e || 0; ; ) {
+        var f = a.indexOf(
+          "	",
+          c
+        );
+        if (0 > f || f >= b)
+          return e + (b - c);
+        e += f - c;
+        e += d2 - e % d2;
+        c = f + 1;
       }
-      function E(a) {
-        for (var b = a.childNodes.length; 0 < b; --b)
-          a.removeChild(a.firstChild);
-        return a;
+    }
+    function ea(a, b) {
+      for (var d2 = 0; d2 < a.length; ++d2)
+        if (a[d2] == b)
+          return d2;
+      return -1;
+    }
+    function hd(a, b, d2) {
+      for (var c = 0, e = 0; ; ) {
+        var f = a.indexOf("	", c);
+        -1 == f && (f = a.length);
+        var g = f - c;
+        if (f == a.length || e + g >= b)
+          return c + Math.min(g, b - e);
+        e += f - c;
+        e += d2 - e % d2;
+        c = f + 1;
+        if (e >= b)
+          return c;
       }
-      function D(a, b) {
-        return E(a).appendChild(b);
+    }
+    function id(a) {
+      for (; vc.length <= a; )
+        vc.push(J(vc) + " ");
+      return vc[a];
+    }
+    function J(a) {
+      return a[a.length - 1];
+    }
+    function wc(a, b) {
+      for (var d2 = [], c = 0; c < a.length; c++)
+        d2[c] = b(a[c], c);
+      return d2;
+    }
+    function yg(a, b, d2) {
+      for (var c = 0, e = d2(b); c < a.length && d2(a[c]) <= e; )
+        c++;
+      a.splice(c, 0, b);
+    }
+    function pe() {
+    }
+    function qe(a, b) {
+      Object.create ? a = Object.create(a) : (pe.prototype = a, a = new pe());
+      b && Za(b, a);
+      return a;
+    }
+    function jd(a) {
+      return /\w/.test(a) || "" < a && (a.toUpperCase() != a.toLowerCase() || zg.test(a));
+    }
+    function xc(a, b) {
+      return b ? -1 < b.source.indexOf("\\w") && jd(a) ? true : b.test(a) : jd(a);
+    }
+    function re2(a) {
+      for (var b in a)
+        if (a.hasOwnProperty(b) && a[b])
+          return false;
+      return true;
+    }
+    function kd(a) {
+      return 768 <= a.charCodeAt(0) && Ag.test(a);
+    }
+    function se(a, b, d2) {
+      for (; (0 > d2 ? 0 < b : b < a.length) && kd(a.charAt(b)); )
+        b += d2;
+      return b;
+    }
+    function Jb(a, b, d2) {
+      for (var c = b > d2 ? -1 : 1; ; ) {
+        if (b == d2)
+          return b;
+        var e = (b + d2) / 2;
+        e = 0 > c ? Math.ceil(e) : Math.floor(e);
+        if (e == b)
+          return a(e) ? b : d2;
+        a(e) ? d2 = e : b = e + c;
       }
-      function v2(a, b, d2, c) {
-        a = document.createElement(a);
-        d2 && (a.className = d2);
-        c && (a.style.cssText = c);
-        if ("string" == typeof b)
-          a.appendChild(document.createTextNode(b));
-        else if (b)
-          for (d2 = 0; d2 < b.length; ++d2)
-            a.appendChild(b[d2]);
-        return a;
+    }
+    function Bg(a, b, d2, c) {
+      if (!a)
+        return c(b, d2, "ltr", 0);
+      for (var e = false, f = 0; f < a.length; ++f) {
+        var g = a[f];
+        if (g.from < d2 && g.to > b || b == d2 && g.to == b)
+          c(Math.max(g.from, b), Math.min(g.to, d2), 1 == g.level ? "rtl" : "ltr", f), e = true;
       }
-      function M(a, b, d2, c) {
-        a = v2(a, b, d2, c);
-        a.setAttribute("role", "presentation");
-        return a;
+      e || c(b, d2, "ltr");
+    }
+    function Kb(a, b, d2) {
+      var c;
+      Lb = null;
+      for (var e = 0; e < a.length; ++e) {
+        var f = a[e];
+        if (f.from < b && f.to > b)
+          return e;
+        f.to == b && (f.from != f.to && "before" == d2 ? c = e : Lb = e);
+        f.from == b && (f.from != f.to && "before" != d2 ? c = e : Lb = e);
       }
-      function ja(a, b) {
-        3 == b.nodeType && (b = b.parentNode);
-        if (a.contains)
-          return a.contains(b);
-        do
-          if (11 == b.nodeType && (b = b.host), b == a)
-            return true;
-        while (b = b.parentNode);
+      return null != c ? c : Lb;
+    }
+    function Ja(a, b) {
+      var d2 = a.order;
+      null == d2 && (d2 = a.order = Cg(a.text, b));
+      return d2;
+    }
+    function ta(a, b, d2) {
+      if (a.removeEventListener)
+        a.removeEventListener(b, d2, false);
+      else if (a.detachEvent)
+        a.detachEvent("on" + b, d2);
+      else {
+        var c = (a = a._handlers) && a[b];
+        c && (d2 = ea(c, d2), -1 < d2 && (a[b] = c.slice(0, d2).concat(c.slice(d2 + 1))));
       }
-      function ka(a) {
-        try {
-          var b = a.activeElement;
-        } catch (d2) {
-          b = a.body || null;
-        }
-        for (; b && b.shadowRoot && b.shadowRoot.activeElement; )
-          b = b.shadowRoot.activeElement;
-        return b;
-      }
-      function Ya(a, b) {
-        var d2 = a.className;
-        y2(b).test(d2) || (a.className += (d2 ? " " : "") + b);
-      }
-      function fd(a, b) {
-        a = a.split(" ");
-        for (var d2 = 0; d2 < a.length; d2++)
-          a[d2] && !y2(a[d2]).test(b) && (b += " " + a[d2]);
-        return b;
-      }
-      function qa(a) {
-        return a.display.wrapper.ownerDocument;
-      }
-      function gd(a) {
-        var b = Array.prototype.slice.call(arguments, 1);
-        return function() {
-          return a.apply(null, b);
-        };
-      }
-      function Za(a, b, d2) {
-        b || (b = {});
-        for (var c in a)
-          !a.hasOwnProperty(c) || false === d2 && b.hasOwnProperty(c) || (b[c] = a[c]);
-        return b;
-      }
-      function wa(a, b, d2, c, e) {
-        null == b && (b = a.search(/[^\s\u00a0]/), -1 == b && (b = a.length));
-        c = c || 0;
-        for (e = e || 0; ; ) {
-          var f = a.indexOf(
-            "	",
-            c
-          );
-          if (0 > f || f >= b)
-            return e + (b - c);
-          e += f - c;
-          e += d2 - e % d2;
-          c = f + 1;
-        }
-      }
-      function ea(a, b) {
-        for (var d2 = 0; d2 < a.length; ++d2)
-          if (a[d2] == b)
-            return d2;
-        return -1;
-      }
-      function hd(a, b, d2) {
-        for (var c = 0, e = 0; ; ) {
-          var f = a.indexOf("	", c);
-          -1 == f && (f = a.length);
-          var g = f - c;
-          if (f == a.length || e + g >= b)
-            return c + Math.min(g, b - e);
-          e += f - c;
-          e += d2 - e % d2;
-          c = f + 1;
-          if (e >= b)
-            return c;
-        }
-      }
-      function id(a) {
-        for (; vc.length <= a; )
-          vc.push(J(vc) + " ");
-        return vc[a];
-      }
-      function J(a) {
-        return a[a.length - 1];
-      }
-      function wc(a, b) {
-        for (var d2 = [], c = 0; c < a.length; c++)
-          d2[c] = b(a[c], c);
-        return d2;
-      }
-      function yg(a, b, d2) {
-        for (var c = 0, e = d2(b); c < a.length && d2(a[c]) <= e; )
-          c++;
-        a.splice(c, 0, b);
-      }
-      function pe() {
-      }
-      function qe(a, b) {
-        Object.create ? a = Object.create(a) : (pe.prototype = a, a = new pe());
-        b && Za(b, a);
-        return a;
-      }
-      function jd(a) {
-        return /\w/.test(a) || "" < a && (a.toUpperCase() != a.toLowerCase() || zg.test(a));
-      }
-      function xc(a, b) {
-        return b ? -1 < b.source.indexOf("\\w") && jd(a) ? true : b.test(a) : jd(a);
-      }
-      function re2(a) {
-        for (var b in a)
-          if (a.hasOwnProperty(b) && a[b])
-            return false;
-        return true;
-      }
-      function kd(a) {
-        return 768 <= a.charCodeAt(0) && Ag.test(a);
-      }
-      function se(a, b, d2) {
-        for (; (0 > d2 ? 0 < b : b < a.length) && kd(a.charAt(b)); )
-          b += d2;
-        return b;
-      }
-      function Jb(a, b, d2) {
-        for (var c = b > d2 ? -1 : 1; ; ) {
-          if (b == d2)
-            return b;
-          var e = (b + d2) / 2;
-          e = 0 > c ? Math.ceil(e) : Math.floor(e);
-          if (e == b)
-            return a(e) ? b : d2;
-          a(e) ? d2 = e : b = e + c;
-        }
-      }
-      function Bg(a, b, d2, c) {
-        if (!a)
-          return c(b, d2, "ltr", 0);
-        for (var e = false, f = 0; f < a.length; ++f) {
-          var g = a[f];
-          if (g.from < d2 && g.to > b || b == d2 && g.to == b)
-            c(Math.max(g.from, b), Math.min(g.to, d2), 1 == g.level ? "rtl" : "ltr", f), e = true;
-        }
-        e || c(b, d2, "ltr");
-      }
-      function Kb(a, b, d2) {
-        var c;
-        Lb = null;
-        for (var e = 0; e < a.length; ++e) {
-          var f = a[e];
-          if (f.from < b && f.to > b)
-            return e;
-          f.to == b && (f.from != f.to && "before" == d2 ? c = e : Lb = e);
-          f.from == b && (f.from != f.to && "before" != d2 ? c = e : Lb = e);
-        }
-        return null != c ? c : Lb;
-      }
-      function Ja(a, b) {
-        var d2 = a.order;
-        null == d2 && (d2 = a.order = Cg(a.text, b));
-        return d2;
-      }
-      function ta(a, b, d2) {
-        if (a.removeEventListener)
-          a.removeEventListener(b, d2, false);
-        else if (a.detachEvent)
-          a.detachEvent("on" + b, d2);
-        else {
-          var c = (a = a._handlers) && a[b];
-          c && (d2 = ea(c, d2), -1 < d2 && (a[b] = c.slice(0, d2).concat(c.slice(d2 + 1))));
-        }
-      }
-      function W(a, b) {
-        var d2 = a._handlers && a._handlers[b] || yc;
-        if (d2.length)
-          for (var c = Array.prototype.slice.call(
-            arguments,
-            2
-          ), e = 0; e < d2.length; ++e)
-            d2[e].apply(null, c);
-      }
-      function Z(a, b, d2) {
-        "string" == typeof b && (b = { type: b, preventDefault: function() {
-          this.defaultPrevented = true;
-        } });
-        W(a, d2 || b.type, a, b);
-        return ld(b) || b.codemirrorIgnore;
-      }
-      function te(a) {
-        var b = a._handlers && a._handlers.cursorActivity;
-        if (b) {
-          a = a.curOp.cursorActivityHandlers || (a.curOp.cursorActivityHandlers = []);
-          for (var d2 = 0; d2 < b.length; ++d2)
-            -1 == ea(a, b[d2]) && a.push(b[d2]);
-        }
-      }
-      function xa(a, b) {
-        return 0 < (a._handlers && a._handlers[b] || yc).length;
-      }
-      function pb(a) {
-        a.prototype.on = function(b, d2) {
-          z(
-            this,
-            b,
-            d2
-          );
-        };
-        a.prototype.off = function(b, d2) {
-          ta(this, b, d2);
-        };
-      }
-      function la(a) {
-        a.preventDefault ? a.preventDefault() : a.returnValue = false;
-      }
-      function ue(a) {
-        a.stopPropagation ? a.stopPropagation() : a.cancelBubble = true;
-      }
-      function ld(a) {
-        return null != a.defaultPrevented ? a.defaultPrevented : 0 == a.returnValue;
-      }
-      function Mb(a) {
-        la(a);
-        ue(a);
-      }
-      function ve(a) {
-        var b = a.which;
-        null == b && (a.button & 1 ? b = 1 : a.button & 2 ? b = 3 : a.button & 4 && (b = 2));
-        ya && a.ctrlKey && 1 == b && (b = 3);
-        return b;
-      }
-      function Dg(a, b) {
-        2 < arguments.length && (b.dependencies = Array.prototype.slice.call(
+    }
+    function W(a, b) {
+      var d2 = a._handlers && a._handlers[b] || yc;
+      if (d2.length)
+        for (var c = Array.prototype.slice.call(
           arguments,
           2
-        ));
-        md[a] = b;
+        ), e = 0; e < d2.length; ++e)
+          d2[e].apply(null, c);
+    }
+    function Z(a, b, d2) {
+      "string" == typeof b && (b = { type: b, preventDefault: function() {
+        this.defaultPrevented = true;
+      } });
+      W(a, d2 || b.type, a, b);
+      return ld(b) || b.codemirrorIgnore;
+    }
+    function te(a) {
+      var b = a._handlers && a._handlers.cursorActivity;
+      if (b) {
+        a = a.curOp.cursorActivityHandlers || (a.curOp.cursorActivityHandlers = []);
+        for (var d2 = 0; d2 < b.length; ++d2)
+          -1 == ea(a, b[d2]) && a.push(b[d2]);
       }
-      function zc(a) {
-        if ("string" == typeof a && qb.hasOwnProperty(a))
-          a = qb[a];
-        else if (a && "string" == typeof a.name && qb.hasOwnProperty(a.name)) {
-          var b = qb[a.name];
-          "string" == typeof b && (b = { name: b });
-          a = qe(b, a);
-          a.name = b.name;
-        } else {
-          if ("string" == typeof a && /^[\w\-]+\/[\w\-]+\+xml$/.test(a))
-            return zc("application/xml");
-          if ("string" == typeof a && /^[\w\-]+\/[\w\-]+\+json$/.test(a))
-            return zc("application/json");
-        }
-        return "string" == typeof a ? { name: a } : a || { name: "null" };
-      }
-      function nd(a, b) {
-        b = zc(b);
-        var d2 = md[b.name];
-        if (!d2)
-          return nd(
-            a,
-            "text/plain"
-          );
-        a = d2(a, b);
-        if (rb.hasOwnProperty(b.name)) {
-          d2 = rb[b.name];
-          for (var c in d2)
-            d2.hasOwnProperty(c) && (a.hasOwnProperty(c) && (a["_" + c] = a[c]), a[c] = d2[c]);
-        }
+    }
+    function xa(a, b) {
+      return 0 < (a._handlers && a._handlers[b] || yc).length;
+    }
+    function pb(a) {
+      a.prototype.on = function(b, d2) {
+        z(
+          this,
+          b,
+          d2
+        );
+      };
+      a.prototype.off = function(b, d2) {
+        ta(this, b, d2);
+      };
+    }
+    function la(a) {
+      a.preventDefault ? a.preventDefault() : a.returnValue = false;
+    }
+    function ue(a) {
+      a.stopPropagation ? a.stopPropagation() : a.cancelBubble = true;
+    }
+    function ld(a) {
+      return null != a.defaultPrevented ? a.defaultPrevented : 0 == a.returnValue;
+    }
+    function Mb(a) {
+      la(a);
+      ue(a);
+    }
+    function ve(a) {
+      var b = a.which;
+      null == b && (a.button & 1 ? b = 1 : a.button & 2 ? b = 3 : a.button & 4 && (b = 2));
+      ya && a.ctrlKey && 1 == b && (b = 3);
+      return b;
+    }
+    function Dg(a, b) {
+      2 < arguments.length && (b.dependencies = Array.prototype.slice.call(
+        arguments,
+        2
+      ));
+      md[a] = b;
+    }
+    function zc(a) {
+      if ("string" == typeof a && qb.hasOwnProperty(a))
+        a = qb[a];
+      else if (a && "string" == typeof a.name && qb.hasOwnProperty(a.name)) {
+        var b = qb[a.name];
+        "string" == typeof b && (b = { name: b });
+        a = qe(b, a);
         a.name = b.name;
-        b.helperType && (a.helperType = b.helperType);
-        if (b.modeProps)
-          for (var e in b.modeProps)
-            a[e] = b.modeProps[e];
-        return a;
+      } else {
+        if ("string" == typeof a && /^[\w\-]+\/[\w\-]+\+xml$/.test(a))
+          return zc("application/xml");
+        if ("string" == typeof a && /^[\w\-]+\/[\w\-]+\+json$/.test(a))
+          return zc("application/json");
       }
-      function Eg(a, b) {
-        a = rb.hasOwnProperty(a) ? rb[a] : rb[a] = {};
-        Za(b, a);
+      return "string" == typeof a ? { name: a } : a || { name: "null" };
+    }
+    function nd(a, b) {
+      b = zc(b);
+      var d2 = md[b.name];
+      if (!d2)
+        return nd(
+          a,
+          "text/plain"
+        );
+      a = d2(a, b);
+      if (rb.hasOwnProperty(b.name)) {
+        d2 = rb[b.name];
+        for (var c in d2)
+          d2.hasOwnProperty(c) && (a.hasOwnProperty(c) && (a["_" + c] = a[c]), a[c] = d2[c]);
       }
-      function $a(a, b) {
-        if (true === b)
-          return b;
-        if (a.copyState)
-          return a.copyState(b);
-        a = {};
-        for (var d2 in b) {
-          var c = b[d2];
-          c instanceof Array && (c = c.concat([]));
-          a[d2] = c;
-        }
-        return a;
+      a.name = b.name;
+      b.helperType && (a.helperType = b.helperType);
+      if (b.modeProps)
+        for (var e in b.modeProps)
+          a[e] = b.modeProps[e];
+      return a;
+    }
+    function Eg(a, b) {
+      a = rb.hasOwnProperty(a) ? rb[a] : rb[a] = {};
+      Za(b, a);
+    }
+    function $a(a, b) {
+      if (true === b)
+        return b;
+      if (a.copyState)
+        return a.copyState(b);
+      a = {};
+      for (var d2 in b) {
+        var c = b[d2];
+        c instanceof Array && (c = c.concat([]));
+        a[d2] = c;
       }
-      function od(a, b) {
-        for (var d2; a.innerMode; ) {
-          d2 = a.innerMode(b);
-          if (!d2 || d2.mode == a)
+      return a;
+    }
+    function od(a, b) {
+      for (var d2; a.innerMode; ) {
+        d2 = a.innerMode(b);
+        if (!d2 || d2.mode == a)
+          break;
+        b = d2.state;
+        a = d2.mode;
+      }
+      return d2 || { mode: a, state: b };
+    }
+    function we(a, b, d2) {
+      return a.startState ? a.startState(b, d2) : true;
+    }
+    function w(a, b) {
+      b -= a.first;
+      if (0 > b || b >= a.size)
+        throw Error("There is no line " + (b + a.first) + " in the document.");
+      for (; !a.lines; )
+        for (var d2 = 0; ; ++d2) {
+          var c = a.children[d2], e = c.chunkSize();
+          if (b < e) {
+            a = c;
             break;
-          b = d2.state;
-          a = d2.mode;
-        }
-        return d2 || { mode: a, state: b };
-      }
-      function we(a, b, d2) {
-        return a.startState ? a.startState(b, d2) : true;
-      }
-      function w(a, b) {
-        b -= a.first;
-        if (0 > b || b >= a.size)
-          throw Error("There is no line " + (b + a.first) + " in the document.");
-        for (; !a.lines; )
-          for (var d2 = 0; ; ++d2) {
-            var c = a.children[d2], e = c.chunkSize();
-            if (b < e) {
-              a = c;
-              break;
-            }
-            b -= e;
           }
-        return a.lines[b];
-      }
-      function ab(a, b, d2) {
-        var c = [], e = b.line;
-        a.iter(b.line, d2.line + 1, function(f) {
-          f = f.text;
-          e == d2.line && (f = f.slice(0, d2.ch));
-          e == b.line && (f = f.slice(b.ch));
-          c.push(f);
-          ++e;
-        });
-        return c;
-      }
-      function pd(a, b, d2) {
-        var c = [];
-        a.iter(b, d2, function(e) {
-          c.push(e.text);
-        });
-        return c;
-      }
-      function Ea(a, b) {
-        if (b -= a.height)
-          for (; a; a = a.parent)
-            a.height += b;
-      }
-      function N(a) {
-        if (null == a.parent)
-          return null;
-        var b = a.parent;
-        a = ea(b.lines, a);
-        for (var d2 = b.parent; d2; b = d2, d2 = d2.parent)
-          for (var c = 0; d2.children[c] != b; ++c)
-            a += d2.children[c].chunkSize();
-        return a + b.first;
-      }
-      function bb(a, b) {
-        var d2 = a.first;
-        a:
-          do {
-            for (var c = 0; c < a.children.length; ++c) {
-              var e = a.children[c], f = e.height;
-              if (b < f) {
-                a = e;
-                continue a;
-              }
-              b -= f;
-              d2 += e.chunkSize();
-            }
-            return d2;
-          } while (!a.lines);
-        for (c = 0; c < a.lines.length; ++c) {
-          e = a.lines[c].height;
-          if (b < e)
-            break;
           b -= e;
         }
-        return d2 + c;
-      }
-      function Nb(a, b) {
-        return b >= a.first && b < a.first + a.size;
-      }
-      function qd(a, b) {
-        return String(a.lineNumberFormatter(b + a.firstLineNumber));
-      }
-      function t(a, b, d2) {
-        void 0 === d2 && (d2 = null);
-        if (!(this instanceof t))
-          return new t(a, b, d2);
-        this.line = a;
-        this.ch = b;
-        this.sticky = d2;
-      }
-      function B(a, b) {
-        return a.line - b.line || a.ch - b.ch;
-      }
-      function rd(a, b) {
-        return a.sticky == b.sticky && 0 == B(a, b);
-      }
-      function sd(a) {
-        return t(
-          a.line,
-          a.ch
-        );
-      }
-      function Ac(a, b) {
-        return 0 > B(a, b) ? b : a;
-      }
-      function Bc(a, b) {
-        return 0 > B(a, b) ? a : b;
-      }
-      function C(a, b) {
-        if (b.line < a.first)
-          return t(a.first, 0);
-        var d2 = a.first + a.size - 1;
-        if (b.line > d2)
-          return t(d2, w(a, d2).text.length);
-        a = w(a, b.line).text.length;
-        d2 = b.ch;
-        b = null == d2 || d2 > a ? t(b.line, a) : 0 > d2 ? t(b.line, 0) : b;
-        return b;
-      }
-      function xe(a, b) {
-        for (var d2 = [], c = 0; c < b.length; c++)
-          d2[c] = C(a, b[c]);
-        return d2;
-      }
-      function ye(a, b, d2, c) {
-        var e = [a.state.modeGen], f = {};
-        ze(a, b.text, a.doc.mode, d2, function(k, l) {
-          return e.push(k, l);
-        }, f, c);
-        var g = d2.state;
-        c = function(k) {
-          d2.baseTokens = e;
-          var l = a.state.overlays[k], m2 = 1, n = 0;
-          d2.state = true;
-          ze(a, b.text, l.mode, d2, function(p, q) {
-            for (var r = m2; n < p; ) {
-              var u = e[m2];
-              u > p && e.splice(m2, 1, p, e[m2 + 1], u);
-              m2 += 2;
-              n = Math.min(p, u);
+      return a.lines[b];
+    }
+    function ab(a, b, d2) {
+      var c = [], e = b.line;
+      a.iter(b.line, d2.line + 1, function(f) {
+        f = f.text;
+        e == d2.line && (f = f.slice(0, d2.ch));
+        e == b.line && (f = f.slice(b.ch));
+        c.push(f);
+        ++e;
+      });
+      return c;
+    }
+    function pd(a, b, d2) {
+      var c = [];
+      a.iter(b, d2, function(e) {
+        c.push(e.text);
+      });
+      return c;
+    }
+    function Ea(a, b) {
+      if (b -= a.height)
+        for (; a; a = a.parent)
+          a.height += b;
+    }
+    function N(a) {
+      if (null == a.parent)
+        return null;
+      var b = a.parent;
+      a = ea(b.lines, a);
+      for (var d2 = b.parent; d2; b = d2, d2 = d2.parent)
+        for (var c = 0; d2.children[c] != b; ++c)
+          a += d2.children[c].chunkSize();
+      return a + b.first;
+    }
+    function bb(a, b) {
+      var d2 = a.first;
+      a:
+        do {
+          for (var c = 0; c < a.children.length; ++c) {
+            var e = a.children[c], f = e.height;
+            if (b < f) {
+              a = e;
+              continue a;
             }
-            if (q)
-              if (l.opaque)
-                e.splice(r, m2 - r, p, "overlay " + q), m2 = r + 2;
-              else
-                for (; r < m2; r += 2)
-                  p = e[r + 1], e[r + 1] = (p ? p + " " : "") + "overlay " + q;
-          }, f);
-          d2.state = g;
-          d2.baseTokens = null;
-          d2.baseTokenPos = 1;
-        };
-        for (var h2 = 0; h2 < a.state.overlays.length; ++h2)
-          c(h2);
-        return { styles: e, classes: f.bgClass || f.textClass ? f : null };
-      }
-      function Ae(a, b, d2) {
-        if (!b.styles || b.styles[0] != a.state.modeGen) {
-          var c = Ob(
-            a,
-            N(b)
-          ), e = b.text.length > a.options.maxHighlightLength && $a(a.doc.mode, c.state), f = ye(a, b, c);
-          e && (c.state = e);
-          b.stateAfter = c.save(!e);
-          b.styles = f.styles;
-          f.classes ? b.styleClasses = f.classes : b.styleClasses && (b.styleClasses = null);
-          d2 === a.doc.highlightFrontier && (a.doc.modeFrontier = Math.max(a.doc.modeFrontier, ++a.doc.highlightFrontier));
-        }
-        return b.styles;
-      }
-      function Ob(a, b, d2) {
-        var c = a.doc, e = a.display;
-        if (!c.mode.startState)
-          return new Fa(c, true, b);
-        var f = Fg(a, b, d2), g = f > c.first && w(c, f - 1).stateAfter, h2 = g ? Fa.fromSaved(c, g, f) : new Fa(
-          c,
-          we(c.mode),
-          f
-        );
-        c.iter(f, b, function(k) {
-          td(a, k.text, h2);
-          var l = h2.line;
-          k.stateAfter = l == b - 1 || 0 == l % 5 || l >= e.viewFrom && l < e.viewTo ? h2.save() : null;
-          h2.nextLine();
-        });
-        d2 && (c.modeFrontier = h2.line);
-        return h2;
-      }
-      function td(a, b, d2, c) {
-        var e = a.doc.mode;
-        a = new X(b, a.options.tabSize, d2);
-        a.start = a.pos = c || 0;
-        for ("" == b && Be(e, d2.state); !a.eol(); )
-          ud(e, a, d2.state), a.start = a.pos;
-      }
-      function Be(a, b) {
-        if (a.blankLine)
-          return a.blankLine(b);
-        if (a.innerMode && (a = od(a, b), a.mode.blankLine))
-          return a.mode.blankLine(a.state);
-      }
-      function ud(a, b, d2, c) {
-        for (var e = 0; 10 > e; e++) {
-          c && (c[0] = od(a, d2).mode);
-          var f = a.token(b, d2);
-          if (b.pos > b.start)
-            return f;
-        }
-        throw Error("Mode " + a.name + " failed to advance stream.");
-      }
-      function Ce(a, b, d2, c) {
-        var e = a.doc, f = e.mode;
-        b = C(e, b);
-        var g = w(e, b.line);
-        d2 = Ob(a, b.line, d2);
-        a = new X(g.text, a.options.tabSize, d2);
-        var h2;
-        for (c && (h2 = []); (c || a.pos < b.ch) && !a.eol(); ) {
-          a.start = a.pos;
-          var k = ud(f, a, d2.state);
-          c && h2.push(new De(a, k, $a(e.mode, d2.state)));
-        }
-        return c ? h2 : new De(a, k, d2.state);
-      }
-      function Ee(a, b) {
-        if (a)
-          for (; ; ) {
-            var d2 = a.match(/(?:^|\s+)line-(background-)?(\S+)/);
-            if (!d2)
-              break;
-            a = a.slice(0, d2.index) + a.slice(d2.index + d2[0].length);
-            var c = d2[1] ? "bgClass" : "textClass";
-            null == b[c] ? b[c] = d2[2] : new RegExp("(?:^|\\s)" + d2[2] + "(?:$|\\s)").test(b[c]) || (b[c] += " " + d2[2]);
+            b -= f;
+            d2 += e.chunkSize();
           }
-        return a;
-      }
-      function ze(a, b, d2, c, e, f, g) {
-        var h2 = d2.flattenSpans;
-        null == h2 && (h2 = a.options.flattenSpans);
-        var k = 0, l = null, m2 = new X(b, a.options.tabSize, c), n = a.options.addModeClass && [null];
-        for ("" == b && Ee(Be(d2, c.state), f); !m2.eol(); ) {
-          if (m2.pos > a.options.maxHighlightLength) {
-            h2 = false;
-            g && td(a, b, c, m2.pos);
-            m2.pos = b.length;
-            var p = null;
-          } else
-            p = Ee(ud(
-              d2,
-              m2,
-              c.state,
-              n
-            ), f);
-          if (n) {
-            var q = n[0].name;
-            q && (p = "m-" + (p ? q + " " + p : q));
-          }
-          if (!h2 || l != p) {
-            for (; k < m2.start; )
-              k = Math.min(m2.start, k + 5e3), e(k, l);
-            l = p;
-          }
-          m2.start = m2.pos;
-        }
-        for (; k < m2.pos; )
-          a = Math.min(m2.pos, k + 5e3), e(a, l), k = a;
-      }
-      function Fg(a, b, d2) {
-        for (var c, e, f = a.doc, g = d2 ? -1 : b - (a.doc.mode.innerMode ? 1e3 : 100); b > g; --b) {
-          if (b <= f.first)
-            return f.first;
-          var h2 = w(f, b - 1), k = h2.stateAfter;
-          if (k && (!d2 || b + (k instanceof Cc ? k.lookAhead : 0) <= f.modeFrontier))
-            return b;
-          h2 = wa(h2.text, null, a.options.tabSize);
-          if (null == e || c > h2)
-            e = b - 1, c = h2;
-        }
-        return e;
-      }
-      function Gg(a, b) {
-        a.modeFrontier = Math.min(a.modeFrontier, b);
-        if (!(a.highlightFrontier < b - 10)) {
-          for (var d2 = a.first, c = b - 1; c > d2; c--) {
-            var e = w(a, c).stateAfter;
-            if (e && (!(e instanceof Cc) || c + e.lookAhead < b)) {
-              d2 = c + 1;
-              break;
-            }
-          }
-          a.highlightFrontier = Math.min(a.highlightFrontier, d2);
-        }
-      }
-      function Dc(a, b, d2) {
-        this.marker = a;
-        this.from = b;
-        this.to = d2;
-      }
-      function Pb(a, b) {
-        if (a)
-          for (var d2 = 0; d2 < a.length; ++d2) {
-            var c = a[d2];
-            if (c.marker == b)
-              return c;
-          }
-      }
-      function vd(a, b) {
-        if (b.full)
-          return null;
-        var d2 = Nb(a, b.from.line) && w(a, b.from.line).markedSpans, c = Nb(a, b.to.line) && w(a, b.to.line).markedSpans;
-        if (!d2 && !c)
-          return null;
-        a = b.from.ch;
-        var e = b.to.ch, f = 0 == B(b.from, b.to), g;
-        if (d2)
-          for (var h2 = 0; h2 < d2.length; ++h2) {
-            var k = d2[h2], l = k.marker;
-            if (null == k.from || (l.inclusiveLeft ? k.from <= a : k.from < a) || !(k.from != a || "bookmark" != l.type || f && k.marker.insertLeft)) {
-              var m2 = null == k.to || (l.inclusiveRight ? k.to >= a : k.to > a);
-              (g || (g = [])).push(new Dc(l, k.from, m2 ? null : k.to));
-            }
-          }
-        d2 = g;
-        var n;
-        if (c) {
-          for (g = 0; g < c.length; ++g)
-            if (h2 = c[g], k = h2.marker, null == h2.to || (k.inclusiveRight ? h2.to >= e : h2.to > e) || h2.from == e && "bookmark" == k.type && (!f || h2.marker.insertLeft))
-              l = null == h2.from || (k.inclusiveLeft ? h2.from <= e : h2.from < e), (n || (n = [])).push(new Dc(k, l ? null : h2.from - e, null == h2.to ? null : h2.to - e));
-        }
-        c = 1 == b.text.length;
-        e = J(b.text).length + (c ? a : 0);
-        if (d2) {
-          for (f = 0; f < d2.length; ++f)
-            if (g = d2[f], null == g.to)
-              (h2 = Pb(n, g.marker), h2) ? c && (g.to = null == h2.to ? null : h2.to + e) : g.to = a;
-        }
-        if (n)
-          for (a = 0; a < n.length; ++a)
-            f = n[a], null != f.to && (f.to += e), null == f.from ? Pb(d2, f.marker) || (f.from = e, c && (d2 || (d2 = [])).push(f)) : (f.from += e, c && (d2 || (d2 = [])).push(f));
-        d2 && (d2 = Fe(d2));
-        n && n != d2 && (n = Fe(n));
-        a = [d2];
-        if (!c) {
-          b = b.text.length - 2;
-          var p;
-          if (0 < b && d2)
-            for (c = 0; c < d2.length; ++c)
-              null == d2[c].to && (p || (p = [])).push(new Dc(d2[c].marker, null, null));
-          for (d2 = 0; d2 < b; ++d2)
-            a.push(p);
-          a.push(n);
-        }
-        return a;
-      }
-      function Fe(a) {
-        for (var b = 0; b < a.length; ++b) {
-          var d2 = a[b];
-          null != d2.from && d2.from == d2.to && false !== d2.marker.clearWhenEmpty && a.splice(b--, 1);
-        }
-        return a.length ? a : null;
-      }
-      function Hg(a, b, d2) {
-        var c = null;
-        a.iter(b.line, d2.line + 1, function(m2) {
-          if (m2.markedSpans)
-            for (var n = 0; n < m2.markedSpans.length; ++n) {
-              var p = m2.markedSpans[n].marker;
-              !p.readOnly || c && -1 != ea(c, p) || (c || (c = [])).push(p);
-            }
-        });
-        if (!c)
-          return null;
-        a = [{ from: b, to: d2 }];
-        for (b = 0; b < c.length; ++b) {
-          d2 = c[b];
-          for (var e = d2.find(0), f = 0; f < a.length; ++f) {
-            var g = a[f];
-            if (!(0 > B(g.to, e.from) || 0 < B(g.from, e.to))) {
-              var h2 = [f, 1], k = B(g.from, e.from), l = B(g.to, e.to);
-              (0 > k || !d2.inclusiveLeft && !k) && h2.push({ from: g.from, to: e.from });
-              (0 < l || !d2.inclusiveRight && !l) && h2.push({ from: e.to, to: g.to });
-              a.splice.apply(a, h2);
-              f += h2.length - 3;
-            }
-          }
-        }
-        return a;
-      }
-      function Ge(a) {
-        var b = a.markedSpans;
-        if (b) {
-          for (var d2 = 0; d2 < b.length; ++d2)
-            b[d2].marker.detachLine(a);
-          a.markedSpans = null;
-        }
-      }
-      function He(a, b) {
-        if (b) {
-          for (var d2 = 0; d2 < b.length; ++d2)
-            b[d2].marker.attachLine(a);
-          a.markedSpans = b;
-        }
-      }
-      function wd(a, b) {
-        var d2 = a.lines.length - b.lines.length;
-        if (0 != d2)
           return d2;
-        d2 = a.find();
-        var c = b.find(), e = B(d2.from, c.from) || (a.inclusiveLeft ? -1 : 0) - (b.inclusiveLeft ? -1 : 0);
-        return e ? -e : (d2 = B(d2.to, c.to) || (a.inclusiveRight ? 1 : 0) - (b.inclusiveRight ? 1 : 0)) ? d2 : b.id - a.id;
+        } while (!a.lines);
+      for (c = 0; c < a.lines.length; ++c) {
+        e = a.lines[c].height;
+        if (b < e)
+          break;
+        b -= e;
       }
-      function sb(a, b) {
-        a = Ka && a.markedSpans;
-        if (a) {
-          for (var d2, c = 0; c < a.length; ++c)
-            if (d2 = a[c], d2.marker.collapsed && null == (b ? d2.from : d2.to) && (!e || 0 > wd(e, d2.marker)))
-              var e = d2.marker;
-        }
-        return e;
-      }
-      function Ie(a, b, d2, c, e) {
-        a = w(a, b);
-        if (a = Ka && a.markedSpans)
-          for (b = 0; b < a.length; ++b) {
-            var f = a[b];
-            if (f.marker.collapsed) {
-              var g = f.marker.find(0), h2 = B(g.from, d2) || (f.marker.inclusiveLeft ? -1 : 0) - (e.inclusiveLeft ? -1 : 0), k = B(g.to, c) || (f.marker.inclusiveRight ? 1 : 0) - (e.inclusiveRight ? 1 : 0);
-              if (!(0 <= h2 && 0 >= k || 0 >= h2 && 0 <= k) && (0 >= h2 && (f.marker.inclusiveRight && e.inclusiveLeft ? 0 <= B(g.to, d2) : 0 < B(g.to, d2)) || 0 <= h2 && (f.marker.inclusiveRight && e.inclusiveLeft ? 0 >= B(g.from, c) : 0 > B(g.from, c))))
-                return true;
-            }
+      return d2 + c;
+    }
+    function Nb(a, b) {
+      return b >= a.first && b < a.first + a.size;
+    }
+    function qd(a, b) {
+      return String(a.lineNumberFormatter(b + a.firstLineNumber));
+    }
+    function t(a, b, d2) {
+      void 0 === d2 && (d2 = null);
+      if (!(this instanceof t))
+        return new t(a, b, d2);
+      this.line = a;
+      this.ch = b;
+      this.sticky = d2;
+    }
+    function B(a, b) {
+      return a.line - b.line || a.ch - b.ch;
+    }
+    function rd(a, b) {
+      return a.sticky == b.sticky && 0 == B(a, b);
+    }
+    function sd(a) {
+      return t(
+        a.line,
+        a.ch
+      );
+    }
+    function Ac(a, b) {
+      return 0 > B(a, b) ? b : a;
+    }
+    function Bc(a, b) {
+      return 0 > B(a, b) ? a : b;
+    }
+    function C(a, b) {
+      if (b.line < a.first)
+        return t(a.first, 0);
+      var d2 = a.first + a.size - 1;
+      if (b.line > d2)
+        return t(d2, w(a, d2).text.length);
+      a = w(a, b.line).text.length;
+      d2 = b.ch;
+      b = null == d2 || d2 > a ? t(b.line, a) : 0 > d2 ? t(b.line, 0) : b;
+      return b;
+    }
+    function xe(a, b) {
+      for (var d2 = [], c = 0; c < b.length; c++)
+        d2[c] = C(a, b[c]);
+      return d2;
+    }
+    function ye(a, b, d2, c) {
+      var e = [a.state.modeGen], f = {};
+      ze(a, b.text, a.doc.mode, d2, function(k, l) {
+        return e.push(k, l);
+      }, f, c);
+      var g = d2.state;
+      c = function(k) {
+        d2.baseTokens = e;
+        var l = a.state.overlays[k], m2 = 1, n = 0;
+        d2.state = true;
+        ze(a, b.text, l.mode, d2, function(p, q) {
+          for (var r = m2; n < p; ) {
+            var u = e[m2];
+            u > p && e.splice(m2, 1, p, e[m2 + 1], u);
+            m2 += 2;
+            n = Math.min(p, u);
           }
+          if (q)
+            if (l.opaque)
+              e.splice(r, m2 - r, p, "overlay " + q), m2 = r + 2;
+            else
+              for (; r < m2; r += 2)
+                p = e[r + 1], e[r + 1] = (p ? p + " " : "") + "overlay " + q;
+        }, f);
+        d2.state = g;
+        d2.baseTokens = null;
+        d2.baseTokenPos = 1;
+      };
+      for (var h2 = 0; h2 < a.state.overlays.length; ++h2)
+        c(h2);
+      return { styles: e, classes: f.bgClass || f.textClass ? f : null };
+    }
+    function Ae(a, b, d2) {
+      if (!b.styles || b.styles[0] != a.state.modeGen) {
+        var c = Ob(
+          a,
+          N(b)
+        ), e = b.text.length > a.options.maxHighlightLength && $a(a.doc.mode, c.state), f = ye(a, b, c);
+        e && (c.state = e);
+        b.stateAfter = c.save(!e);
+        b.styles = f.styles;
+        f.classes ? b.styleClasses = f.classes : b.styleClasses && (b.styleClasses = null);
+        d2 === a.doc.highlightFrontier && (a.doc.modeFrontier = Math.max(a.doc.modeFrontier, ++a.doc.highlightFrontier));
       }
-      function za(a) {
-        for (var b; b = sb(a, true); )
-          a = b.find(-1, true).line;
-        return a;
+      return b.styles;
+    }
+    function Ob(a, b, d2) {
+      var c = a.doc, e = a.display;
+      if (!c.mode.startState)
+        return new Fa(c, true, b);
+      var f = Fg(a, b, d2), g = f > c.first && w(c, f - 1).stateAfter, h2 = g ? Fa.fromSaved(c, g, f) : new Fa(
+        c,
+        we(c.mode),
+        f
+      );
+      c.iter(f, b, function(k) {
+        td(a, k.text, h2);
+        var l = h2.line;
+        k.stateAfter = l == b - 1 || 0 == l % 5 || l >= e.viewFrom && l < e.viewTo ? h2.save() : null;
+        h2.nextLine();
+      });
+      d2 && (c.modeFrontier = h2.line);
+      return h2;
+    }
+    function td(a, b, d2, c) {
+      var e = a.doc.mode;
+      a = new X(b, a.options.tabSize, d2);
+      a.start = a.pos = c || 0;
+      for ("" == b && Be(e, d2.state); !a.eol(); )
+        ud(e, a, d2.state), a.start = a.pos;
+    }
+    function Be(a, b) {
+      if (a.blankLine)
+        return a.blankLine(b);
+      if (a.innerMode && (a = od(a, b), a.mode.blankLine))
+        return a.mode.blankLine(a.state);
+    }
+    function ud(a, b, d2, c) {
+      for (var e = 0; 10 > e; e++) {
+        c && (c[0] = od(a, d2).mode);
+        var f = a.token(b, d2);
+        if (b.pos > b.start)
+          return f;
       }
-      function xd(a, b) {
-        a = w(a, b);
-        var d2 = za(a);
-        return a == d2 ? b : N(d2);
+      throw Error("Mode " + a.name + " failed to advance stream.");
+    }
+    function Ce(a, b, d2, c) {
+      var e = a.doc, f = e.mode;
+      b = C(e, b);
+      var g = w(e, b.line);
+      d2 = Ob(a, b.line, d2);
+      a = new X(g.text, a.options.tabSize, d2);
+      var h2;
+      for (c && (h2 = []); (c || a.pos < b.ch) && !a.eol(); ) {
+        a.start = a.pos;
+        var k = ud(f, a, d2.state);
+        c && h2.push(new De(a, k, $a(e.mode, d2.state)));
       }
-      function Je(a, b) {
-        if (b > a.lastLine())
+      return c ? h2 : new De(a, k, d2.state);
+    }
+    function Ee(a, b) {
+      if (a)
+        for (; ; ) {
+          var d2 = a.match(/(?:^|\s+)line-(background-)?(\S+)/);
+          if (!d2)
+            break;
+          a = a.slice(0, d2.index) + a.slice(d2.index + d2[0].length);
+          var c = d2[1] ? "bgClass" : "textClass";
+          null == b[c] ? b[c] = d2[2] : new RegExp("(?:^|\\s)" + d2[2] + "(?:$|\\s)").test(b[c]) || (b[c] += " " + d2[2]);
+        }
+      return a;
+    }
+    function ze(a, b, d2, c, e, f, g) {
+      var h2 = d2.flattenSpans;
+      null == h2 && (h2 = a.options.flattenSpans);
+      var k = 0, l = null, m2 = new X(b, a.options.tabSize, c), n = a.options.addModeClass && [null];
+      for ("" == b && Ee(Be(d2, c.state), f); !m2.eol(); ) {
+        if (m2.pos > a.options.maxHighlightLength) {
+          h2 = false;
+          g && td(a, b, c, m2.pos);
+          m2.pos = b.length;
+          var p = null;
+        } else
+          p = Ee(ud(
+            d2,
+            m2,
+            c.state,
+            n
+          ), f);
+        if (n) {
+          var q = n[0].name;
+          q && (p = "m-" + (p ? q + " " + p : q));
+        }
+        if (!h2 || l != p) {
+          for (; k < m2.start; )
+            k = Math.min(m2.start, k + 5e3), e(k, l);
+          l = p;
+        }
+        m2.start = m2.pos;
+      }
+      for (; k < m2.pos; )
+        a = Math.min(m2.pos, k + 5e3), e(a, l), k = a;
+    }
+    function Fg(a, b, d2) {
+      for (var c, e, f = a.doc, g = d2 ? -1 : b - (a.doc.mode.innerMode ? 1e3 : 100); b > g; --b) {
+        if (b <= f.first)
+          return f.first;
+        var h2 = w(f, b - 1), k = h2.stateAfter;
+        if (k && (!d2 || b + (k instanceof Cc ? k.lookAhead : 0) <= f.modeFrontier))
           return b;
-        var d2 = w(a, b);
-        if (!Pa(a, d2))
-          return b;
-        for (; a = sb(d2, false); )
-          d2 = a.find(1, true).line;
-        return N(d2) + 1;
+        h2 = wa(h2.text, null, a.options.tabSize);
+        if (null == e || c > h2)
+          e = b - 1, c = h2;
       }
-      function Pa(a, b) {
-        var d2 = Ka && b.markedSpans;
-        if (d2) {
-          for (var c, e = 0; e < d2.length; ++e)
-            if (c = d2[e], c.marker.collapsed && (null == c.from || !c.marker.widgetNode && 0 == c.from && c.marker.inclusiveLeft && yd(a, b, c)))
-              return true;
+      return e;
+    }
+    function Gg(a, b) {
+      a.modeFrontier = Math.min(a.modeFrontier, b);
+      if (!(a.highlightFrontier < b - 10)) {
+        for (var d2 = a.first, c = b - 1; c > d2; c--) {
+          var e = w(a, c).stateAfter;
+          if (e && (!(e instanceof Cc) || c + e.lookAhead < b)) {
+            d2 = c + 1;
+            break;
+          }
+        }
+        a.highlightFrontier = Math.min(a.highlightFrontier, d2);
+      }
+    }
+    function Dc(a, b, d2) {
+      this.marker = a;
+      this.from = b;
+      this.to = d2;
+    }
+    function Pb(a, b) {
+      if (a)
+        for (var d2 = 0; d2 < a.length; ++d2) {
+          var c = a[d2];
+          if (c.marker == b)
+            return c;
+        }
+    }
+    function vd(a, b) {
+      if (b.full)
+        return null;
+      var d2 = Nb(a, b.from.line) && w(a, b.from.line).markedSpans, c = Nb(a, b.to.line) && w(a, b.to.line).markedSpans;
+      if (!d2 && !c)
+        return null;
+      a = b.from.ch;
+      var e = b.to.ch, f = 0 == B(b.from, b.to), g;
+      if (d2)
+        for (var h2 = 0; h2 < d2.length; ++h2) {
+          var k = d2[h2], l = k.marker;
+          if (null == k.from || (l.inclusiveLeft ? k.from <= a : k.from < a) || !(k.from != a || "bookmark" != l.type || f && k.marker.insertLeft)) {
+            var m2 = null == k.to || (l.inclusiveRight ? k.to >= a : k.to > a);
+            (g || (g = [])).push(new Dc(l, k.from, m2 ? null : k.to));
+          }
+        }
+      d2 = g;
+      var n;
+      if (c) {
+        for (g = 0; g < c.length; ++g)
+          if (h2 = c[g], k = h2.marker, null == h2.to || (k.inclusiveRight ? h2.to >= e : h2.to > e) || h2.from == e && "bookmark" == k.type && (!f || h2.marker.insertLeft))
+            l = null == h2.from || (k.inclusiveLeft ? h2.from <= e : h2.from < e), (n || (n = [])).push(new Dc(k, l ? null : h2.from - e, null == h2.to ? null : h2.to - e));
+      }
+      c = 1 == b.text.length;
+      e = J(b.text).length + (c ? a : 0);
+      if (d2) {
+        for (f = 0; f < d2.length; ++f)
+          if (g = d2[f], null == g.to)
+            (h2 = Pb(n, g.marker), h2) ? c && (g.to = null == h2.to ? null : h2.to + e) : g.to = a;
+      }
+      if (n)
+        for (a = 0; a < n.length; ++a)
+          f = n[a], null != f.to && (f.to += e), null == f.from ? Pb(d2, f.marker) || (f.from = e, c && (d2 || (d2 = [])).push(f)) : (f.from += e, c && (d2 || (d2 = [])).push(f));
+      d2 && (d2 = Fe(d2));
+      n && n != d2 && (n = Fe(n));
+      a = [d2];
+      if (!c) {
+        b = b.text.length - 2;
+        var p;
+        if (0 < b && d2)
+          for (c = 0; c < d2.length; ++c)
+            null == d2[c].to && (p || (p = [])).push(new Dc(d2[c].marker, null, null));
+        for (d2 = 0; d2 < b; ++d2)
+          a.push(p);
+        a.push(n);
+      }
+      return a;
+    }
+    function Fe(a) {
+      for (var b = 0; b < a.length; ++b) {
+        var d2 = a[b];
+        null != d2.from && d2.from == d2.to && false !== d2.marker.clearWhenEmpty && a.splice(b--, 1);
+      }
+      return a.length ? a : null;
+    }
+    function Hg(a, b, d2) {
+      var c = null;
+      a.iter(b.line, d2.line + 1, function(m2) {
+        if (m2.markedSpans)
+          for (var n = 0; n < m2.markedSpans.length; ++n) {
+            var p = m2.markedSpans[n].marker;
+            !p.readOnly || c && -1 != ea(c, p) || (c || (c = [])).push(p);
+          }
+      });
+      if (!c)
+        return null;
+      a = [{ from: b, to: d2 }];
+      for (b = 0; b < c.length; ++b) {
+        d2 = c[b];
+        for (var e = d2.find(0), f = 0; f < a.length; ++f) {
+          var g = a[f];
+          if (!(0 > B(g.to, e.from) || 0 < B(g.from, e.to))) {
+            var h2 = [f, 1], k = B(g.from, e.from), l = B(g.to, e.to);
+            (0 > k || !d2.inclusiveLeft && !k) && h2.push({ from: g.from, to: e.from });
+            (0 < l || !d2.inclusiveRight && !l) && h2.push({ from: e.to, to: g.to });
+            a.splice.apply(a, h2);
+            f += h2.length - 3;
+          }
         }
       }
-      function yd(a, b, d2) {
-        if (null == d2.to)
-          return b = d2.marker.find(1, true), yd(a, b.line, Pb(b.line.markedSpans, d2.marker));
-        if (d2.marker.inclusiveRight && d2.to == b.text.length)
-          return true;
-        for (var c, e = 0; e < b.markedSpans.length; ++e)
-          if (c = b.markedSpans[e], c.marker.collapsed && !c.marker.widgetNode && c.from == d2.to && (null == c.to || c.to != d2.from) && (c.marker.inclusiveLeft || d2.marker.inclusiveRight) && yd(a, b, c))
+      return a;
+    }
+    function Ge(a) {
+      var b = a.markedSpans;
+      if (b) {
+        for (var d2 = 0; d2 < b.length; ++d2)
+          b[d2].marker.detachLine(a);
+        a.markedSpans = null;
+      }
+    }
+    function He(a, b) {
+      if (b) {
+        for (var d2 = 0; d2 < b.length; ++d2)
+          b[d2].marker.attachLine(a);
+        a.markedSpans = b;
+      }
+    }
+    function wd(a, b) {
+      var d2 = a.lines.length - b.lines.length;
+      if (0 != d2)
+        return d2;
+      d2 = a.find();
+      var c = b.find(), e = B(d2.from, c.from) || (a.inclusiveLeft ? -1 : 0) - (b.inclusiveLeft ? -1 : 0);
+      return e ? -e : (d2 = B(d2.to, c.to) || (a.inclusiveRight ? 1 : 0) - (b.inclusiveRight ? 1 : 0)) ? d2 : b.id - a.id;
+    }
+    function sb(a, b) {
+      a = Ka && a.markedSpans;
+      if (a) {
+        for (var d2, c = 0; c < a.length; ++c)
+          if (d2 = a[c], d2.marker.collapsed && null == (b ? d2.from : d2.to) && (!e || 0 > wd(e, d2.marker)))
+            var e = d2.marker;
+      }
+      return e;
+    }
+    function Ie(a, b, d2, c, e) {
+      a = w(a, b);
+      if (a = Ka && a.markedSpans)
+        for (b = 0; b < a.length; ++b) {
+          var f = a[b];
+          if (f.marker.collapsed) {
+            var g = f.marker.find(0), h2 = B(g.from, d2) || (f.marker.inclusiveLeft ? -1 : 0) - (e.inclusiveLeft ? -1 : 0), k = B(g.to, c) || (f.marker.inclusiveRight ? 1 : 0) - (e.inclusiveRight ? 1 : 0);
+            if (!(0 <= h2 && 0 >= k || 0 >= h2 && 0 <= k) && (0 >= h2 && (f.marker.inclusiveRight && e.inclusiveLeft ? 0 <= B(g.to, d2) : 0 < B(g.to, d2)) || 0 <= h2 && (f.marker.inclusiveRight && e.inclusiveLeft ? 0 >= B(g.from, c) : 0 > B(g.from, c))))
+              return true;
+          }
+        }
+    }
+    function za(a) {
+      for (var b; b = sb(a, true); )
+        a = b.find(-1, true).line;
+      return a;
+    }
+    function xd(a, b) {
+      a = w(a, b);
+      var d2 = za(a);
+      return a == d2 ? b : N(d2);
+    }
+    function Je(a, b) {
+      if (b > a.lastLine())
+        return b;
+      var d2 = w(a, b);
+      if (!Pa(a, d2))
+        return b;
+      for (; a = sb(d2, false); )
+        d2 = a.find(1, true).line;
+      return N(d2) + 1;
+    }
+    function Pa(a, b) {
+      var d2 = Ka && b.markedSpans;
+      if (d2) {
+        for (var c, e = 0; e < d2.length; ++e)
+          if (c = d2[e], c.marker.collapsed && (null == c.from || !c.marker.widgetNode && 0 == c.from && c.marker.inclusiveLeft && yd(a, b, c)))
             return true;
       }
-      function Ga(a) {
-        a = za(a);
-        for (var b = 0, d2 = a.parent, c = 0; c < d2.lines.length; ++c) {
-          var e = d2.lines[c];
-          if (e == a)
-            break;
-          else
-            b += e.height;
+    }
+    function yd(a, b, d2) {
+      if (null == d2.to)
+        return b = d2.marker.find(1, true), yd(a, b.line, Pb(b.line.markedSpans, d2.marker));
+      if (d2.marker.inclusiveRight && d2.to == b.text.length)
+        return true;
+      for (var c, e = 0; e < b.markedSpans.length; ++e)
+        if (c = b.markedSpans[e], c.marker.collapsed && !c.marker.widgetNode && c.from == d2.to && (null == c.to || c.to != d2.from) && (c.marker.inclusiveLeft || d2.marker.inclusiveRight) && yd(a, b, c))
+          return true;
+    }
+    function Ga(a) {
+      a = za(a);
+      for (var b = 0, d2 = a.parent, c = 0; c < d2.lines.length; ++c) {
+        var e = d2.lines[c];
+        if (e == a)
+          break;
+        else
+          b += e.height;
+      }
+      for (a = d2.parent; a; d2 = a, a = d2.parent)
+        for (c = 0; c < a.children.length && (e = a.children[c], e != d2); ++c)
+          b += e.height;
+      return b;
+    }
+    function Ec(a) {
+      if (0 == a.height)
+        return 0;
+      for (var b = a.text.length, d2, c = a; d2 = sb(c, true); )
+        d2 = d2.find(0, true), c = d2.from.line, b += d2.from.ch - d2.to.ch;
+      for (c = a; d2 = sb(c, false); )
+        a = d2.find(0, true), b -= c.text.length - a.from.ch, c = a.to.line, b += c.text.length - a.to.ch;
+      return b;
+    }
+    function zd(a) {
+      var b = a.display;
+      a = a.doc;
+      b.maxLine = w(a, a.first);
+      b.maxLineLength = Ec(b.maxLine);
+      b.maxLineChanged = true;
+      a.iter(function(d2) {
+        var c = Ec(d2);
+        c > b.maxLineLength && (b.maxLineLength = c, b.maxLine = d2);
+      });
+    }
+    function Ke(a, b) {
+      if (!a || /^\s*$/.test(a))
+        return null;
+      b = b.addModeClass ? Ig : Jg;
+      return b[a] || (b[a] = a.replace(
+        /\S+/g,
+        "cm-$&"
+      ));
+    }
+    function Le(a, b) {
+      var d2 = M("span", null, null, fa ? "padding-right: .1px" : null);
+      d2 = { pre: M("pre", [d2], "CodeMirror-line"), content: d2, col: 0, pos: 0, cm: a, trailingSpace: false, splitSpaces: a.getOption("lineWrapping") };
+      b.measure = {};
+      for (var c = 0; c <= (b.rest ? b.rest.length : 0); c++) {
+        var e = c ? b.rest[c - 1] : b.line, f = void 0;
+        d2.pos = 0;
+        d2.addToken = Kg;
+        var g = a.display.measure;
+        if (null != Ad)
+          g = Ad;
+        else {
+          var h2 = D(g, document.createTextNode("AخA")), k = Qb(h2, 0, 1).getBoundingClientRect();
+          h2 = Qb(h2, 1, 2).getBoundingClientRect();
+          E(g);
+          g = k && k.left != k.right ? Ad = 3 > h2.right - k.right : false;
         }
-        for (a = d2.parent; a; d2 = a, a = d2.parent)
-          for (c = 0; c < a.children.length && (e = a.children[c], e != d2); ++c)
-            b += e.height;
-        return b;
+        g && (f = Ja(e, a.doc.direction)) && (d2.addToken = Lg(d2.addToken, f));
+        d2.map = [];
+        var l = b != a.display.externalMeasured && N(e);
+        a: {
+          var m2 = h2 = k = g = void 0, n = void 0, p = void 0, q = void 0;
+          f = d2;
+          l = Ae(a, e, l);
+          var r = e.markedSpans, u = e.text, A = 0;
+          if (r)
+            for (var Y = u.length, x = 0, P = 1, K = "", Q = 0; ; ) {
+              if (Q == x) {
+                n = m2 = h2 = p = "";
+                k = g = null;
+                Q = Infinity;
+                for (var S = [], F = void 0, R2 = 0; R2 < r.length; ++R2) {
+                  var H = r[R2], L = H.marker;
+                  if ("bookmark" == L.type && H.from == x && L.widgetNode)
+                    S.push(L);
+                  else if (H.from <= x && (null == H.to || H.to > x || L.collapsed && H.to == x && H.from == x)) {
+                    null != H.to && H.to != x && Q > H.to && (Q = H.to, m2 = "");
+                    L.className && (n += " " + L.className);
+                    L.css && (p = (p ? p + ";" : "") + L.css);
+                    L.startStyle && H.from == x && (h2 += " " + L.startStyle);
+                    L.endStyle && H.to == Q && (F || (F = [])).push(L.endStyle, H.to);
+                    L.title && ((g || (g = {})).title = L.title);
+                    if (L.attributes)
+                      for (var ha in L.attributes)
+                        (g || (g = {}))[ha] = L.attributes[ha];
+                    L.collapsed && (!k || 0 > wd(k.marker, L)) && (k = H);
+                  } else
+                    H.from > x && Q > H.from && (Q = H.from);
+                }
+                if (F)
+                  for (R2 = 0; R2 < F.length; R2 += 2)
+                    F[R2 + 1] == Q && (m2 += " " + F[R2]);
+                if (!k || k.from == x)
+                  for (F = 0; F < S.length; ++F)
+                    Me(
+                      f,
+                      0,
+                      S[F]
+                    );
+                if (k && (k.from || 0) == x) {
+                  Me(f, (null == k.to ? Y + 1 : k.to) - x, k.marker, null == k.from);
+                  if (null == k.to)
+                    break a;
+                  k.to == x && (k = false);
+                }
+              }
+              if (x >= Y)
+                break;
+              for (S = Math.min(Y, Q); ; ) {
+                if (K) {
+                  F = x + K.length;
+                  k || (R2 = F > S ? K.slice(0, S - x) : K, f.addToken(f, R2, q ? q + n : n, h2, x + R2.length == Q ? m2 : "", p, g));
+                  if (F >= S) {
+                    K = K.slice(S - x);
+                    x = S;
+                    break;
+                  }
+                  x = F;
+                  h2 = "";
+                }
+                K = u.slice(A, A = l[P++]);
+                q = Ke(l[P++], f.cm.options);
+              }
+            }
+          else
+            for (g = 1; g < l.length; g += 2)
+              f.addToken(f, u.slice(A, A = l[g]), Ke(l[g + 1], f.cm.options));
+        }
+        e.styleClasses && (e.styleClasses.bgClass && (d2.bgClass = fd(
+          e.styleClasses.bgClass,
+          d2.bgClass || ""
+        )), e.styleClasses.textClass && (d2.textClass = fd(e.styleClasses.textClass, d2.textClass || "")));
+        0 == d2.map.length && (e = d2.map, f = e.push, g = d2.content, k = g.appendChild, h2 = a.display.measure, null == Bd && (m2 = v2("span", "​"), D(h2, v2("span", [m2, document.createTextNode("x")])), 0 != h2.firstChild.offsetHeight && (Bd = 1 >= m2.offsetWidth && 2 < m2.offsetHeight && !(G && 8 > T))), h2 = Bd ? v2("span", "​") : v2("span", " ", null, "display: inline-block; width: 1px; margin-right: -1px"), h2.setAttribute("cm-text", ""), f.call(e, 0, 0, k.call(
+          g,
+          h2
+        )));
+        0 == c ? (b.measure.map = d2.map, b.measure.cache = {}) : ((b.measure.maps || (b.measure.maps = [])).push(d2.map), (b.measure.caches || (b.measure.caches = [])).push({}));
       }
-      function Ec(a) {
-        if (0 == a.height)
-          return 0;
-        for (var b = a.text.length, d2, c = a; d2 = sb(c, true); )
-          d2 = d2.find(0, true), c = d2.from.line, b += d2.from.ch - d2.to.ch;
-        for (c = a; d2 = sb(c, false); )
-          a = d2.find(0, true), b -= c.text.length - a.from.ch, c = a.to.line, b += c.text.length - a.to.ch;
-        return b;
+      fa && (ha = d2.content.lastChild, /\bcm-tab\b/.test(ha.className) || ha.querySelector && ha.querySelector(".cm-tab")) && (d2.content.className = "cm-tab-wrap-hack");
+      W(a, "renderLine", a, b.line, d2.pre);
+      d2.pre.className && (d2.textClass = fd(d2.pre.className, d2.textClass || ""));
+      return d2;
+    }
+    function Mg(a) {
+      var b = v2("span", "•", "cm-invalidchar");
+      b.title = "\\u" + a.charCodeAt(0).toString(16);
+      b.setAttribute("aria-label", b.title);
+      return b;
+    }
+    function Kg(a, b, d2, c, e, f, g) {
+      if (b) {
+        if (a.splitSpaces) {
+          var h2 = a.trailingSpace;
+          if (1 < b.length && !/  /.test(b))
+            h2 = b;
+          else {
+            for (var k = "", l = 0; l < b.length; l++) {
+              var m2 = b.charAt(l);
+              " " != m2 || !h2 || l != b.length - 1 && 32 != b.charCodeAt(l + 1) || (m2 = " ");
+              k += m2;
+              h2 = " " == m2;
+            }
+            h2 = k;
+          }
+        } else
+          h2 = b;
+        k = h2;
+        l = a.cm.state.specialChars;
+        m2 = false;
+        if (l.test(b)) {
+          h2 = document.createDocumentFragment();
+          for (var n = 0; ; ) {
+            l.lastIndex = n;
+            var p = l.exec(b), q = p ? p.index - n : b.length - n;
+            if (q) {
+              var r = document.createTextNode(k.slice(n, n + q));
+              G && 9 > T ? h2.appendChild(v2("span", [r])) : h2.appendChild(r);
+              a.map.push(a.pos, a.pos + q, r);
+              a.col += q;
+              a.pos += q;
+            }
+            if (!p)
+              break;
+            n += q + 1;
+            "	" == p[0] ? (p = a.cm.options.tabSize, p -= a.col % p, q = h2.appendChild(v2("span", id(p), "cm-tab")), q.setAttribute("role", "presentation"), q.setAttribute("cm-text", "	"), a.col += p) : ("\r" == p[0] || "\n" == p[0] ? (q = h2.appendChild(v2("span", "\r" == p[0] ? "␍" : "␤", "cm-invalidchar")), q.setAttribute("cm-text", p[0])) : (q = a.cm.options.specialCharPlaceholder(p[0]), q.setAttribute("cm-text", p[0]), G && 9 > T ? h2.appendChild(v2("span", [q])) : h2.appendChild(q)), a.col += 1);
+            a.map.push(a.pos, a.pos + 1, q);
+            a.pos++;
+          }
+        } else
+          a.col += b.length, h2 = document.createTextNode(k), a.map.push(a.pos, a.pos + b.length, h2), G && 9 > T && (m2 = true), a.pos += b.length;
+        a.trailingSpace = 32 == k.charCodeAt(b.length - 1);
+        if (d2 || c || e || m2 || f || g) {
+          b = d2 || "";
+          c && (b += c);
+          e && (b += e);
+          c = v2("span", [h2], b, f);
+          if (g)
+            for (var u in g)
+              g.hasOwnProperty(u) && "style" != u && "class" != u && c.setAttribute(u, g[u]);
+          return a.content.appendChild(c);
+        }
+        a.content.appendChild(h2);
       }
-      function zd(a) {
-        var b = a.display;
-        a = a.doc;
-        b.maxLine = w(a, a.first);
-        b.maxLineLength = Ec(b.maxLine);
-        b.maxLineChanged = true;
-        a.iter(function(d2) {
-          var c = Ec(d2);
-          c > b.maxLineLength && (b.maxLineLength = c, b.maxLine = d2);
-        });
+    }
+    function Lg(a, b) {
+      return function(d2, c, e, f, g, h2, k) {
+        e = e ? e + " cm-force-border" : "cm-force-border";
+        for (var l = d2.pos, m2 = l + c.length; ; ) {
+          for (var n = void 0, p = 0; p < b.length && !(n = b[p], n.to > l && n.from <= l); p++)
+            ;
+          if (n.to >= m2)
+            return a(d2, c, e, f, g, h2, k);
+          a(d2, c.slice(0, n.to - l), e, f, null, h2, k);
+          f = null;
+          c = c.slice(n.to - l);
+          l = n.to;
+        }
+      };
+    }
+    function Me(a, b, d2, c) {
+      var e = !c && d2.widgetNode;
+      e && a.map.push(a.pos, a.pos + b, e);
+      !c && a.cm.display.input.needsContentAttribute && (e || (e = a.content.appendChild(document.createElement("span"))), e.setAttribute("cm-marker", d2.id));
+      e && (a.cm.display.input.setUneditable(e), a.content.appendChild(e));
+      a.pos += b;
+      a.trailingSpace = false;
+    }
+    function Ne(a, b, d2) {
+      for (var c = this.line = b, e; c = sb(c, false); )
+        c = c.find(1, true).line, (e || (e = [])).push(c);
+      this.size = (this.rest = e) ? N(J(this.rest)) - d2 + 1 : 1;
+      this.node = this.text = null;
+      this.hidden = Pa(a, b);
+    }
+    function Fc(a, b, d2) {
+      var c = [], e;
+      for (e = b; e < d2; )
+        b = new Ne(a.doc, w(a.doc, e), e), e += b.size, c.push(b);
+      return c;
+    }
+    function Ng(a, b) {
+      if (a = a.ownsGroup)
+        try {
+          var d2 = a.delayedCallbacks, c = 0;
+          do {
+            for (; c < d2.length; c++)
+              d2[c].call(null);
+            for (var e = 0; e < a.ops.length; e++) {
+              var f = a.ops[e];
+              if (f.cursorActivityHandlers)
+                for (; f.cursorActivityCalled < f.cursorActivityHandlers.length; )
+                  f.cursorActivityHandlers[f.cursorActivityCalled++].call(null, f.cm);
+            }
+          } while (c < d2.length);
+        } finally {
+          tb = null, b(a);
+        }
+    }
+    function aa(a, b) {
+      var d2 = a._handlers && a._handlers[b] || yc;
+      if (d2.length) {
+        var c = Array.prototype.slice.call(arguments, 2);
+        if (tb)
+          var e = tb.delayedCallbacks;
+        else
+          Rb ? e = Rb : (e = Rb = [], setTimeout(Og, 0));
+        for (var f = function(h2) {
+          e.push(function() {
+            return d2[h2].apply(null, c);
+          });
+        }, g = 0; g < d2.length; ++g)
+          f(g);
       }
-      function Ke(a, b) {
-        if (!a || /^\s*$/.test(a))
-          return null;
-        b = b.addModeClass ? Ig : Jg;
-        return b[a] || (b[a] = a.replace(
-          /\S+/g,
-          "cm-$&"
+    }
+    function Og() {
+      var a = Rb;
+      Rb = null;
+      for (var b = 0; b < a.length; ++b)
+        a[b]();
+    }
+    function Oe(a, b, d2, c) {
+      for (var e = 0; e < b.changes.length; e++) {
+        var f = b.changes[e];
+        if ("text" == f) {
+          f = a;
+          var g = b, h2 = g.text.className, k = Pe(f, g);
+          g.text == g.node && (g.node = k.pre);
+          g.text.parentNode.replaceChild(k.pre, g.text);
+          g.text = k.pre;
+          k.bgClass != g.bgClass || k.textClass != g.textClass ? (g.bgClass = k.bgClass, g.textClass = k.textClass, Cd(f, g)) : h2 && (g.text.className = h2);
+        } else if ("gutter" == f)
+          Qe(a, b, d2, c);
+        else if ("class" == f)
+          Cd(a, b);
+        else if ("widget" == f) {
+          f = a;
+          g = b;
+          h2 = c;
+          g.alignable && (g.alignable = null);
+          k = y2("CodeMirror-linewidget");
+          for (var l = g.node.firstChild, m2; l; l = m2)
+            m2 = l.nextSibling, k.test(l.className) && g.node.removeChild(l);
+          Re(f, g, h2);
+        }
+      }
+      b.changes = null;
+    }
+    function Sb(a) {
+      a.node == a.text && (a.node = v2("div", null, null, "position: relative"), a.text.parentNode && a.text.parentNode.replaceChild(a.node, a.text), a.node.appendChild(a.text), G && 8 > T && (a.node.style.zIndex = 2));
+      return a.node;
+    }
+    function Pe(a, b) {
+      var d2 = a.display.externalMeasured;
+      return d2 && d2.line == b.line ? (a.display.externalMeasured = null, b.measure = d2.measure, d2.built) : Le(a, b);
+    }
+    function Cd(a, b) {
+      var d2 = b.bgClass ? b.bgClass + " " + (b.line.bgClass || "") : b.line.bgClass;
+      d2 && (d2 += " CodeMirror-linebackground");
+      if (b.background)
+        d2 ? b.background.className = d2 : (b.background.parentNode.removeChild(b.background), b.background = null);
+      else if (d2) {
+        var c = Sb(b);
+        b.background = c.insertBefore(v2("div", null, d2), c.firstChild);
+        a.display.input.setUneditable(b.background);
+      }
+      b.line.wrapClass ? Sb(b).className = b.line.wrapClass : b.node != b.text && (b.node.className = "");
+      b.text.className = (b.textClass ? b.textClass + " " + (b.line.textClass || "") : b.line.textClass) || "";
+    }
+    function Qe(a, b, d2, c) {
+      b.gutter && (b.node.removeChild(b.gutter), b.gutter = null);
+      b.gutterBackground && (b.node.removeChild(b.gutterBackground), b.gutterBackground = null);
+      if (b.line.gutterClass) {
+        var e = Sb(b);
+        b.gutterBackground = v2("div", null, "CodeMirror-gutter-background " + b.line.gutterClass, "left: " + (a.options.fixedGutter ? c.fixedPos : -c.gutterTotalWidth) + "px; width: " + c.gutterTotalWidth + "px");
+        a.display.input.setUneditable(b.gutterBackground);
+        e.insertBefore(b.gutterBackground, b.text);
+      }
+      e = b.line.gutterMarkers;
+      if (a.options.lineNumbers || e) {
+        var f = Sb(b), g = b.gutter = v2("div", null, "CodeMirror-gutter-wrapper", "left: " + (a.options.fixedGutter ? c.fixedPos : -c.gutterTotalWidth) + "px");
+        g.setAttribute("aria-hidden", "true");
+        a.display.input.setUneditable(g);
+        f.insertBefore(g, b.text);
+        b.line.gutterClass && (g.className += " " + b.line.gutterClass);
+        !a.options.lineNumbers || e && e["CodeMirror-linenumbers"] || (b.lineNumber = g.appendChild(v2("div", qd(a.options, d2), "CodeMirror-linenumber CodeMirror-gutter-elt", "left: " + c.gutterLeft["CodeMirror-linenumbers"] + "px; width: " + a.display.lineNumInnerWidth + "px")));
+        if (e)
+          for (b = 0; b < a.display.gutterSpecs.length; ++b)
+            d2 = a.display.gutterSpecs[b].className, (f = e.hasOwnProperty(d2) && e[d2]) && g.appendChild(v2("div", [f], "CodeMirror-gutter-elt", "left: " + c.gutterLeft[d2] + "px; width: " + c.gutterWidth[d2] + "px"));
+      }
+    }
+    function Pg(a, b, d2, c) {
+      var e = Pe(a, b);
+      b.text = b.node = e.pre;
+      e.bgClass && (b.bgClass = e.bgClass);
+      e.textClass && (b.textClass = e.textClass);
+      Cd(a, b);
+      Qe(a, b, d2, c);
+      Re(a, b, c);
+      return b.node;
+    }
+    function Re(a, b, d2) {
+      Se(a, b.line, b, d2, true);
+      if (b.rest)
+        for (var c = 0; c < b.rest.length; c++)
+          Se(
+            a,
+            b.rest[c],
+            b,
+            d2,
+            false
+          );
+    }
+    function Se(a, b, d2, c, e) {
+      if (b.widgets) {
+        var f = Sb(d2), g = 0;
+        for (b = b.widgets; g < b.length; ++g) {
+          var h2 = b[g], k = v2("div", [h2.node], "CodeMirror-linewidget" + (h2.className ? " " + h2.className : ""));
+          h2.handleMouseEvents || k.setAttribute("cm-ignore-events", "true");
+          var l = h2, m2 = k, n = c;
+          if (l.noHScroll) {
+            (d2.alignable || (d2.alignable = [])).push(m2);
+            var p = n.wrapperWidth;
+            m2.style.left = n.fixedPos + "px";
+            l.coverGutter || (p -= n.gutterTotalWidth, m2.style.paddingLeft = n.gutterTotalWidth + "px");
+            m2.style.width = p + "px";
+          }
+          l.coverGutter && (m2.style.zIndex = 5, m2.style.position = "relative", l.noHScroll || (m2.style.marginLeft = -n.gutterTotalWidth + "px"));
+          a.display.input.setUneditable(k);
+          e && h2.above ? f.insertBefore(k, d2.gutter || d2.text) : f.appendChild(k);
+          aa(h2, "redraw");
+        }
+      }
+    }
+    function Tb(a) {
+      if (null != a.height)
+        return a.height;
+      var b = a.doc.cm;
+      if (!b)
+        return 0;
+      if (!ja(document.body, a.node)) {
+        var d2 = "position: relative;";
+        a.coverGutter && (d2 += "margin-left: -" + b.display.gutters.offsetWidth + "px;");
+        a.noHScroll && (d2 += "width: " + b.display.wrapper.clientWidth + "px;");
+        D(b.display.measure, v2(
+          "div",
+          [a.node],
+          null,
+          d2
         ));
       }
-      function Le(a, b) {
-        var d2 = M("span", null, null, fa ? "padding-right: .1px" : null);
-        d2 = { pre: M("pre", [d2], "CodeMirror-line"), content: d2, col: 0, pos: 0, cm: a, trailingSpace: false, splitSpaces: a.getOption("lineWrapping") };
-        b.measure = {};
-        for (var c = 0; c <= (b.rest ? b.rest.length : 0); c++) {
-          var e = c ? b.rest[c - 1] : b.line, f = void 0;
-          d2.pos = 0;
-          d2.addToken = Kg;
-          var g = a.display.measure;
-          if (null != Ad)
-            g = Ad;
-          else {
-            var h2 = D(g, document.createTextNode("AخA")), k = Qb(h2, 0, 1).getBoundingClientRect();
-            h2 = Qb(h2, 1, 2).getBoundingClientRect();
-            E(g);
-            g = k && k.left != k.right ? Ad = 3 > h2.right - k.right : false;
-          }
-          g && (f = Ja(e, a.doc.direction)) && (d2.addToken = Lg(d2.addToken, f));
-          d2.map = [];
-          var l = b != a.display.externalMeasured && N(e);
-          a: {
-            var m2 = h2 = k = g = void 0, n = void 0, p = void 0, q = void 0;
-            f = d2;
-            l = Ae(a, e, l);
-            var r = e.markedSpans, u = e.text, A = 0;
-            if (r)
-              for (var Y = u.length, x = 0, P = 1, K = "", Q = 0; ; ) {
-                if (Q == x) {
-                  n = m2 = h2 = p = "";
-                  k = g = null;
-                  Q = Infinity;
-                  for (var S = [], F = void 0, R2 = 0; R2 < r.length; ++R2) {
-                    var H = r[R2], L = H.marker;
-                    if ("bookmark" == L.type && H.from == x && L.widgetNode)
-                      S.push(L);
-                    else if (H.from <= x && (null == H.to || H.to > x || L.collapsed && H.to == x && H.from == x)) {
-                      null != H.to && H.to != x && Q > H.to && (Q = H.to, m2 = "");
-                      L.className && (n += " " + L.className);
-                      L.css && (p = (p ? p + ";" : "") + L.css);
-                      L.startStyle && H.from == x && (h2 += " " + L.startStyle);
-                      L.endStyle && H.to == Q && (F || (F = [])).push(L.endStyle, H.to);
-                      L.title && ((g || (g = {})).title = L.title);
-                      if (L.attributes)
-                        for (var ha in L.attributes)
-                          (g || (g = {}))[ha] = L.attributes[ha];
-                      L.collapsed && (!k || 0 > wd(k.marker, L)) && (k = H);
-                    } else
-                      H.from > x && Q > H.from && (Q = H.from);
-                  }
-                  if (F)
-                    for (R2 = 0; R2 < F.length; R2 += 2)
-                      F[R2 + 1] == Q && (m2 += " " + F[R2]);
-                  if (!k || k.from == x)
-                    for (F = 0; F < S.length; ++F)
-                      Me(
-                        f,
-                        0,
-                        S[F]
-                      );
-                  if (k && (k.from || 0) == x) {
-                    Me(f, (null == k.to ? Y + 1 : k.to) - x, k.marker, null == k.from);
-                    if (null == k.to)
-                      break a;
-                    k.to == x && (k = false);
-                  }
-                }
-                if (x >= Y)
-                  break;
-                for (S = Math.min(Y, Q); ; ) {
-                  if (K) {
-                    F = x + K.length;
-                    k || (R2 = F > S ? K.slice(0, S - x) : K, f.addToken(f, R2, q ? q + n : n, h2, x + R2.length == Q ? m2 : "", p, g));
-                    if (F >= S) {
-                      K = K.slice(S - x);
-                      x = S;
-                      break;
-                    }
-                    x = F;
-                    h2 = "";
-                  }
-                  K = u.slice(A, A = l[P++]);
-                  q = Ke(l[P++], f.cm.options);
-                }
+      return a.height = a.node.parentNode.offsetHeight;
+    }
+    function La(a, b) {
+      for (b = b.target || b.srcElement; b != a.wrapper; b = b.parentNode)
+        if (!b || 1 == b.nodeType && "true" == b.getAttribute("cm-ignore-events") || b.parentNode == a.sizer && b != a.mover)
+          return true;
+    }
+    function Dd(a) {
+      return a.mover.offsetHeight - a.lineSpace.offsetHeight;
+    }
+    function Te(a) {
+      if (a.cachedPaddingH)
+        return a.cachedPaddingH;
+      var b = D(a.measure, v2("pre", "x", "CodeMirror-line-like"));
+      b = window.getComputedStyle ? window.getComputedStyle(b) : b.currentStyle;
+      b = {
+        left: parseInt(b.paddingLeft),
+        right: parseInt(b.paddingRight)
+      };
+      isNaN(b.left) || isNaN(b.right) || (a.cachedPaddingH = b);
+      return b;
+    }
+    function Ha(a) {
+      return 50 - a.display.nativeBarWidth;
+    }
+    function cb(a) {
+      return a.display.scroller.clientWidth - Ha(a) - a.display.barWidth;
+    }
+    function Ed(a) {
+      return a.display.scroller.clientHeight - Ha(a) - a.display.barHeight;
+    }
+    function Ue(a, b, d2) {
+      if (a.line == b)
+        return { map: a.measure.map, cache: a.measure.cache };
+      if (a.rest) {
+        for (var c = 0; c < a.rest.length; c++)
+          if (a.rest[c] == b)
+            return { map: a.measure.maps[c], cache: a.measure.caches[c] };
+        for (b = 0; b < a.rest.length; b++)
+          if (N(a.rest[b]) > d2)
+            return { map: a.measure.maps[b], cache: a.measure.caches[b], before: true };
+      }
+    }
+    function Fd(a, b) {
+      if (b >= a.display.viewFrom && b < a.display.viewTo)
+        return a.display.view[db(a, b)];
+      if ((a = a.display.externalMeasured) && b >= a.lineN && b < a.lineN + a.size)
+        return a;
+    }
+    function eb(a, b) {
+      var d2 = N(b), c = Fd(a, d2);
+      c && !c.text ? c = null : c && c.changes && (Oe(a, c, d2, Gd(a)), a.curOp.forceUpdate = true);
+      if (!c) {
+        var e = za(b);
+        c = N(e);
+        e = a.display.externalMeasured = new Ne(a.doc, e, c);
+        e.lineN = c;
+        c = e.built = Le(a, e);
+        e.text = c.pre;
+        D(
+          a.display.lineMeasure,
+          c.pre
+        );
+        c = e;
+      }
+      a = Ue(c, b, d2);
+      return { line: b, view: c, rect: null, map: a.map, cache: a.cache, before: a.before, hasHeights: false };
+    }
+    function Aa(a, b, d2, c, e) {
+      b.before && (d2 = -1);
+      var f = d2 + (c || "");
+      if (b.cache.hasOwnProperty(f))
+        a = b.cache[f];
+      else {
+        b.rect || (b.rect = b.view.text.getBoundingClientRect());
+        if (!b.hasHeights) {
+          var g = b.view, h2 = b.rect, k = a.options.lineWrapping, l = k && cb(a);
+          if (!g.measure.heights || k && g.measure.width != l) {
+            var m2 = g.measure.heights = [];
+            if (k)
+              for (g.measure.width = l, g = g.text.firstChild.getClientRects(), k = 0; k < g.length - 1; k++) {
+                l = g[k];
+                var n = g[k + 1];
+                2 < Math.abs(l.bottom - n.bottom) && m2.push((l.bottom + n.top) / 2 - h2.top);
               }
-            else
-              for (g = 1; g < l.length; g += 2)
-                f.addToken(f, u.slice(A, A = l[g]), Ke(l[g + 1], f.cm.options));
+            m2.push(h2.bottom - h2.top);
           }
-          e.styleClasses && (e.styleClasses.bgClass && (d2.bgClass = fd(
-            e.styleClasses.bgClass,
-            d2.bgClass || ""
-          )), e.styleClasses.textClass && (d2.textClass = fd(e.styleClasses.textClass, d2.textClass || "")));
-          0 == d2.map.length && (e = d2.map, f = e.push, g = d2.content, k = g.appendChild, h2 = a.display.measure, null == Bd && (m2 = v2("span", "​"), D(h2, v2("span", [m2, document.createTextNode("x")])), 0 != h2.firstChild.offsetHeight && (Bd = 1 >= m2.offsetWidth && 2 < m2.offsetHeight && !(G && 8 > T))), h2 = Bd ? v2("span", "​") : v2("span", " ", null, "display: inline-block; width: 1px; margin-right: -1px"), h2.setAttribute("cm-text", ""), f.call(e, 0, 0, k.call(
-            g,
-            h2
-          )));
-          0 == c ? (b.measure.map = d2.map, b.measure.cache = {}) : ((b.measure.maps || (b.measure.maps = [])).push(d2.map), (b.measure.caches || (b.measure.caches = [])).push({}));
+          b.hasHeights = true;
         }
-        fa && (ha = d2.content.lastChild, /\bcm-tab\b/.test(ha.className) || ha.querySelector && ha.querySelector(".cm-tab")) && (d2.content.className = "cm-tab-wrap-hack");
-        W(a, "renderLine", a, b.line, d2.pre);
-        d2.pre.className && (d2.textClass = fd(d2.pre.className, d2.textClass || ""));
-        return d2;
-      }
-      function Mg(a) {
-        var b = v2("span", "•", "cm-invalidchar");
-        b.title = "\\u" + a.charCodeAt(0).toString(16);
-        b.setAttribute("aria-label", b.title);
-        return b;
-      }
-      function Kg(a, b, d2, c, e, f, g) {
-        if (b) {
-          if (a.splitSpaces) {
-            var h2 = a.trailingSpace;
-            if (1 < b.length && !/  /.test(b))
-              h2 = b;
+        m2 = c;
+        g = Ve(b.map, d2, m2);
+        c = g.node;
+        h2 = g.start;
+        k = g.end;
+        d2 = g.collapse;
+        if (3 == c.nodeType) {
+          for (var p = 0; 4 > p; p++) {
+            for (; h2 && kd(b.line.text.charAt(g.coverStart + h2)); )
+              --h2;
+            for (; g.coverStart + k < g.coverEnd && kd(b.line.text.charAt(g.coverStart + k)); )
+              ++k;
+            if (G && 9 > T && 0 == h2 && k == g.coverEnd - g.coverStart)
+              var q = c.parentNode.getBoundingClientRect();
             else {
-              for (var k = "", l = 0; l < b.length; l++) {
-                var m2 = b.charAt(l);
-                " " != m2 || !h2 || l != b.length - 1 && 32 != b.charCodeAt(l + 1) || (m2 = " ");
-                k += m2;
-                h2 = " " == m2;
-              }
-              h2 = k;
+              q = Qb(c, h2, k).getClientRects();
+              k = We;
+              if ("left" == m2)
+                for (l = 0; l < q.length && (k = q[l]).left == k.right; l++)
+                  ;
+              else
+                for (l = q.length - 1; 0 <= l && (k = q[l]).left == k.right; l--)
+                  ;
+              q = k;
             }
-          } else
-            h2 = b;
-          k = h2;
-          l = a.cm.state.specialChars;
-          m2 = false;
-          if (l.test(b)) {
-            h2 = document.createDocumentFragment();
-            for (var n = 0; ; ) {
-              l.lastIndex = n;
-              var p = l.exec(b), q = p ? p.index - n : b.length - n;
-              if (q) {
-                var r = document.createTextNode(k.slice(n, n + q));
-                G && 9 > T ? h2.appendChild(v2("span", [r])) : h2.appendChild(r);
-                a.map.push(a.pos, a.pos + q, r);
-                a.col += q;
-                a.pos += q;
-              }
+            if (q.left || q.right || 0 == h2)
+              break;
+            k = h2;
+            --h2;
+            d2 = "right";
+          }
+          G && 11 > T && ((p = !window.screen || null == screen.logicalXDPI || screen.logicalXDPI == screen.deviceXDPI) || (null != Hd ? p = Hd : (m2 = D(a.display.measure, v2("span", "x")), p = m2.getBoundingClientRect(), m2 = Qb(m2, 0, 1).getBoundingClientRect(), p = Hd = 1 < Math.abs(p.left - m2.left)), p = !p), p || (p = screen.logicalXDPI / screen.deviceXDPI, m2 = screen.logicalYDPI / screen.deviceYDPI, q = {
+            left: q.left * p,
+            right: q.right * p,
+            top: q.top * m2,
+            bottom: q.bottom * m2
+          }));
+        } else
+          0 < h2 && (d2 = m2 = "right"), q = a.options.lineWrapping && 1 < (p = c.getClientRects()).length ? p["right" == m2 ? p.length - 1 : 0] : c.getBoundingClientRect();
+        !(G && 9 > T) || h2 || q && (q.left || q.right) || (q = (q = c.parentNode.getClientRects()[0]) ? { left: q.left, right: q.left + ub(a.display), top: q.top, bottom: q.bottom } : We);
+        c = q.top - b.rect.top;
+        h2 = q.bottom - b.rect.top;
+        p = (c + h2) / 2;
+        m2 = b.view.measure.heights;
+        for (g = 0; g < m2.length - 1 && !(p < m2[g]); g++)
+          ;
+        d2 = { left: ("right" == d2 ? q.right : q.left) - b.rect.left, right: ("left" == d2 ? q.left : q.right) - b.rect.left, top: g ? m2[g - 1] : 0, bottom: m2[g] };
+        q.left || q.right || (d2.bogus = true);
+        a.options.singleCursorHeightPerLine || (d2.rtop = c, d2.rbottom = h2);
+        a = d2;
+        a.bogus || (b.cache[f] = a);
+      }
+      return { left: a.left, right: a.right, top: e ? a.rtop : a.top, bottom: e ? a.rbottom : a.bottom };
+    }
+    function Ve(a, b, d2) {
+      for (var c, e, f, g, h2, k, l = 0; l < a.length; l += 3) {
+        h2 = a[l];
+        k = a[l + 1];
+        if (b < h2)
+          e = 0, f = 1, g = "left";
+        else if (b < k)
+          e = b - h2, f = e + 1;
+        else if (l == a.length - 3 || b == k && a[l + 3] > b)
+          f = k - h2, e = f - 1, b >= k && (g = "right");
+        if (null != e) {
+          c = a[l + 2];
+          h2 == k && d2 == (c.insertLeft ? "left" : "right") && (g = d2);
+          if ("left" == d2 && 0 == e)
+            for (; l && a[l - 2] == a[l - 3] && a[l - 1].insertLeft; )
+              c = a[(l -= 3) + 2], g = "left";
+          if ("right" == d2 && e == k - h2)
+            for (; l < a.length - 3 && a[l + 3] == a[l + 4] && !a[l + 5].insertLeft; )
+              c = a[(l += 3) + 2], g = "right";
+          break;
+        }
+      }
+      return { node: c, start: e, end: f, collapse: g, coverStart: h2, coverEnd: k };
+    }
+    function Xe(a) {
+      if (a.measure && (a.measure.cache = {}, a.measure.heights = null, a.rest))
+        for (var b = 0; b < a.rest.length; b++)
+          a.measure.caches[b] = {};
+    }
+    function Ye(a) {
+      a.display.externalMeasure = null;
+      E(a.display.lineMeasure);
+      for (var b = 0; b < a.display.view.length; b++)
+        Xe(a.display.view[b]);
+    }
+    function Ub(a) {
+      Ye(a);
+      a.display.cachedCharWidth = a.display.cachedTextHeight = a.display.cachedPaddingH = null;
+      a.options.lineWrapping || (a.display.maxLineChanged = true);
+      a.display.lineNumChars = null;
+    }
+    function Ze(a) {
+      return Qa && Gc ? -(a.body.getBoundingClientRect().left - parseInt(getComputedStyle(a.body).marginLeft)) : a.defaultView.pageXOffset || (a.documentElement || a.body).scrollLeft;
+    }
+    function $e(a) {
+      return Qa && Gc ? -(a.body.getBoundingClientRect().top - parseInt(getComputedStyle(a.body).marginTop)) : a.defaultView.pageYOffset || (a.documentElement || a.body).scrollTop;
+    }
+    function Id(a) {
+      a = za(a).widgets;
+      var b = 0;
+      if (a)
+        for (var d2 = 0; d2 < a.length; ++d2)
+          a[d2].above && (b += Tb(a[d2]));
+      return b;
+    }
+    function Hc(a, b, d2, c, e) {
+      e || (e = Id(b), d2.top += e, d2.bottom += e);
+      if ("line" == c)
+        return d2;
+      c || (c = "local");
+      b = Ga(b);
+      b = "local" == c ? b + a.display.lineSpace.offsetTop : b - a.display.viewOffset;
+      if ("page" == c || "window" == c)
+        e = a.display.lineSpace.getBoundingClientRect(), b += e.top + ("window" == c ? 0 : $e(qa(a))), a = e.left + ("window" == c ? 0 : Ze(qa(a))), d2.left += a, d2.right += a;
+      d2.top += b;
+      d2.bottom += b;
+      return d2;
+    }
+    function af(a, b, d2) {
+      if ("div" == d2)
+        return b;
+      var c = b.left;
+      b = b.top;
+      "page" == d2 ? (c -= Ze(qa(a)), b -= $e(qa(a))) : "local" != d2 && d2 || (d2 = a.display.sizer.getBoundingClientRect(), c += d2.left, b += d2.top);
+      a = a.display.lineSpace.getBoundingClientRect();
+      return { left: c - a.left, top: b - a.top };
+    }
+    function Ic(a, b, d2, c, e) {
+      c || (c = w(a.doc, b.line));
+      var f = c;
+      b = b.ch;
+      c = Aa(a, eb(a, c), b, e);
+      return Hc(a, f, c, d2);
+    }
+    function Ba(a, b, d2, c, e, f) {
+      function g(p, q) {
+        p = Aa(a, e, p, q ? "right" : "left", f);
+        q ? p.left = p.right : p.right = p.left;
+        return Hc(a, c, p, d2);
+      }
+      function h2(p, q, r) {
+        return g(r ? p - 1 : p, 1 == k[q].level != r);
+      }
+      c = c || w(a.doc, b.line);
+      e || (e = eb(a, c));
+      var k = Ja(c, a.doc.direction), l = b.ch;
+      b = b.sticky;
+      l >= c.text.length ? (l = c.text.length, b = "before") : 0 >= l && (l = 0, b = "after");
+      if (!k)
+        return g("before" == b ? l - 1 : l, "before" == b);
+      var m2 = Kb(k, l, b), n = Lb;
+      m2 = h2(l, m2, "before" == b);
+      null != n && (m2.other = h2(l, n, "before" != b));
+      return m2;
+    }
+    function bf(a, b) {
+      var d2 = 0;
+      b = C(a.doc, b);
+      a.options.lineWrapping || (d2 = ub(a.display) * b.ch);
+      b = w(a.doc, b.line);
+      a = Ga(b) + a.display.lineSpace.offsetTop;
+      return { left: d2, right: d2, top: a, bottom: a + b.height };
+    }
+    function Jd(a, b, d2, c, e) {
+      a = t(a, b, d2);
+      a.xRel = e;
+      c && (a.outside = c);
+      return a;
+    }
+    function Kd(a, b, d2) {
+      var c = a.doc;
+      d2 += a.display.viewOffset;
+      if (0 > d2)
+        return Jd(c.first, 0, null, -1, -1);
+      var e = bb(c, d2), f = c.first + c.size - 1;
+      if (e > f)
+        return Jd(c.first + c.size - 1, w(c, f).text.length, null, 1, 1);
+      0 > b && (b = 0);
+      for (var g = w(c, e); ; ) {
+        f = Qg(a, g, e, b, d2);
+        var h2 = void 0;
+        var k = f.ch + (0 < f.xRel || 0 < f.outside ? 1 : 0);
+        if (g = Ka && g.markedSpans)
+          for (var l = 0; l < g.length; ++l) {
+            var m2 = g[l];
+            m2.marker.collapsed && (null == m2.from || m2.from < k) && (null == m2.to || m2.to > k) && (!h2 || 0 > wd(h2, m2.marker)) && (h2 = m2.marker);
+          }
+        if (!h2)
+          return f;
+        f = h2.find(1);
+        if (f.line == e)
+          return f;
+        g = w(c, e = f.line);
+      }
+    }
+    function cf(a, b, d2, c) {
+      c -= Id(b);
+      b = b.text.length;
+      var e = Jb(function(f) {
+        return Aa(a, d2, f - 1).bottom <= c;
+      }, b, 0);
+      b = Jb(function(f) {
+        return Aa(a, d2, f).top > c;
+      }, e, b);
+      return { begin: e, end: b };
+    }
+    function df(a, b, d2, c) {
+      d2 || (d2 = eb(a, b));
+      c = Hc(a, b, Aa(a, d2, c), "line").top;
+      return cf(a, b, d2, c);
+    }
+    function Ld(a, b, d2, c) {
+      return a.bottom <= d2 ? false : a.top > d2 ? true : (c ? a.left : a.right) > b;
+    }
+    function Qg(a, b, d2, c, e) {
+      e -= Ga(b);
+      var f = eb(a, b), g = Id(b), h2 = 0, k = b.text.length, l = true, m2 = Ja(b, a.doc.direction);
+      m2 && (m2 = (a.options.lineWrapping ? Rg : Sg)(a, b, d2, f, m2, c, e), h2 = (l = 1 != m2.level) ? m2.from : m2.to - 1, k = l ? m2.to : m2.from - 1);
+      var n = null, p = null;
+      m2 = Jb(function(r) {
+        var u = Aa(a, f, r);
+        u.top += g;
+        u.bottom += g;
+        if (!Ld(u, c, e, false))
+          return false;
+        u.top <= e && u.left <= c && (n = r, p = u);
+        return true;
+      }, h2, k);
+      var q = false;
+      p ? (h2 = c - p.left < p.right - c, l = h2 == l, m2 = n + (l ? 0 : 1), l = l ? "after" : "before", h2 = h2 ? p.left : p.right) : (l || m2 != k && m2 != h2 || m2++, l = 0 == m2 ? "after" : m2 == b.text.length ? "before" : Aa(a, f, m2 - (l ? 1 : 0)).bottom + g <= e == l ? "after" : "before", q = Ba(a, t(d2, m2, l), "line", b, f), h2 = q.left, q = e < q.top ? -1 : e >= q.bottom ? 1 : 0);
+      m2 = se(b.text, m2, 1);
+      return Jd(d2, m2, l, q, c - h2);
+    }
+    function Sg(a, b, d2, c, e, f, g) {
+      var h2 = Jb(function(m2) {
+        m2 = e[m2];
+        var n = 1 != m2.level;
+        return Ld(Ba(a, t(d2, n ? m2.to : m2.from, n ? "before" : "after"), "line", b, c), f, g, true);
+      }, 0, e.length - 1), k = e[h2];
+      if (0 < h2) {
+        var l = 1 != k.level;
+        l = Ba(a, t(d2, l ? k.from : k.to, l ? "after" : "before"), "line", b, c);
+        Ld(l, f, g, true) && l.top > g && (k = e[h2 - 1]);
+      }
+      return k;
+    }
+    function Rg(a, b, d2, c, e, f, g) {
+      g = cf(a, b, c, g);
+      d2 = g.begin;
+      g = g.end;
+      /\s/.test(b.text.charAt(g - 1)) && g--;
+      for (var h2 = b = null, k = 0; k < e.length; k++) {
+        var l = e[k];
+        if (!(l.from >= g || l.to <= d2)) {
+          var m2 = Aa(a, c, 1 != l.level ? Math.min(g, l.to) - 1 : Math.max(d2, l.from)).right;
+          m2 = m2 < f ? f - m2 + 1e9 : m2 - f;
+          if (!b || h2 > m2)
+            b = l, h2 = m2;
+        }
+      }
+      b || (b = e[e.length - 1]);
+      b.from < d2 && (b = { from: d2, to: b.to, level: b.level });
+      b.to > g && (b = { from: b.from, to: g, level: b.level });
+      return b;
+    }
+    function vb(a) {
+      if (null != a.cachedTextHeight)
+        return a.cachedTextHeight;
+      if (null == fb) {
+        fb = v2("pre", null, "CodeMirror-line-like");
+        for (var b = 0; 49 > b; ++b)
+          fb.appendChild(document.createTextNode("x")), fb.appendChild(v2("br"));
+        fb.appendChild(document.createTextNode("x"));
+      }
+      D(
+        a.measure,
+        fb
+      );
+      b = fb.offsetHeight / 50;
+      3 < b && (a.cachedTextHeight = b);
+      E(a.measure);
+      return b || 1;
+    }
+    function ub(a) {
+      if (null != a.cachedCharWidth)
+        return a.cachedCharWidth;
+      var b = v2("span", "xxxxxxxxxx"), d2 = v2("pre", [b], "CodeMirror-line-like");
+      D(a.measure, d2);
+      b = b.getBoundingClientRect();
+      b = (b.right - b.left) / 10;
+      2 < b && (a.cachedCharWidth = b);
+      return b || 10;
+    }
+    function Gd(a) {
+      for (var b = a.display, d2 = {}, c = {}, e = b.gutters.clientLeft, f = b.gutters.firstChild, g = 0; f; f = f.nextSibling, ++g) {
+        var h2 = a.display.gutterSpecs[g].className;
+        d2[h2] = f.offsetLeft + f.clientLeft + e;
+        c[h2] = f.clientWidth;
+      }
+      return { fixedPos: Md(b), gutterTotalWidth: b.gutters.offsetWidth, gutterLeft: d2, gutterWidth: c, wrapperWidth: b.wrapper.clientWidth };
+    }
+    function Md(a) {
+      return a.scroller.getBoundingClientRect().left - a.sizer.getBoundingClientRect().left;
+    }
+    function ef(a) {
+      var b = vb(a.display), d2 = a.options.lineWrapping, c = d2 && Math.max(5, a.display.scroller.clientWidth / ub(a.display) - 3);
+      return function(e) {
+        if (Pa(a.doc, e))
+          return 0;
+        var f = 0;
+        if (e.widgets)
+          for (var g = 0; g < e.widgets.length; g++)
+            e.widgets[g].height && (f += e.widgets[g].height);
+        return d2 ? f + (Math.ceil(e.text.length / c) || 1) * b : f + b;
+      };
+    }
+    function Nd(a) {
+      var b = a.doc, d2 = ef(a);
+      b.iter(function(c) {
+        var e = d2(c);
+        e != c.height && Ea(c, e);
+      });
+    }
+    function gb(a, b, d2, c) {
+      var e = a.display;
+      if (!d2 && "true" == (b.target || b.srcElement).getAttribute("cm-not-content"))
+        return null;
+      d2 = e.lineSpace.getBoundingClientRect();
+      try {
+        var f = b.clientX - d2.left;
+        var g = b.clientY - d2.top;
+      } catch (k) {
+        return null;
+      }
+      b = Kd(a, f, g);
+      var h2;
+      c && 0 < b.xRel && (h2 = w(a.doc, b.line).text).length == b.ch && (c = wa(h2, h2.length, a.options.tabSize) - h2.length, b = t(b.line, Math.max(
+        0,
+        Math.round((f - Te(a.display).left) / ub(a.display)) - c
+      )));
+      return b;
+    }
+    function db(a, b) {
+      if (b >= a.display.viewTo)
+        return null;
+      b -= a.display.viewFrom;
+      if (0 > b)
+        return null;
+      a = a.display.view;
+      for (var d2 = 0; d2 < a.length; d2++)
+        if (b -= a[d2].size, 0 > b)
+          return d2;
+    }
+    function ma(a, b, d2, c) {
+      null == b && (b = a.doc.first);
+      null == d2 && (d2 = a.doc.first + a.doc.size);
+      c || (c = 0);
+      var e = a.display;
+      c && d2 < e.viewTo && (null == e.updateLineNumbers || e.updateLineNumbers > b) && (e.updateLineNumbers = b);
+      a.curOp.viewChanged = true;
+      if (b >= e.viewTo)
+        Ka && xd(a.doc, b) < e.viewTo && Ra(a);
+      else if (d2 <= e.viewFrom)
+        Ka && Je(a.doc, d2 + c) > e.viewFrom ? Ra(a) : (e.viewFrom += c, e.viewTo += c);
+      else if (b <= e.viewFrom && d2 >= e.viewTo)
+        Ra(a);
+      else if (b <= e.viewFrom) {
+        var f = Jc(a, d2, d2 + c, 1);
+        f ? (e.view = e.view.slice(f.index), e.viewFrom = f.lineN, e.viewTo += c) : Ra(a);
+      } else if (d2 >= e.viewTo)
+        (f = Jc(a, b, b, -1)) ? (e.view = e.view.slice(0, f.index), e.viewTo = f.lineN) : Ra(a);
+      else {
+        f = Jc(a, b, b, -1);
+        var g = Jc(a, d2, d2 + c, 1);
+        f && g ? (e.view = e.view.slice(0, f.index).concat(Fc(a, f.lineN, g.lineN)).concat(e.view.slice(g.index)), e.viewTo += c) : Ra(a);
+      }
+      if (a = e.externalMeasured)
+        d2 < a.lineN ? a.lineN += c : b < a.lineN + a.size && (e.externalMeasured = null);
+    }
+    function Sa(a, b, d2) {
+      a.curOp.viewChanged = true;
+      var c = a.display, e = a.display.externalMeasured;
+      e && b >= e.lineN && b < e.lineN + e.size && (c.externalMeasured = null);
+      b < c.viewFrom || b >= c.viewTo || (a = c.view[db(a, b)], null != a.node && (a = a.changes || (a.changes = []), -1 == ea(a, d2) && a.push(d2)));
+    }
+    function Ra(a) {
+      a.display.viewFrom = a.display.viewTo = a.doc.first;
+      a.display.view = [];
+      a.display.viewOffset = 0;
+    }
+    function Jc(a, b, d2, c) {
+      var e = db(a, b), f = a.display.view;
+      if (!Ka || d2 == a.doc.first + a.doc.size)
+        return { index: e, lineN: d2 };
+      for (var g = a.display.viewFrom, h2 = 0; h2 < e; h2++)
+        g += f[h2].size;
+      if (g != b) {
+        if (0 < c) {
+          if (e == f.length - 1)
+            return null;
+          b = g + f[e].size - b;
+          e++;
+        } else
+          b = g - b;
+        d2 += b;
+      }
+      for (; xd(a.doc, d2) != d2; ) {
+        if (e == (0 > c ? 0 : f.length - 1))
+          return null;
+        d2 += c * f[e - (0 > c ? 1 : 0)].size;
+        e += c;
+      }
+      return { index: e, lineN: d2 };
+    }
+    function ff(a) {
+      a = a.display.view;
+      for (var b = 0, d2 = 0; d2 < a.length; d2++) {
+        var c = a[d2];
+        c.hidden || c.node && !c.changes || ++b;
+      }
+      return b;
+    }
+    function Vb(a) {
+      a.display.input.showSelection(a.display.input.prepareSelection());
+    }
+    function gf(a, b) {
+      void 0 === b && (b = true);
+      var d2 = a.doc, c = {}, e = c.cursors = document.createDocumentFragment(), f = c.selection = document.createDocumentFragment(), g = a.options.$customCursor;
+      g && (b = true);
+      for (var h2 = 0; h2 < d2.sel.ranges.length; h2++)
+        if (b || h2 != d2.sel.primIndex) {
+          var k = d2.sel.ranges[h2];
+          if (!(k.from().line >= a.display.viewTo || k.to().line < a.display.viewFrom)) {
+            var l = k.empty();
+            if (g) {
+              var m2 = g(a, k);
+              m2 && Od(a, m2, e);
+            } else
+              (l || a.options.showCursorWhenSelecting) && Od(a, k.head, e);
+            l || Tg(a, k, f);
+          }
+        }
+      return c;
+    }
+    function Od(a, b, d2) {
+      var c = Ba(a, b, "div", null, null, !a.options.singleCursorHeightPerLine), e = d2.appendChild(v2("div", " ", "CodeMirror-cursor"));
+      e.style.left = c.left + "px";
+      e.style.top = c.top + "px";
+      e.style.height = Math.max(0, c.bottom - c.top) * a.options.cursorHeight + "px";
+      /\bcm-fat-cursor\b/.test(a.getWrapperElement().className) && (b = Ic(a, b, "div", null, null), b = b.right - b.left, e.style.width = (0 < b ? b : a.defaultCharWidth()) + "px");
+      c.other && (a = d2.appendChild(v2("div", " ", "CodeMirror-cursor CodeMirror-secondarycursor")), a.style.display = "", a.style.left = c.other.left + "px", a.style.top = c.other.top + "px", a.style.height = 0.85 * (c.other.bottom - c.other.top) + "px");
+    }
+    function Kc(a, b) {
+      return a.top - b.top || a.left - b.left;
+    }
+    function Tg(a, b, d2) {
+      function c(q, r, u, A) {
+        0 > r && (r = 0);
+        r = Math.round(r);
+        A = Math.round(A);
+        h2.appendChild(v2("div", null, "CodeMirror-selected", "position: absolute; left: " + q + "px;\n                             top: " + r + "px; width: " + (null == u ? m2 - q : u) + "px;\n                             height: " + (A - r) + "px"));
+      }
+      function e(q, r, u) {
+        function A(F, R2) {
+          return Ic(a, t(q, F), "div", x, R2);
+        }
+        function Y(F, R2, H) {
+          F = df(a, x, null, F);
+          R2 = "ltr" == R2 == ("after" == H) ? "left" : "right";
+          H = "after" == H ? F.begin : F.end - (/\s/.test(x.text.charAt(F.end - 1)) ? 2 : 1);
+          return A(H, R2)[R2];
+        }
+        var x = w(g, q), P = x.text.length, K, Q, S = Ja(x, g.direction);
+        Bg(S, r || 0, null == u ? P : u, function(F, R2, H, L) {
+          var ha = "ltr" == H, na = A(F, ha ? "left" : "right"), ua = A(R2 - 1, ha ? "right" : "left"), hb = null == r && 0 == F, ib = null == u && R2 == P, Pd = 0 == L;
+          L = !S || L == S.length - 1;
+          3 >= ua.top - na.top ? (R2 = (n ? hb : ib) && Pd ? l : (ha ? na : ua).left, c(R2, na.top, ((n ? ib : hb) && L ? m2 : (ha ? ua : na).right) - R2, na.bottom)) : (ha ? (ha = n && hb && Pd ? l : na.left, hb = n ? m2 : Y(F, H, "before"), F = n ? l : Y(
+            R2,
+            H,
+            "after"
+          ), ib = n && ib && L ? m2 : ua.right) : (ha = n ? Y(F, H, "before") : l, hb = !n && hb && Pd ? m2 : na.right, F = !n && ib && L ? l : ua.left, ib = n ? Y(R2, H, "after") : m2), c(ha, na.top, hb - ha, na.bottom), na.bottom < ua.top && c(l, na.bottom, null, ua.top), c(F, ua.top, ib - F, ua.bottom));
+          if (!K || 0 > Kc(na, K))
+            K = na;
+          0 > Kc(ua, K) && (K = ua);
+          if (!Q || 0 > Kc(na, Q))
+            Q = na;
+          0 > Kc(ua, Q) && (Q = ua);
+        });
+        return { start: K, end: Q };
+      }
+      var f = a.display, g = a.doc, h2 = document.createDocumentFragment(), k = Te(a.display), l = k.left, m2 = Math.max(f.sizerWidth, cb(a) - f.sizer.offsetLeft) - k.right, n = "ltr" == g.direction;
+      f = b.from();
+      b = b.to();
+      if (f.line == b.line)
+        e(f.line, f.ch, b.ch);
+      else {
+        var p = w(g, f.line);
+        k = w(g, b.line);
+        k = za(p) == za(k);
+        f = e(f.line, f.ch, k ? p.text.length + 1 : null).end;
+        b = e(b.line, k ? 0 : null, b.ch).start;
+        k && (f.top < b.top - 2 ? (c(f.right, f.top, null, f.bottom), c(l, b.top, b.left, b.bottom)) : c(f.right, f.top, b.left - f.right, f.bottom));
+        f.bottom < b.top && c(l, f.bottom, null, b.top);
+      }
+      d2.appendChild(h2);
+    }
+    function Qd(a) {
+      if (a.state.focused) {
+        var b = a.display;
+        clearInterval(b.blinker);
+        var d2 = true;
+        b.cursorDiv.style.visibility = "";
+        0 < a.options.cursorBlinkRate ? b.blinker = setInterval(function() {
+          a.hasFocus() || wb(a);
+          b.cursorDiv.style.visibility = (d2 = !d2) ? "" : "hidden";
+        }, a.options.cursorBlinkRate) : 0 > a.options.cursorBlinkRate && (b.cursorDiv.style.visibility = "hidden");
+      }
+    }
+    function hf(a) {
+      a.hasFocus() || (a.display.input.focus(), a.state.focused || Rd(a));
+    }
+    function Sd(a) {
+      a.state.delayingBlurEvent = true;
+      setTimeout(function() {
+        a.state.delayingBlurEvent && (a.state.delayingBlurEvent = false, a.state.focused && wb(a));
+      }, 100);
+    }
+    function Rd(a, b) {
+      a.state.delayingBlurEvent && !a.state.draggingText && (a.state.delayingBlurEvent = false);
+      "nocursor" != a.options.readOnly && (a.state.focused || (W(a, "focus", a, b), a.state.focused = true, Ya(a.display.wrapper, "CodeMirror-focused"), a.curOp || a.display.selForContextMenu == a.doc.sel || (a.display.input.reset(), fa && setTimeout(function() {
+        return a.display.input.reset(true);
+      }, 20)), a.display.input.receivedFocus()), Qd(a));
+    }
+    function wb(a, b) {
+      a.state.delayingBlurEvent || (a.state.focused && (W(a, "blur", a, b), a.state.focused = false, jb(a.display.wrapper, "CodeMirror-focused")), clearInterval(a.display.blinker), setTimeout(function() {
+        a.state.focused || (a.display.shift = false);
+      }, 150));
+    }
+    function Lc(a) {
+      for (var b = a.display, d2 = b.lineDiv.offsetTop, c = Math.max(0, b.scroller.getBoundingClientRect().top), e = b.lineDiv.getBoundingClientRect().top, f = 0, g = 0; g < b.view.length; g++) {
+        var h2 = b.view[g], k = a.options.lineWrapping, l = 0;
+        if (!h2.hidden) {
+          e += h2.line.height;
+          if (G && 8 > T) {
+            k = h2.node.offsetTop + h2.node.offsetHeight;
+            var m2 = k - d2;
+            d2 = k;
+          } else {
+            var n = h2.node.getBoundingClientRect();
+            m2 = n.bottom - n.top;
+            !k && h2.text.firstChild && (l = h2.text.firstChild.getBoundingClientRect().right - n.left - 1);
+          }
+          k = h2.line.height - m2;
+          if (5e-3 < k || -5e-3 > k) {
+            if (e < c && (f -= k), Ea(h2.line, m2), jf(h2.line), h2.rest)
+              for (m2 = 0; m2 < h2.rest.length; m2++)
+                jf(h2.rest[m2]);
+          }
+          l > a.display.sizerWidth && (l = Math.ceil(l / ub(a.display)), l > a.display.maxLineLength && (a.display.maxLineLength = l, a.display.maxLine = h2.line, a.display.maxLineChanged = true));
+        }
+      }
+      2 < Math.abs(f) && (b.scroller.scrollTop += f);
+    }
+    function jf(a) {
+      if (a.widgets)
+        for (var b = 0; b < a.widgets.length; ++b) {
+          var d2 = a.widgets[b], c = d2.node.parentNode;
+          c && (d2.height = c.offsetHeight);
+        }
+    }
+    function Mc(a, b, d2) {
+      var c = d2 && null != d2.top ? Math.max(0, d2.top) : a.scroller.scrollTop;
+      c = Math.floor(c - a.lineSpace.offsetTop);
+      var e = d2 && null != d2.bottom ? d2.bottom : c + a.wrapper.clientHeight;
+      c = bb(b, c);
+      e = bb(b, e);
+      if (d2 && d2.ensure) {
+        var f = d2.ensure.from.line;
+        d2 = d2.ensure.to.line;
+        f < c ? (c = f, e = bb(b, Ga(w(b, f)) + a.wrapper.clientHeight)) : Math.min(d2, b.lastLine()) >= e && (c = bb(b, Ga(w(b, d2)) - a.wrapper.clientHeight), e = d2);
+      }
+      return { from: c, to: Math.max(e, c + 1) };
+    }
+    function Td(a, b) {
+      var d2 = a.display, c = vb(a.display);
+      0 > b.top && (b.top = 0);
+      var e = a.curOp && null != a.curOp.scrollTop ? a.curOp.scrollTop : d2.scroller.scrollTop, f = Ed(a), g = {};
+      b.bottom - b.top > f && (b.bottom = b.top + f);
+      var h2 = a.doc.height + Dd(d2), k = b.top < c;
+      c = b.bottom > h2 - c;
+      b.top < e ? g.scrollTop = k ? 0 : b.top : b.bottom > e + f && (f = Math.min(b.top, (c ? h2 : b.bottom) - f), f != e && (g.scrollTop = f));
+      e = a.options.fixedGutter ? 0 : d2.gutters.offsetWidth;
+      f = a.curOp && null != a.curOp.scrollLeft ? a.curOp.scrollLeft : d2.scroller.scrollLeft - e;
+      a = cb(a) - d2.gutters.offsetWidth;
+      if (d2 = b.right - b.left > a)
+        b.right = b.left + a;
+      10 > b.left ? g.scrollLeft = 0 : b.left < f ? g.scrollLeft = Math.max(0, b.left + e - (d2 ? 0 : 10)) : b.right > a + f - 3 && (g.scrollLeft = b.right + (d2 ? 0 : 10) - a);
+      return g;
+    }
+    function Nc(a, b) {
+      null != b && (Oc(a), a.curOp.scrollTop = (null == a.curOp.scrollTop ? a.doc.scrollTop : a.curOp.scrollTop) + b);
+    }
+    function xb(a) {
+      Oc(a);
+      var b = a.getCursor();
+      a.curOp.scrollToPos = { from: b, to: b, margin: a.options.cursorScrollMargin };
+    }
+    function Wb(a, b, d2) {
+      null == b && null == d2 || Oc(a);
+      null != b && (a.curOp.scrollLeft = b);
+      null != d2 && (a.curOp.scrollTop = d2);
+    }
+    function Oc(a) {
+      var b = a.curOp.scrollToPos;
+      if (b) {
+        a.curOp.scrollToPos = null;
+        var d2 = bf(a, b.from), c = bf(a, b.to);
+        kf(a, d2, c, b.margin);
+      }
+    }
+    function kf(a, b, d2, c) {
+      b = Td(a, { left: Math.min(b.left, d2.left), top: Math.min(b.top, d2.top) - c, right: Math.max(b.right, d2.right), bottom: Math.max(b.bottom, d2.bottom) + c });
+      Wb(a, b.scrollLeft, b.scrollTop);
+    }
+    function Xb(a, b) {
+      2 > Math.abs(a.doc.scrollTop - b) || (Ma || Ud(a, { top: b }), lf(a, b, true), Ma && Ud(a), Yb(a, 100));
+    }
+    function lf(a, b, d2) {
+      b = Math.max(0, Math.min(a.display.scroller.scrollHeight - a.display.scroller.clientHeight, b));
+      if (a.display.scroller.scrollTop != b || d2)
+        a.doc.scrollTop = b, a.display.scrollbars.setScrollTop(b), a.display.scroller.scrollTop != b && (a.display.scroller.scrollTop = b);
+    }
+    function kb(a, b, d2, c) {
+      b = Math.max(0, Math.min(b, a.display.scroller.scrollWidth - a.display.scroller.clientWidth));
+      (d2 ? b == a.doc.scrollLeft : 2 > Math.abs(a.doc.scrollLeft - b)) && !c || (a.doc.scrollLeft = b, mf(a), a.display.scroller.scrollLeft != b && (a.display.scroller.scrollLeft = b), a.display.scrollbars.setScrollLeft(b));
+    }
+    function Zb(a) {
+      var b = a.display, d2 = b.gutters.offsetWidth, c = Math.round(a.doc.height + Dd(a.display));
+      return {
+        clientHeight: b.scroller.clientHeight,
+        viewHeight: b.wrapper.clientHeight,
+        scrollWidth: b.scroller.scrollWidth,
+        clientWidth: b.scroller.clientWidth,
+        viewWidth: b.wrapper.clientWidth,
+        barLeft: a.options.fixedGutter ? d2 : 0,
+        docHeight: c,
+        scrollHeight: c + Ha(a) + b.barHeight,
+        nativeBarWidth: b.nativeBarWidth,
+        gutterWidth: d2
+      };
+    }
+    function yb(a, b) {
+      b || (b = Zb(a));
+      var d2 = a.display.barWidth, c = a.display.barHeight;
+      nf(a, b);
+      for (b = 0; 4 > b && d2 != a.display.barWidth || c != a.display.barHeight; b++)
+        d2 != a.display.barWidth && a.options.lineWrapping && Lc(a), nf(a, Zb(a)), d2 = a.display.barWidth, c = a.display.barHeight;
+    }
+    function nf(a, b) {
+      var d2 = a.display, c = d2.scrollbars.update(b);
+      d2.sizer.style.paddingRight = (d2.barWidth = c.right) + "px";
+      d2.sizer.style.paddingBottom = (d2.barHeight = c.bottom) + "px";
+      d2.heightForcer.style.borderBottom = c.bottom + "px solid transparent";
+      c.right && c.bottom ? (d2.scrollbarFiller.style.display = "block", d2.scrollbarFiller.style.height = c.bottom + "px", d2.scrollbarFiller.style.width = c.right + "px") : d2.scrollbarFiller.style.display = "";
+      c.bottom && a.options.coverGutterNextToScrollbar && a.options.fixedGutter ? (d2.gutterFiller.style.display = "block", d2.gutterFiller.style.height = c.bottom + "px", d2.gutterFiller.style.width = b.gutterWidth + "px") : d2.gutterFiller.style.display = "";
+    }
+    function of(a) {
+      a.display.scrollbars && (a.display.scrollbars.clear(), a.display.scrollbars.addClass && jb(a.display.wrapper, a.display.scrollbars.addClass));
+      a.display.scrollbars = new pf[a.options.scrollbarStyle](function(b) {
+        a.display.wrapper.insertBefore(b, a.display.scrollbarFiller);
+        z(b, "mousedown", function() {
+          a.state.focused && setTimeout(function() {
+            return a.display.input.focus();
+          }, 0);
+        });
+        b.setAttribute("cm-not-content", "true");
+      }, function(b, d2) {
+        "horizontal" == d2 ? kb(a, b) : Xb(a, b);
+      }, a);
+      a.display.scrollbars.addClass && Ya(a.display.wrapper, a.display.scrollbars.addClass);
+    }
+    function lb(a) {
+      a.curOp = { cm: a, viewChanged: false, startHeight: a.doc.height, forceUpdate: false, updateInput: 0, typing: false, changeObjs: null, cursorActivityHandlers: null, cursorActivityCalled: 0, selectionChanged: false, updateMaxLine: false, scrollLeft: null, scrollTop: null, scrollToPos: null, focus: false, id: ++Ug, markArrays: null };
+      a = a.curOp;
+      tb ? tb.ops.push(a) : a.ownsGroup = tb = { ops: [a], delayedCallbacks: [] };
+    }
+    function mb(a) {
+      (a = a.curOp) && Ng(a, function(b) {
+        for (var d2 = 0; d2 < b.ops.length; d2++)
+          b.ops[d2].cm.curOp = null;
+        b = b.ops;
+        for (d2 = 0; d2 < b.length; d2++) {
+          var c = b[d2], e = c.cm, f = e.display, g = e.display;
+          !g.scrollbarsClipped && g.scroller.offsetWidth && (g.nativeBarWidth = g.scroller.offsetWidth - g.scroller.clientWidth, g.heightForcer.style.height = Ha(e) + "px", g.sizer.style.marginBottom = -g.nativeBarWidth + "px", g.sizer.style.borderRightWidth = Ha(e) + "px", g.scrollbarsClipped = true);
+          c.updateMaxLine && zd(e);
+          c.mustUpdate = c.viewChanged || c.forceUpdate || null != c.scrollTop || c.scrollToPos && (c.scrollToPos.from.line < f.viewFrom || c.scrollToPos.to.line >= f.viewTo) || f.maxLineChanged && e.options.lineWrapping;
+          c.update = c.mustUpdate && new Pc(e, c.mustUpdate && { top: c.scrollTop, ensure: c.scrollToPos }, c.forceUpdate);
+        }
+        for (d2 = 0; d2 < b.length; d2++)
+          c = b[d2], c.updatedDisplay = c.mustUpdate && Vd(c.cm, c.update);
+        for (d2 = 0; d2 < b.length; d2++)
+          if (c = b[d2], e = c.cm, f = e.display, c.updatedDisplay && Lc(e), c.barMeasure = Zb(e), f.maxLineChanged && !e.options.lineWrapping && (g = f.maxLine.text.length, g = Aa(e, eb(e, f.maxLine), g, void 0), c.adjustWidthTo = g.left + 3, e.display.sizerWidth = c.adjustWidthTo, c.barMeasure.scrollWidth = Math.max(f.scroller.clientWidth, f.sizer.offsetLeft + c.adjustWidthTo + Ha(e) + e.display.barWidth), c.maxScrollLeft = Math.max(0, f.sizer.offsetLeft + c.adjustWidthTo - cb(e))), c.updatedDisplay || c.selectionChanged)
+            c.preparedSelection = f.input.prepareSelection();
+        for (d2 = 0; d2 < b.length; d2++)
+          c = b[d2], e = c.cm, null != c.adjustWidthTo && (e.display.sizer.style.minWidth = c.adjustWidthTo + "px", c.maxScrollLeft < e.doc.scrollLeft && kb(e, Math.min(e.display.scroller.scrollLeft, c.maxScrollLeft), true), e.display.maxLineChanged = false), f = c.focus && c.focus == ka(qa(e)), c.preparedSelection && e.display.input.showSelection(c.preparedSelection, f), (c.updatedDisplay || c.startHeight != e.doc.height) && yb(e, c.barMeasure), c.updatedDisplay && Wd(e, c.barMeasure), c.selectionChanged && Qd(e), e.state.focused && c.updateInput && e.display.input.reset(c.typing), f && hf(c.cm);
+        for (d2 = 0; d2 < b.length; d2++) {
+          var h2 = void 0;
+          c = b[d2];
+          e = c.cm;
+          f = e.display;
+          g = e.doc;
+          c.updatedDisplay && qf(e, c.update);
+          null == f.wheelStartX || null == c.scrollTop && null == c.scrollLeft && !c.scrollToPos || (f.wheelStartX = f.wheelStartY = null);
+          null != c.scrollTop && lf(e, c.scrollTop, c.forceScroll);
+          null != c.scrollLeft && kb(e, c.scrollLeft, true, true);
+          if (c.scrollToPos) {
+            var k = C(g, c.scrollToPos.from);
+            var l = C(g, c.scrollToPos.to);
+            var m2 = c.scrollToPos.margin;
+            null == m2 && (m2 = 0);
+            e.options.lineWrapping || k != l || (l = "before" == k.sticky ? t(k.line, k.ch + 1, "before") : k, k = k.ch ? t(k.line, "before" == k.sticky ? k.ch - 1 : k.ch, "after") : k);
+            for (var n = 0; 5 > n; n++) {
+              var p = false;
+              h2 = Ba(
+                e,
+                k
+              );
+              var q = l && l != k ? Ba(e, l) : h2;
+              h2 = { left: Math.min(h2.left, q.left), top: Math.min(h2.top, q.top) - m2, right: Math.max(h2.left, q.left), bottom: Math.max(h2.bottom, q.bottom) + m2 };
+              q = Td(e, h2);
+              var r = e.doc.scrollTop, u = e.doc.scrollLeft;
+              null != q.scrollTop && (Xb(e, q.scrollTop), 1 < Math.abs(e.doc.scrollTop - r) && (p = true));
+              null != q.scrollLeft && (kb(e, q.scrollLeft), 1 < Math.abs(e.doc.scrollLeft - u) && (p = true));
               if (!p)
                 break;
-              n += q + 1;
-              "	" == p[0] ? (p = a.cm.options.tabSize, p -= a.col % p, q = h2.appendChild(v2("span", id(p), "cm-tab")), q.setAttribute("role", "presentation"), q.setAttribute("cm-text", "	"), a.col += p) : ("\r" == p[0] || "\n" == p[0] ? (q = h2.appendChild(v2("span", "\r" == p[0] ? "␍" : "␤", "cm-invalidchar")), q.setAttribute("cm-text", p[0])) : (q = a.cm.options.specialCharPlaceholder(p[0]), q.setAttribute("cm-text", p[0]), G && 9 > T ? h2.appendChild(v2("span", [q])) : h2.appendChild(q)), a.col += 1);
-              a.map.push(a.pos, a.pos + 1, q);
-              a.pos++;
             }
-          } else
-            a.col += b.length, h2 = document.createTextNode(k), a.map.push(a.pos, a.pos + b.length, h2), G && 9 > T && (m2 = true), a.pos += b.length;
-          a.trailingSpace = 32 == k.charCodeAt(b.length - 1);
-          if (d2 || c || e || m2 || f || g) {
-            b = d2 || "";
-            c && (b += c);
-            e && (b += e);
-            c = v2("span", [h2], b, f);
-            if (g)
-              for (var u in g)
-                g.hasOwnProperty(u) && "style" != u && "class" != u && c.setAttribute(u, g[u]);
-            return a.content.appendChild(c);
+            l = h2;
+            Z(e, "scrollCursorIntoView") || (m2 = e.display, n = m2.sizer.getBoundingClientRect(), k = null, p = m2.wrapper.ownerDocument, 0 > l.top + n.top ? k = true : l.bottom + n.top > (p.defaultView.innerHeight || p.documentElement.clientHeight) && (k = false), null == k || Vg || (l = v2("div", "​", null, "position: absolute;\n                         top: " + (l.top - m2.viewOffset - e.display.lineSpace.offsetTop) + "px;\n                         height: " + (l.bottom - l.top + Ha(e) + m2.barHeight) + "px;\n                         left: " + l.left + "px; width: " + Math.max(2, l.right - l.left) + "px;"), e.display.lineSpace.appendChild(l), l.scrollIntoView(k), e.display.lineSpace.removeChild(l)));
           }
-          a.content.appendChild(h2);
+          l = c.maybeHiddenMarkers;
+          k = c.maybeUnhiddenMarkers;
+          if (l)
+            for (m2 = 0; m2 < l.length; ++m2)
+              l[m2].lines.length || W(l[m2], "hide");
+          if (k)
+            for (l = 0; l < k.length; ++l)
+              k[l].lines.length && W(k[l], "unhide");
+          f.wrapper.offsetHeight && (g.scrollTop = e.display.scroller.scrollTop);
+          c.changeObjs && W(e, "changes", e, c.changeObjs);
+          c.update && c.update.finish();
         }
-      }
-      function Lg(a, b) {
-        return function(d2, c, e, f, g, h2, k) {
-          e = e ? e + " cm-force-border" : "cm-force-border";
-          for (var l = d2.pos, m2 = l + c.length; ; ) {
-            for (var n = void 0, p = 0; p < b.length && !(n = b[p], n.to > l && n.from <= l); p++)
-              ;
-            if (n.to >= m2)
-              return a(d2, c, e, f, g, h2, k);
-            a(d2, c.slice(0, n.to - l), e, f, null, h2, k);
-            f = null;
-            c = c.slice(n.to - l);
-            l = n.to;
-          }
-        };
-      }
-      function Me(a, b, d2, c) {
-        var e = !c && d2.widgetNode;
-        e && a.map.push(a.pos, a.pos + b, e);
-        !c && a.cm.display.input.needsContentAttribute && (e || (e = a.content.appendChild(document.createElement("span"))), e.setAttribute("cm-marker", d2.id));
-        e && (a.cm.display.input.setUneditable(e), a.content.appendChild(e));
-        a.pos += b;
-        a.trailingSpace = false;
-      }
-      function Ne(a, b, d2) {
-        for (var c = this.line = b, e; c = sb(c, false); )
-          c = c.find(1, true).line, (e || (e = [])).push(c);
-        this.size = (this.rest = e) ? N(J(this.rest)) - d2 + 1 : 1;
-        this.node = this.text = null;
-        this.hidden = Pa(a, b);
-      }
-      function Fc(a, b, d2) {
-        var c = [], e;
-        for (e = b; e < d2; )
-          b = new Ne(a.doc, w(a.doc, e), e), e += b.size, c.push(b);
-        return c;
-      }
-      function Ng(a, b) {
-        if (a = a.ownsGroup)
-          try {
-            var d2 = a.delayedCallbacks, c = 0;
-            do {
-              for (; c < d2.length; c++)
-                d2[c].call(null);
-              for (var e = 0; e < a.ops.length; e++) {
-                var f = a.ops[e];
-                if (f.cursorActivityHandlers)
-                  for (; f.cursorActivityCalled < f.cursorActivityHandlers.length; )
-                    f.cursorActivityHandlers[f.cursorActivityCalled++].call(null, f.cm);
-              }
-            } while (c < d2.length);
-          } finally {
-            tb = null, b(a);
-          }
-      }
-      function aa(a, b) {
-        var d2 = a._handlers && a._handlers[b] || yc;
-        if (d2.length) {
-          var c = Array.prototype.slice.call(arguments, 2);
-          if (tb)
-            var e = tb.delayedCallbacks;
-          else
-            Rb ? e = Rb : (e = Rb = [], setTimeout(Og, 0));
-          for (var f = function(h2) {
-            e.push(function() {
-              return d2[h2].apply(null, c);
-            });
-          }, g = 0; g < d2.length; ++g)
-            f(g);
-        }
-      }
-      function Og() {
-        var a = Rb;
-        Rb = null;
-        for (var b = 0; b < a.length; ++b)
-          a[b]();
-      }
-      function Oe(a, b, d2, c) {
-        for (var e = 0; e < b.changes.length; e++) {
-          var f = b.changes[e];
-          if ("text" == f) {
-            f = a;
-            var g = b, h2 = g.text.className, k = Pe(f, g);
-            g.text == g.node && (g.node = k.pre);
-            g.text.parentNode.replaceChild(k.pre, g.text);
-            g.text = k.pre;
-            k.bgClass != g.bgClass || k.textClass != g.textClass ? (g.bgClass = k.bgClass, g.textClass = k.textClass, Cd(f, g)) : h2 && (g.text.className = h2);
-          } else if ("gutter" == f)
-            Qe(a, b, d2, c);
-          else if ("class" == f)
-            Cd(a, b);
-          else if ("widget" == f) {
-            f = a;
-            g = b;
-            h2 = c;
-            g.alignable && (g.alignable = null);
-            k = y2("CodeMirror-linewidget");
-            for (var l = g.node.firstChild, m2; l; l = m2)
-              m2 = l.nextSibling, k.test(l.className) && g.node.removeChild(l);
-            Re(f, g, h2);
-          }
-        }
-        b.changes = null;
-      }
-      function Sb(a) {
-        a.node == a.text && (a.node = v2("div", null, null, "position: relative"), a.text.parentNode && a.text.parentNode.replaceChild(a.node, a.text), a.node.appendChild(a.text), G && 8 > T && (a.node.style.zIndex = 2));
-        return a.node;
-      }
-      function Pe(a, b) {
-        var d2 = a.display.externalMeasured;
-        return d2 && d2.line == b.line ? (a.display.externalMeasured = null, b.measure = d2.measure, d2.built) : Le(a, b);
-      }
-      function Cd(a, b) {
-        var d2 = b.bgClass ? b.bgClass + " " + (b.line.bgClass || "") : b.line.bgClass;
-        d2 && (d2 += " CodeMirror-linebackground");
-        if (b.background)
-          d2 ? b.background.className = d2 : (b.background.parentNode.removeChild(b.background), b.background = null);
-        else if (d2) {
-          var c = Sb(b);
-          b.background = c.insertBefore(v2("div", null, d2), c.firstChild);
-          a.display.input.setUneditable(b.background);
-        }
-        b.line.wrapClass ? Sb(b).className = b.line.wrapClass : b.node != b.text && (b.node.className = "");
-        b.text.className = (b.textClass ? b.textClass + " " + (b.line.textClass || "") : b.line.textClass) || "";
-      }
-      function Qe(a, b, d2, c) {
-        b.gutter && (b.node.removeChild(b.gutter), b.gutter = null);
-        b.gutterBackground && (b.node.removeChild(b.gutterBackground), b.gutterBackground = null);
-        if (b.line.gutterClass) {
-          var e = Sb(b);
-          b.gutterBackground = v2("div", null, "CodeMirror-gutter-background " + b.line.gutterClass, "left: " + (a.options.fixedGutter ? c.fixedPos : -c.gutterTotalWidth) + "px; width: " + c.gutterTotalWidth + "px");
-          a.display.input.setUneditable(b.gutterBackground);
-          e.insertBefore(b.gutterBackground, b.text);
-        }
-        e = b.line.gutterMarkers;
-        if (a.options.lineNumbers || e) {
-          var f = Sb(b), g = b.gutter = v2("div", null, "CodeMirror-gutter-wrapper", "left: " + (a.options.fixedGutter ? c.fixedPos : -c.gutterTotalWidth) + "px");
-          g.setAttribute("aria-hidden", "true");
-          a.display.input.setUneditable(g);
-          f.insertBefore(g, b.text);
-          b.line.gutterClass && (g.className += " " + b.line.gutterClass);
-          !a.options.lineNumbers || e && e["CodeMirror-linenumbers"] || (b.lineNumber = g.appendChild(v2("div", qd(a.options, d2), "CodeMirror-linenumber CodeMirror-gutter-elt", "left: " + c.gutterLeft["CodeMirror-linenumbers"] + "px; width: " + a.display.lineNumInnerWidth + "px")));
-          if (e)
-            for (b = 0; b < a.display.gutterSpecs.length; ++b)
-              d2 = a.display.gutterSpecs[b].className, (f = e.hasOwnProperty(d2) && e[d2]) && g.appendChild(v2("div", [f], "CodeMirror-gutter-elt", "left: " + c.gutterLeft[d2] + "px; width: " + c.gutterWidth[d2] + "px"));
-        }
-      }
-      function Pg(a, b, d2, c) {
-        var e = Pe(a, b);
-        b.text = b.node = e.pre;
-        e.bgClass && (b.bgClass = e.bgClass);
-        e.textClass && (b.textClass = e.textClass);
-        Cd(a, b);
-        Qe(a, b, d2, c);
-        Re(a, b, c);
-        return b.node;
-      }
-      function Re(a, b, d2) {
-        Se(a, b.line, b, d2, true);
-        if (b.rest)
-          for (var c = 0; c < b.rest.length; c++)
-            Se(
-              a,
-              b.rest[c],
-              b,
-              d2,
-              false
-            );
-      }
-      function Se(a, b, d2, c, e) {
-        if (b.widgets) {
-          var f = Sb(d2), g = 0;
-          for (b = b.widgets; g < b.length; ++g) {
-            var h2 = b[g], k = v2("div", [h2.node], "CodeMirror-linewidget" + (h2.className ? " " + h2.className : ""));
-            h2.handleMouseEvents || k.setAttribute("cm-ignore-events", "true");
-            var l = h2, m2 = k, n = c;
-            if (l.noHScroll) {
-              (d2.alignable || (d2.alignable = [])).push(m2);
-              var p = n.wrapperWidth;
-              m2.style.left = n.fixedPos + "px";
-              l.coverGutter || (p -= n.gutterTotalWidth, m2.style.paddingLeft = n.gutterTotalWidth + "px");
-              m2.style.width = p + "px";
-            }
-            l.coverGutter && (m2.style.zIndex = 5, m2.style.position = "relative", l.noHScroll || (m2.style.marginLeft = -n.gutterTotalWidth + "px"));
-            a.display.input.setUneditable(k);
-            e && h2.above ? f.insertBefore(k, d2.gutter || d2.text) : f.appendChild(k);
-            aa(h2, "redraw");
-          }
-        }
-      }
-      function Tb(a) {
-        if (null != a.height)
-          return a.height;
-        var b = a.doc.cm;
-        if (!b)
-          return 0;
-        if (!ja(document.body, a.node)) {
-          var d2 = "position: relative;";
-          a.coverGutter && (d2 += "margin-left: -" + b.display.gutters.offsetWidth + "px;");
-          a.noHScroll && (d2 += "width: " + b.display.wrapper.clientWidth + "px;");
-          D(b.display.measure, v2(
-            "div",
-            [a.node],
-            null,
-            d2
-          ));
-        }
-        return a.height = a.node.parentNode.offsetHeight;
-      }
-      function La(a, b) {
-        for (b = b.target || b.srcElement; b != a.wrapper; b = b.parentNode)
-          if (!b || 1 == b.nodeType && "true" == b.getAttribute("cm-ignore-events") || b.parentNode == a.sizer && b != a.mover)
-            return true;
-      }
-      function Dd(a) {
-        return a.mover.offsetHeight - a.lineSpace.offsetHeight;
-      }
-      function Te(a) {
-        if (a.cachedPaddingH)
-          return a.cachedPaddingH;
-        var b = D(a.measure, v2("pre", "x", "CodeMirror-line-like"));
-        b = window.getComputedStyle ? window.getComputedStyle(b) : b.currentStyle;
-        b = {
-          left: parseInt(b.paddingLeft),
-          right: parseInt(b.paddingRight)
-        };
-        isNaN(b.left) || isNaN(b.right) || (a.cachedPaddingH = b);
-        return b;
-      }
-      function Ha(a) {
-        return 50 - a.display.nativeBarWidth;
-      }
-      function cb(a) {
-        return a.display.scroller.clientWidth - Ha(a) - a.display.barWidth;
-      }
-      function Ed(a) {
-        return a.display.scroller.clientHeight - Ha(a) - a.display.barHeight;
-      }
-      function Ue(a, b, d2) {
-        if (a.line == b)
-          return { map: a.measure.map, cache: a.measure.cache };
-        if (a.rest) {
-          for (var c = 0; c < a.rest.length; c++)
-            if (a.rest[c] == b)
-              return { map: a.measure.maps[c], cache: a.measure.caches[c] };
-          for (b = 0; b < a.rest.length; b++)
-            if (N(a.rest[b]) > d2)
-              return { map: a.measure.maps[b], cache: a.measure.caches[b], before: true };
-        }
-      }
-      function Fd(a, b) {
-        if (b >= a.display.viewFrom && b < a.display.viewTo)
-          return a.display.view[db(a, b)];
-        if ((a = a.display.externalMeasured) && b >= a.lineN && b < a.lineN + a.size)
-          return a;
-      }
-      function eb(a, b) {
-        var d2 = N(b), c = Fd(a, d2);
-        c && !c.text ? c = null : c && c.changes && (Oe(a, c, d2, Gd(a)), a.curOp.forceUpdate = true);
-        if (!c) {
-          var e = za(b);
-          c = N(e);
-          e = a.display.externalMeasured = new Ne(a.doc, e, c);
-          e.lineN = c;
-          c = e.built = Le(a, e);
-          e.text = c.pre;
-          D(
-            a.display.lineMeasure,
-            c.pre
-          );
-          c = e;
-        }
-        a = Ue(c, b, d2);
-        return { line: b, view: c, rect: null, map: a.map, cache: a.cache, before: a.before, hasHeights: false };
-      }
-      function Aa(a, b, d2, c, e) {
-        b.before && (d2 = -1);
-        var f = d2 + (c || "");
-        if (b.cache.hasOwnProperty(f))
-          a = b.cache[f];
-        else {
-          b.rect || (b.rect = b.view.text.getBoundingClientRect());
-          if (!b.hasHeights) {
-            var g = b.view, h2 = b.rect, k = a.options.lineWrapping, l = k && cb(a);
-            if (!g.measure.heights || k && g.measure.width != l) {
-              var m2 = g.measure.heights = [];
-              if (k)
-                for (g.measure.width = l, g = g.text.firstChild.getClientRects(), k = 0; k < g.length - 1; k++) {
-                  l = g[k];
-                  var n = g[k + 1];
-                  2 < Math.abs(l.bottom - n.bottom) && m2.push((l.bottom + n.top) / 2 - h2.top);
-                }
-              m2.push(h2.bottom - h2.top);
-            }
-            b.hasHeights = true;
-          }
-          m2 = c;
-          g = Ve(b.map, d2, m2);
-          c = g.node;
-          h2 = g.start;
-          k = g.end;
-          d2 = g.collapse;
-          if (3 == c.nodeType) {
-            for (var p = 0; 4 > p; p++) {
-              for (; h2 && kd(b.line.text.charAt(g.coverStart + h2)); )
-                --h2;
-              for (; g.coverStart + k < g.coverEnd && kd(b.line.text.charAt(g.coverStart + k)); )
-                ++k;
-              if (G && 9 > T && 0 == h2 && k == g.coverEnd - g.coverStart)
-                var q = c.parentNode.getBoundingClientRect();
-              else {
-                q = Qb(c, h2, k).getClientRects();
-                k = We;
-                if ("left" == m2)
-                  for (l = 0; l < q.length && (k = q[l]).left == k.right; l++)
-                    ;
-                else
-                  for (l = q.length - 1; 0 <= l && (k = q[l]).left == k.right; l--)
-                    ;
-                q = k;
-              }
-              if (q.left || q.right || 0 == h2)
-                break;
-              k = h2;
-              --h2;
-              d2 = "right";
-            }
-            G && 11 > T && ((p = !window.screen || null == screen.logicalXDPI || screen.logicalXDPI == screen.deviceXDPI) || (null != Hd ? p = Hd : (m2 = D(a.display.measure, v2("span", "x")), p = m2.getBoundingClientRect(), m2 = Qb(m2, 0, 1).getBoundingClientRect(), p = Hd = 1 < Math.abs(p.left - m2.left)), p = !p), p || (p = screen.logicalXDPI / screen.deviceXDPI, m2 = screen.logicalYDPI / screen.deviceYDPI, q = {
-              left: q.left * p,
-              right: q.right * p,
-              top: q.top * m2,
-              bottom: q.bottom * m2
-            }));
-          } else
-            0 < h2 && (d2 = m2 = "right"), q = a.options.lineWrapping && 1 < (p = c.getClientRects()).length ? p["right" == m2 ? p.length - 1 : 0] : c.getBoundingClientRect();
-          !(G && 9 > T) || h2 || q && (q.left || q.right) || (q = (q = c.parentNode.getClientRects()[0]) ? { left: q.left, right: q.left + ub(a.display), top: q.top, bottom: q.bottom } : We);
-          c = q.top - b.rect.top;
-          h2 = q.bottom - b.rect.top;
-          p = (c + h2) / 2;
-          m2 = b.view.measure.heights;
-          for (g = 0; g < m2.length - 1 && !(p < m2[g]); g++)
-            ;
-          d2 = { left: ("right" == d2 ? q.right : q.left) - b.rect.left, right: ("left" == d2 ? q.left : q.right) - b.rect.left, top: g ? m2[g - 1] : 0, bottom: m2[g] };
-          q.left || q.right || (d2.bogus = true);
-          a.options.singleCursorHeightPerLine || (d2.rtop = c, d2.rbottom = h2);
-          a = d2;
-          a.bogus || (b.cache[f] = a);
-        }
-        return { left: a.left, right: a.right, top: e ? a.rtop : a.top, bottom: e ? a.rbottom : a.bottom };
-      }
-      function Ve(a, b, d2) {
-        for (var c, e, f, g, h2, k, l = 0; l < a.length; l += 3) {
-          h2 = a[l];
-          k = a[l + 1];
-          if (b < h2)
-            e = 0, f = 1, g = "left";
-          else if (b < k)
-            e = b - h2, f = e + 1;
-          else if (l == a.length - 3 || b == k && a[l + 3] > b)
-            f = k - h2, e = f - 1, b >= k && (g = "right");
-          if (null != e) {
-            c = a[l + 2];
-            h2 == k && d2 == (c.insertLeft ? "left" : "right") && (g = d2);
-            if ("left" == d2 && 0 == e)
-              for (; l && a[l - 2] == a[l - 3] && a[l - 1].insertLeft; )
-                c = a[(l -= 3) + 2], g = "left";
-            if ("right" == d2 && e == k - h2)
-              for (; l < a.length - 3 && a[l + 3] == a[l + 4] && !a[l + 5].insertLeft; )
-                c = a[(l += 3) + 2], g = "right";
-            break;
-          }
-        }
-        return { node: c, start: e, end: f, collapse: g, coverStart: h2, coverEnd: k };
-      }
-      function Xe(a) {
-        if (a.measure && (a.measure.cache = {}, a.measure.heights = null, a.rest))
-          for (var b = 0; b < a.rest.length; b++)
-            a.measure.caches[b] = {};
-      }
-      function Ye(a) {
-        a.display.externalMeasure = null;
-        E(a.display.lineMeasure);
-        for (var b = 0; b < a.display.view.length; b++)
-          Xe(a.display.view[b]);
-      }
-      function Ub(a) {
-        Ye(a);
-        a.display.cachedCharWidth = a.display.cachedTextHeight = a.display.cachedPaddingH = null;
-        a.options.lineWrapping || (a.display.maxLineChanged = true);
-        a.display.lineNumChars = null;
-      }
-      function Ze(a) {
-        return Qa && Gc ? -(a.body.getBoundingClientRect().left - parseInt(getComputedStyle(a.body).marginLeft)) : a.defaultView.pageXOffset || (a.documentElement || a.body).scrollLeft;
-      }
-      function $e(a) {
-        return Qa && Gc ? -(a.body.getBoundingClientRect().top - parseInt(getComputedStyle(a.body).marginTop)) : a.defaultView.pageYOffset || (a.documentElement || a.body).scrollTop;
-      }
-      function Id(a) {
-        a = za(a).widgets;
-        var b = 0;
-        if (a)
-          for (var d2 = 0; d2 < a.length; ++d2)
-            a[d2].above && (b += Tb(a[d2]));
-        return b;
-      }
-      function Hc(a, b, d2, c, e) {
-        e || (e = Id(b), d2.top += e, d2.bottom += e);
-        if ("line" == c)
-          return d2;
-        c || (c = "local");
-        b = Ga(b);
-        b = "local" == c ? b + a.display.lineSpace.offsetTop : b - a.display.viewOffset;
-        if ("page" == c || "window" == c)
-          e = a.display.lineSpace.getBoundingClientRect(), b += e.top + ("window" == c ? 0 : $e(qa(a))), a = e.left + ("window" == c ? 0 : Ze(qa(a))), d2.left += a, d2.right += a;
-        d2.top += b;
-        d2.bottom += b;
-        return d2;
-      }
-      function af(a, b, d2) {
-        if ("div" == d2)
-          return b;
-        var c = b.left;
-        b = b.top;
-        "page" == d2 ? (c -= Ze(qa(a)), b -= $e(qa(a))) : "local" != d2 && d2 || (d2 = a.display.sizer.getBoundingClientRect(), c += d2.left, b += d2.top);
-        a = a.display.lineSpace.getBoundingClientRect();
-        return { left: c - a.left, top: b - a.top };
-      }
-      function Ic(a, b, d2, c, e) {
-        c || (c = w(a.doc, b.line));
-        var f = c;
-        b = b.ch;
-        c = Aa(a, eb(a, c), b, e);
-        return Hc(a, f, c, d2);
-      }
-      function Ba(a, b, d2, c, e, f) {
-        function g(p, q) {
-          p = Aa(a, e, p, q ? "right" : "left", f);
-          q ? p.left = p.right : p.right = p.left;
-          return Hc(a, c, p, d2);
-        }
-        function h2(p, q, r) {
-          return g(r ? p - 1 : p, 1 == k[q].level != r);
-        }
-        c = c || w(a.doc, b.line);
-        e || (e = eb(a, c));
-        var k = Ja(c, a.doc.direction), l = b.ch;
-        b = b.sticky;
-        l >= c.text.length ? (l = c.text.length, b = "before") : 0 >= l && (l = 0, b = "after");
-        if (!k)
-          return g("before" == b ? l - 1 : l, "before" == b);
-        var m2 = Kb(k, l, b), n = Lb;
-        m2 = h2(l, m2, "before" == b);
-        null != n && (m2.other = h2(l, n, "before" != b));
-        return m2;
-      }
-      function bf(a, b) {
-        var d2 = 0;
-        b = C(a.doc, b);
-        a.options.lineWrapping || (d2 = ub(a.display) * b.ch);
-        b = w(a.doc, b.line);
-        a = Ga(b) + a.display.lineSpace.offsetTop;
-        return { left: d2, right: d2, top: a, bottom: a + b.height };
-      }
-      function Jd(a, b, d2, c, e) {
-        a = t(a, b, d2);
-        a.xRel = e;
-        c && (a.outside = c);
-        return a;
-      }
-      function Kd(a, b, d2) {
-        var c = a.doc;
-        d2 += a.display.viewOffset;
-        if (0 > d2)
-          return Jd(c.first, 0, null, -1, -1);
-        var e = bb(c, d2), f = c.first + c.size - 1;
-        if (e > f)
-          return Jd(c.first + c.size - 1, w(c, f).text.length, null, 1, 1);
-        0 > b && (b = 0);
-        for (var g = w(c, e); ; ) {
-          f = Qg(a, g, e, b, d2);
-          var h2 = void 0;
-          var k = f.ch + (0 < f.xRel || 0 < f.outside ? 1 : 0);
-          if (g = Ka && g.markedSpans)
-            for (var l = 0; l < g.length; ++l) {
-              var m2 = g[l];
-              m2.marker.collapsed && (null == m2.from || m2.from < k) && (null == m2.to || m2.to > k) && (!h2 || 0 > wd(h2, m2.marker)) && (h2 = m2.marker);
-            }
-          if (!h2)
-            return f;
-          f = h2.find(1);
-          if (f.line == e)
-            return f;
-          g = w(c, e = f.line);
-        }
-      }
-      function cf(a, b, d2, c) {
-        c -= Id(b);
-        b = b.text.length;
-        var e = Jb(function(f) {
-          return Aa(a, d2, f - 1).bottom <= c;
-        }, b, 0);
-        b = Jb(function(f) {
-          return Aa(a, d2, f).top > c;
-        }, e, b);
-        return { begin: e, end: b };
-      }
-      function df(a, b, d2, c) {
-        d2 || (d2 = eb(a, b));
-        c = Hc(a, b, Aa(a, d2, c), "line").top;
-        return cf(a, b, d2, c);
-      }
-      function Ld(a, b, d2, c) {
-        return a.bottom <= d2 ? false : a.top > d2 ? true : (c ? a.left : a.right) > b;
-      }
-      function Qg(a, b, d2, c, e) {
-        e -= Ga(b);
-        var f = eb(a, b), g = Id(b), h2 = 0, k = b.text.length, l = true, m2 = Ja(b, a.doc.direction);
-        m2 && (m2 = (a.options.lineWrapping ? Rg : Sg)(a, b, d2, f, m2, c, e), h2 = (l = 1 != m2.level) ? m2.from : m2.to - 1, k = l ? m2.to : m2.from - 1);
-        var n = null, p = null;
-        m2 = Jb(function(r) {
-          var u = Aa(a, f, r);
-          u.top += g;
-          u.bottom += g;
-          if (!Ld(u, c, e, false))
-            return false;
-          u.top <= e && u.left <= c && (n = r, p = u);
-          return true;
-        }, h2, k);
-        var q = false;
-        p ? (h2 = c - p.left < p.right - c, l = h2 == l, m2 = n + (l ? 0 : 1), l = l ? "after" : "before", h2 = h2 ? p.left : p.right) : (l || m2 != k && m2 != h2 || m2++, l = 0 == m2 ? "after" : m2 == b.text.length ? "before" : Aa(a, f, m2 - (l ? 1 : 0)).bottom + g <= e == l ? "after" : "before", q = Ba(a, t(d2, m2, l), "line", b, f), h2 = q.left, q = e < q.top ? -1 : e >= q.bottom ? 1 : 0);
-        m2 = se(b.text, m2, 1);
-        return Jd(d2, m2, l, q, c - h2);
-      }
-      function Sg(a, b, d2, c, e, f, g) {
-        var h2 = Jb(function(m2) {
-          m2 = e[m2];
-          var n = 1 != m2.level;
-          return Ld(Ba(a, t(d2, n ? m2.to : m2.from, n ? "before" : "after"), "line", b, c), f, g, true);
-        }, 0, e.length - 1), k = e[h2];
-        if (0 < h2) {
-          var l = 1 != k.level;
-          l = Ba(a, t(d2, l ? k.from : k.to, l ? "after" : "before"), "line", b, c);
-          Ld(l, f, g, true) && l.top > g && (k = e[h2 - 1]);
-        }
-        return k;
-      }
-      function Rg(a, b, d2, c, e, f, g) {
-        g = cf(a, b, c, g);
-        d2 = g.begin;
-        g = g.end;
-        /\s/.test(b.text.charAt(g - 1)) && g--;
-        for (var h2 = b = null, k = 0; k < e.length; k++) {
-          var l = e[k];
-          if (!(l.from >= g || l.to <= d2)) {
-            var m2 = Aa(a, c, 1 != l.level ? Math.min(g, l.to) - 1 : Math.max(d2, l.from)).right;
-            m2 = m2 < f ? f - m2 + 1e9 : m2 - f;
-            if (!b || h2 > m2)
-              b = l, h2 = m2;
-          }
-        }
-        b || (b = e[e.length - 1]);
-        b.from < d2 && (b = { from: d2, to: b.to, level: b.level });
-        b.to > g && (b = { from: b.from, to: g, level: b.level });
-        return b;
-      }
-      function vb(a) {
-        if (null != a.cachedTextHeight)
-          return a.cachedTextHeight;
-        if (null == fb) {
-          fb = v2("pre", null, "CodeMirror-line-like");
-          for (var b = 0; 49 > b; ++b)
-            fb.appendChild(document.createTextNode("x")), fb.appendChild(v2("br"));
-          fb.appendChild(document.createTextNode("x"));
-        }
-        D(
-          a.measure,
-          fb
-        );
-        b = fb.offsetHeight / 50;
-        3 < b && (a.cachedTextHeight = b);
-        E(a.measure);
-        return b || 1;
-      }
-      function ub(a) {
-        if (null != a.cachedCharWidth)
-          return a.cachedCharWidth;
-        var b = v2("span", "xxxxxxxxxx"), d2 = v2("pre", [b], "CodeMirror-line-like");
-        D(a.measure, d2);
-        b = b.getBoundingClientRect();
-        b = (b.right - b.left) / 10;
-        2 < b && (a.cachedCharWidth = b);
-        return b || 10;
-      }
-      function Gd(a) {
-        for (var b = a.display, d2 = {}, c = {}, e = b.gutters.clientLeft, f = b.gutters.firstChild, g = 0; f; f = f.nextSibling, ++g) {
-          var h2 = a.display.gutterSpecs[g].className;
-          d2[h2] = f.offsetLeft + f.clientLeft + e;
-          c[h2] = f.clientWidth;
-        }
-        return { fixedPos: Md(b), gutterTotalWidth: b.gutters.offsetWidth, gutterLeft: d2, gutterWidth: c, wrapperWidth: b.wrapper.clientWidth };
-      }
-      function Md(a) {
-        return a.scroller.getBoundingClientRect().left - a.sizer.getBoundingClientRect().left;
-      }
-      function ef(a) {
-        var b = vb(a.display), d2 = a.options.lineWrapping, c = d2 && Math.max(5, a.display.scroller.clientWidth / ub(a.display) - 3);
-        return function(e) {
-          if (Pa(a.doc, e))
-            return 0;
-          var f = 0;
-          if (e.widgets)
-            for (var g = 0; g < e.widgets.length; g++)
-              e.widgets[g].height && (f += e.widgets[g].height);
-          return d2 ? f + (Math.ceil(e.text.length / c) || 1) * b : f + b;
-        };
-      }
-      function Nd(a) {
-        var b = a.doc, d2 = ef(a);
-        b.iter(function(c) {
-          var e = d2(c);
-          e != c.height && Ea(c, e);
-        });
-      }
-      function gb(a, b, d2, c) {
-        var e = a.display;
-        if (!d2 && "true" == (b.target || b.srcElement).getAttribute("cm-not-content"))
-          return null;
-        d2 = e.lineSpace.getBoundingClientRect();
-        try {
-          var f = b.clientX - d2.left;
-          var g = b.clientY - d2.top;
-        } catch (k) {
-          return null;
-        }
-        b = Kd(a, f, g);
-        var h2;
-        c && 0 < b.xRel && (h2 = w(a.doc, b.line).text).length == b.ch && (c = wa(h2, h2.length, a.options.tabSize) - h2.length, b = t(b.line, Math.max(
-          0,
-          Math.round((f - Te(a.display).left) / ub(a.display)) - c
-        )));
-        return b;
-      }
-      function db(a, b) {
-        if (b >= a.display.viewTo)
-          return null;
-        b -= a.display.viewFrom;
-        if (0 > b)
-          return null;
-        a = a.display.view;
-        for (var d2 = 0; d2 < a.length; d2++)
-          if (b -= a[d2].size, 0 > b)
-            return d2;
-      }
-      function ma(a, b, d2, c) {
-        null == b && (b = a.doc.first);
-        null == d2 && (d2 = a.doc.first + a.doc.size);
-        c || (c = 0);
-        var e = a.display;
-        c && d2 < e.viewTo && (null == e.updateLineNumbers || e.updateLineNumbers > b) && (e.updateLineNumbers = b);
-        a.curOp.viewChanged = true;
-        if (b >= e.viewTo)
-          Ka && xd(a.doc, b) < e.viewTo && Ra(a);
-        else if (d2 <= e.viewFrom)
-          Ka && Je(a.doc, d2 + c) > e.viewFrom ? Ra(a) : (e.viewFrom += c, e.viewTo += c);
-        else if (b <= e.viewFrom && d2 >= e.viewTo)
-          Ra(a);
-        else if (b <= e.viewFrom) {
-          var f = Jc(a, d2, d2 + c, 1);
-          f ? (e.view = e.view.slice(f.index), e.viewFrom = f.lineN, e.viewTo += c) : Ra(a);
-        } else if (d2 >= e.viewTo)
-          (f = Jc(a, b, b, -1)) ? (e.view = e.view.slice(0, f.index), e.viewTo = f.lineN) : Ra(a);
-        else {
-          f = Jc(a, b, b, -1);
-          var g = Jc(a, d2, d2 + c, 1);
-          f && g ? (e.view = e.view.slice(0, f.index).concat(Fc(a, f.lineN, g.lineN)).concat(e.view.slice(g.index)), e.viewTo += c) : Ra(a);
-        }
-        if (a = e.externalMeasured)
-          d2 < a.lineN ? a.lineN += c : b < a.lineN + a.size && (e.externalMeasured = null);
-      }
-      function Sa(a, b, d2) {
-        a.curOp.viewChanged = true;
-        var c = a.display, e = a.display.externalMeasured;
-        e && b >= e.lineN && b < e.lineN + e.size && (c.externalMeasured = null);
-        b < c.viewFrom || b >= c.viewTo || (a = c.view[db(a, b)], null != a.node && (a = a.changes || (a.changes = []), -1 == ea(a, d2) && a.push(d2)));
-      }
-      function Ra(a) {
-        a.display.viewFrom = a.display.viewTo = a.doc.first;
-        a.display.view = [];
-        a.display.viewOffset = 0;
-      }
-      function Jc(a, b, d2, c) {
-        var e = db(a, b), f = a.display.view;
-        if (!Ka || d2 == a.doc.first + a.doc.size)
-          return { index: e, lineN: d2 };
-        for (var g = a.display.viewFrom, h2 = 0; h2 < e; h2++)
-          g += f[h2].size;
-        if (g != b) {
-          if (0 < c) {
-            if (e == f.length - 1)
-              return null;
-            b = g + f[e].size - b;
-            e++;
-          } else
-            b = g - b;
-          d2 += b;
-        }
-        for (; xd(a.doc, d2) != d2; ) {
-          if (e == (0 > c ? 0 : f.length - 1))
-            return null;
-          d2 += c * f[e - (0 > c ? 1 : 0)].size;
-          e += c;
-        }
-        return { index: e, lineN: d2 };
-      }
-      function ff(a) {
-        a = a.display.view;
-        for (var b = 0, d2 = 0; d2 < a.length; d2++) {
-          var c = a[d2];
-          c.hidden || c.node && !c.changes || ++b;
-        }
-        return b;
-      }
-      function Vb(a) {
-        a.display.input.showSelection(a.display.input.prepareSelection());
-      }
-      function gf(a, b) {
-        void 0 === b && (b = true);
-        var d2 = a.doc, c = {}, e = c.cursors = document.createDocumentFragment(), f = c.selection = document.createDocumentFragment(), g = a.options.$customCursor;
-        g && (b = true);
-        for (var h2 = 0; h2 < d2.sel.ranges.length; h2++)
-          if (b || h2 != d2.sel.primIndex) {
-            var k = d2.sel.ranges[h2];
-            if (!(k.from().line >= a.display.viewTo || k.to().line < a.display.viewFrom)) {
-              var l = k.empty();
-              if (g) {
-                var m2 = g(a, k);
-                m2 && Od(a, m2, e);
-              } else
-                (l || a.options.showCursorWhenSelecting) && Od(a, k.head, e);
-              l || Tg(a, k, f);
-            }
-          }
-        return c;
-      }
-      function Od(a, b, d2) {
-        var c = Ba(a, b, "div", null, null, !a.options.singleCursorHeightPerLine), e = d2.appendChild(v2("div", " ", "CodeMirror-cursor"));
-        e.style.left = c.left + "px";
-        e.style.top = c.top + "px";
-        e.style.height = Math.max(0, c.bottom - c.top) * a.options.cursorHeight + "px";
-        /\bcm-fat-cursor\b/.test(a.getWrapperElement().className) && (b = Ic(a, b, "div", null, null), b = b.right - b.left, e.style.width = (0 < b ? b : a.defaultCharWidth()) + "px");
-        c.other && (a = d2.appendChild(v2("div", " ", "CodeMirror-cursor CodeMirror-secondarycursor")), a.style.display = "", a.style.left = c.other.left + "px", a.style.top = c.other.top + "px", a.style.height = 0.85 * (c.other.bottom - c.other.top) + "px");
-      }
-      function Kc(a, b) {
-        return a.top - b.top || a.left - b.left;
-      }
-      function Tg(a, b, d2) {
-        function c(q, r, u, A) {
-          0 > r && (r = 0);
-          r = Math.round(r);
-          A = Math.round(A);
-          h2.appendChild(v2("div", null, "CodeMirror-selected", "position: absolute; left: " + q + "px;\n                             top: " + r + "px; width: " + (null == u ? m2 - q : u) + "px;\n                             height: " + (A - r) + "px"));
-        }
-        function e(q, r, u) {
-          function A(F, R2) {
-            return Ic(a, t(q, F), "div", x, R2);
-          }
-          function Y(F, R2, H) {
-            F = df(a, x, null, F);
-            R2 = "ltr" == R2 == ("after" == H) ? "left" : "right";
-            H = "after" == H ? F.begin : F.end - (/\s/.test(x.text.charAt(F.end - 1)) ? 2 : 1);
-            return A(H, R2)[R2];
-          }
-          var x = w(g, q), P = x.text.length, K, Q, S = Ja(x, g.direction);
-          Bg(S, r || 0, null == u ? P : u, function(F, R2, H, L) {
-            var ha = "ltr" == H, na = A(F, ha ? "left" : "right"), ua = A(R2 - 1, ha ? "right" : "left"), hb = null == r && 0 == F, ib = null == u && R2 == P, Pd = 0 == L;
-            L = !S || L == S.length - 1;
-            3 >= ua.top - na.top ? (R2 = (n ? hb : ib) && Pd ? l : (ha ? na : ua).left, c(R2, na.top, ((n ? ib : hb) && L ? m2 : (ha ? ua : na).right) - R2, na.bottom)) : (ha ? (ha = n && hb && Pd ? l : na.left, hb = n ? m2 : Y(F, H, "before"), F = n ? l : Y(
-              R2,
-              H,
-              "after"
-            ), ib = n && ib && L ? m2 : ua.right) : (ha = n ? Y(F, H, "before") : l, hb = !n && hb && Pd ? m2 : na.right, F = !n && ib && L ? l : ua.left, ib = n ? Y(R2, H, "after") : m2), c(ha, na.top, hb - ha, na.bottom), na.bottom < ua.top && c(l, na.bottom, null, ua.top), c(F, ua.top, ib - F, ua.bottom));
-            if (!K || 0 > Kc(na, K))
-              K = na;
-            0 > Kc(ua, K) && (K = ua);
-            if (!Q || 0 > Kc(na, Q))
-              Q = na;
-            0 > Kc(ua, Q) && (Q = ua);
-          });
-          return { start: K, end: Q };
-        }
-        var f = a.display, g = a.doc, h2 = document.createDocumentFragment(), k = Te(a.display), l = k.left, m2 = Math.max(f.sizerWidth, cb(a) - f.sizer.offsetLeft) - k.right, n = "ltr" == g.direction;
-        f = b.from();
-        b = b.to();
-        if (f.line == b.line)
-          e(f.line, f.ch, b.ch);
-        else {
-          var p = w(g, f.line);
-          k = w(g, b.line);
-          k = za(p) == za(k);
-          f = e(f.line, f.ch, k ? p.text.length + 1 : null).end;
-          b = e(b.line, k ? 0 : null, b.ch).start;
-          k && (f.top < b.top - 2 ? (c(f.right, f.top, null, f.bottom), c(l, b.top, b.left, b.bottom)) : c(f.right, f.top, b.left - f.right, f.bottom));
-          f.bottom < b.top && c(l, f.bottom, null, b.top);
-        }
-        d2.appendChild(h2);
-      }
-      function Qd(a) {
-        if (a.state.focused) {
-          var b = a.display;
-          clearInterval(b.blinker);
-          var d2 = true;
-          b.cursorDiv.style.visibility = "";
-          0 < a.options.cursorBlinkRate ? b.blinker = setInterval(function() {
-            a.hasFocus() || wb(a);
-            b.cursorDiv.style.visibility = (d2 = !d2) ? "" : "hidden";
-          }, a.options.cursorBlinkRate) : 0 > a.options.cursorBlinkRate && (b.cursorDiv.style.visibility = "hidden");
-        }
-      }
-      function hf(a) {
-        a.hasFocus() || (a.display.input.focus(), a.state.focused || Rd(a));
-      }
-      function Sd(a) {
-        a.state.delayingBlurEvent = true;
-        setTimeout(function() {
-          a.state.delayingBlurEvent && (a.state.delayingBlurEvent = false, a.state.focused && wb(a));
-        }, 100);
-      }
-      function Rd(a, b) {
-        a.state.delayingBlurEvent && !a.state.draggingText && (a.state.delayingBlurEvent = false);
-        "nocursor" != a.options.readOnly && (a.state.focused || (W(a, "focus", a, b), a.state.focused = true, Ya(a.display.wrapper, "CodeMirror-focused"), a.curOp || a.display.selForContextMenu == a.doc.sel || (a.display.input.reset(), fa && setTimeout(function() {
-          return a.display.input.reset(true);
-        }, 20)), a.display.input.receivedFocus()), Qd(a));
-      }
-      function wb(a, b) {
-        a.state.delayingBlurEvent || (a.state.focused && (W(a, "blur", a, b), a.state.focused = false, jb(a.display.wrapper, "CodeMirror-focused")), clearInterval(a.display.blinker), setTimeout(function() {
-          a.state.focused || (a.display.shift = false);
-        }, 150));
-      }
-      function Lc(a) {
-        for (var b = a.display, d2 = b.lineDiv.offsetTop, c = Math.max(0, b.scroller.getBoundingClientRect().top), e = b.lineDiv.getBoundingClientRect().top, f = 0, g = 0; g < b.view.length; g++) {
-          var h2 = b.view[g], k = a.options.lineWrapping, l = 0;
-          if (!h2.hidden) {
-            e += h2.line.height;
-            if (G && 8 > T) {
-              k = h2.node.offsetTop + h2.node.offsetHeight;
-              var m2 = k - d2;
-              d2 = k;
-            } else {
-              var n = h2.node.getBoundingClientRect();
-              m2 = n.bottom - n.top;
-              !k && h2.text.firstChild && (l = h2.text.firstChild.getBoundingClientRect().right - n.left - 1);
-            }
-            k = h2.line.height - m2;
-            if (5e-3 < k || -5e-3 > k) {
-              if (e < c && (f -= k), Ea(h2.line, m2), jf(h2.line), h2.rest)
-                for (m2 = 0; m2 < h2.rest.length; m2++)
-                  jf(h2.rest[m2]);
-            }
-            l > a.display.sizerWidth && (l = Math.ceil(l / ub(a.display)), l > a.display.maxLineLength && (a.display.maxLineLength = l, a.display.maxLine = h2.line, a.display.maxLineChanged = true));
-          }
-        }
-        2 < Math.abs(f) && (b.scroller.scrollTop += f);
-      }
-      function jf(a) {
-        if (a.widgets)
-          for (var b = 0; b < a.widgets.length; ++b) {
-            var d2 = a.widgets[b], c = d2.node.parentNode;
-            c && (d2.height = c.offsetHeight);
-          }
-      }
-      function Mc(a, b, d2) {
-        var c = d2 && null != d2.top ? Math.max(0, d2.top) : a.scroller.scrollTop;
-        c = Math.floor(c - a.lineSpace.offsetTop);
-        var e = d2 && null != d2.bottom ? d2.bottom : c + a.wrapper.clientHeight;
-        c = bb(b, c);
-        e = bb(b, e);
-        if (d2 && d2.ensure) {
-          var f = d2.ensure.from.line;
-          d2 = d2.ensure.to.line;
-          f < c ? (c = f, e = bb(b, Ga(w(b, f)) + a.wrapper.clientHeight)) : Math.min(d2, b.lastLine()) >= e && (c = bb(b, Ga(w(b, d2)) - a.wrapper.clientHeight), e = d2);
-        }
-        return { from: c, to: Math.max(e, c + 1) };
-      }
-      function Td(a, b) {
-        var d2 = a.display, c = vb(a.display);
-        0 > b.top && (b.top = 0);
-        var e = a.curOp && null != a.curOp.scrollTop ? a.curOp.scrollTop : d2.scroller.scrollTop, f = Ed(a), g = {};
-        b.bottom - b.top > f && (b.bottom = b.top + f);
-        var h2 = a.doc.height + Dd(d2), k = b.top < c;
-        c = b.bottom > h2 - c;
-        b.top < e ? g.scrollTop = k ? 0 : b.top : b.bottom > e + f && (f = Math.min(b.top, (c ? h2 : b.bottom) - f), f != e && (g.scrollTop = f));
-        e = a.options.fixedGutter ? 0 : d2.gutters.offsetWidth;
-        f = a.curOp && null != a.curOp.scrollLeft ? a.curOp.scrollLeft : d2.scroller.scrollLeft - e;
-        a = cb(a) - d2.gutters.offsetWidth;
-        if (d2 = b.right - b.left > a)
-          b.right = b.left + a;
-        10 > b.left ? g.scrollLeft = 0 : b.left < f ? g.scrollLeft = Math.max(0, b.left + e - (d2 ? 0 : 10)) : b.right > a + f - 3 && (g.scrollLeft = b.right + (d2 ? 0 : 10) - a);
-        return g;
-      }
-      function Nc(a, b) {
-        null != b && (Oc(a), a.curOp.scrollTop = (null == a.curOp.scrollTop ? a.doc.scrollTop : a.curOp.scrollTop) + b);
-      }
-      function xb(a) {
-        Oc(a);
-        var b = a.getCursor();
-        a.curOp.scrollToPos = { from: b, to: b, margin: a.options.cursorScrollMargin };
-      }
-      function Wb(a, b, d2) {
-        null == b && null == d2 || Oc(a);
-        null != b && (a.curOp.scrollLeft = b);
-        null != d2 && (a.curOp.scrollTop = d2);
-      }
-      function Oc(a) {
-        var b = a.curOp.scrollToPos;
-        if (b) {
-          a.curOp.scrollToPos = null;
-          var d2 = bf(a, b.from), c = bf(a, b.to);
-          kf(a, d2, c, b.margin);
-        }
-      }
-      function kf(a, b, d2, c) {
-        b = Td(a, { left: Math.min(b.left, d2.left), top: Math.min(b.top, d2.top) - c, right: Math.max(b.right, d2.right), bottom: Math.max(b.bottom, d2.bottom) + c });
-        Wb(a, b.scrollLeft, b.scrollTop);
-      }
-      function Xb(a, b) {
-        2 > Math.abs(a.doc.scrollTop - b) || (Ma || Ud(a, { top: b }), lf(a, b, true), Ma && Ud(a), Yb(a, 100));
-      }
-      function lf(a, b, d2) {
-        b = Math.max(0, Math.min(a.display.scroller.scrollHeight - a.display.scroller.clientHeight, b));
-        if (a.display.scroller.scrollTop != b || d2)
-          a.doc.scrollTop = b, a.display.scrollbars.setScrollTop(b), a.display.scroller.scrollTop != b && (a.display.scroller.scrollTop = b);
-      }
-      function kb(a, b, d2, c) {
-        b = Math.max(0, Math.min(b, a.display.scroller.scrollWidth - a.display.scroller.clientWidth));
-        (d2 ? b == a.doc.scrollLeft : 2 > Math.abs(a.doc.scrollLeft - b)) && !c || (a.doc.scrollLeft = b, mf(a), a.display.scroller.scrollLeft != b && (a.display.scroller.scrollLeft = b), a.display.scrollbars.setScrollLeft(b));
-      }
-      function Zb(a) {
-        var b = a.display, d2 = b.gutters.offsetWidth, c = Math.round(a.doc.height + Dd(a.display));
-        return {
-          clientHeight: b.scroller.clientHeight,
-          viewHeight: b.wrapper.clientHeight,
-          scrollWidth: b.scroller.scrollWidth,
-          clientWidth: b.scroller.clientWidth,
-          viewWidth: b.wrapper.clientWidth,
-          barLeft: a.options.fixedGutter ? d2 : 0,
-          docHeight: c,
-          scrollHeight: c + Ha(a) + b.barHeight,
-          nativeBarWidth: b.nativeBarWidth,
-          gutterWidth: d2
-        };
-      }
-      function yb(a, b) {
-        b || (b = Zb(a));
-        var d2 = a.display.barWidth, c = a.display.barHeight;
-        nf(a, b);
-        for (b = 0; 4 > b && d2 != a.display.barWidth || c != a.display.barHeight; b++)
-          d2 != a.display.barWidth && a.options.lineWrapping && Lc(a), nf(a, Zb(a)), d2 = a.display.barWidth, c = a.display.barHeight;
-      }
-      function nf(a, b) {
-        var d2 = a.display, c = d2.scrollbars.update(b);
-        d2.sizer.style.paddingRight = (d2.barWidth = c.right) + "px";
-        d2.sizer.style.paddingBottom = (d2.barHeight = c.bottom) + "px";
-        d2.heightForcer.style.borderBottom = c.bottom + "px solid transparent";
-        c.right && c.bottom ? (d2.scrollbarFiller.style.display = "block", d2.scrollbarFiller.style.height = c.bottom + "px", d2.scrollbarFiller.style.width = c.right + "px") : d2.scrollbarFiller.style.display = "";
-        c.bottom && a.options.coverGutterNextToScrollbar && a.options.fixedGutter ? (d2.gutterFiller.style.display = "block", d2.gutterFiller.style.height = c.bottom + "px", d2.gutterFiller.style.width = b.gutterWidth + "px") : d2.gutterFiller.style.display = "";
-      }
-      function of(a) {
-        a.display.scrollbars && (a.display.scrollbars.clear(), a.display.scrollbars.addClass && jb(a.display.wrapper, a.display.scrollbars.addClass));
-        a.display.scrollbars = new pf[a.options.scrollbarStyle](function(b) {
-          a.display.wrapper.insertBefore(b, a.display.scrollbarFiller);
-          z(b, "mousedown", function() {
-            a.state.focused && setTimeout(function() {
-              return a.display.input.focus();
-            }, 0);
-          });
-          b.setAttribute("cm-not-content", "true");
-        }, function(b, d2) {
-          "horizontal" == d2 ? kb(a, b) : Xb(a, b);
-        }, a);
-        a.display.scrollbars.addClass && Ya(a.display.wrapper, a.display.scrollbars.addClass);
-      }
-      function lb(a) {
-        a.curOp = { cm: a, viewChanged: false, startHeight: a.doc.height, forceUpdate: false, updateInput: 0, typing: false, changeObjs: null, cursorActivityHandlers: null, cursorActivityCalled: 0, selectionChanged: false, updateMaxLine: false, scrollLeft: null, scrollTop: null, scrollToPos: null, focus: false, id: ++Ug, markArrays: null };
-        a = a.curOp;
-        tb ? tb.ops.push(a) : a.ownsGroup = tb = { ops: [a], delayedCallbacks: [] };
-      }
-      function mb(a) {
-        (a = a.curOp) && Ng(a, function(b) {
-          for (var d2 = 0; d2 < b.ops.length; d2++)
-            b.ops[d2].cm.curOp = null;
-          b = b.ops;
-          for (d2 = 0; d2 < b.length; d2++) {
-            var c = b[d2], e = c.cm, f = e.display, g = e.display;
-            !g.scrollbarsClipped && g.scroller.offsetWidth && (g.nativeBarWidth = g.scroller.offsetWidth - g.scroller.clientWidth, g.heightForcer.style.height = Ha(e) + "px", g.sizer.style.marginBottom = -g.nativeBarWidth + "px", g.sizer.style.borderRightWidth = Ha(e) + "px", g.scrollbarsClipped = true);
-            c.updateMaxLine && zd(e);
-            c.mustUpdate = c.viewChanged || c.forceUpdate || null != c.scrollTop || c.scrollToPos && (c.scrollToPos.from.line < f.viewFrom || c.scrollToPos.to.line >= f.viewTo) || f.maxLineChanged && e.options.lineWrapping;
-            c.update = c.mustUpdate && new Pc(e, c.mustUpdate && { top: c.scrollTop, ensure: c.scrollToPos }, c.forceUpdate);
-          }
-          for (d2 = 0; d2 < b.length; d2++)
-            c = b[d2], c.updatedDisplay = c.mustUpdate && Vd(c.cm, c.update);
-          for (d2 = 0; d2 < b.length; d2++)
-            if (c = b[d2], e = c.cm, f = e.display, c.updatedDisplay && Lc(e), c.barMeasure = Zb(e), f.maxLineChanged && !e.options.lineWrapping && (g = f.maxLine.text.length, g = Aa(e, eb(e, f.maxLine), g, void 0), c.adjustWidthTo = g.left + 3, e.display.sizerWidth = c.adjustWidthTo, c.barMeasure.scrollWidth = Math.max(f.scroller.clientWidth, f.sizer.offsetLeft + c.adjustWidthTo + Ha(e) + e.display.barWidth), c.maxScrollLeft = Math.max(0, f.sizer.offsetLeft + c.adjustWidthTo - cb(e))), c.updatedDisplay || c.selectionChanged)
-              c.preparedSelection = f.input.prepareSelection();
-          for (d2 = 0; d2 < b.length; d2++)
-            c = b[d2], e = c.cm, null != c.adjustWidthTo && (e.display.sizer.style.minWidth = c.adjustWidthTo + "px", c.maxScrollLeft < e.doc.scrollLeft && kb(e, Math.min(e.display.scroller.scrollLeft, c.maxScrollLeft), true), e.display.maxLineChanged = false), f = c.focus && c.focus == ka(qa(e)), c.preparedSelection && e.display.input.showSelection(c.preparedSelection, f), (c.updatedDisplay || c.startHeight != e.doc.height) && yb(e, c.barMeasure), c.updatedDisplay && Wd(e, c.barMeasure), c.selectionChanged && Qd(e), e.state.focused && c.updateInput && e.display.input.reset(c.typing), f && hf(c.cm);
-          for (d2 = 0; d2 < b.length; d2++) {
-            var h2 = void 0;
-            c = b[d2];
-            e = c.cm;
-            f = e.display;
-            g = e.doc;
-            c.updatedDisplay && qf(e, c.update);
-            null == f.wheelStartX || null == c.scrollTop && null == c.scrollLeft && !c.scrollToPos || (f.wheelStartX = f.wheelStartY = null);
-            null != c.scrollTop && lf(e, c.scrollTop, c.forceScroll);
-            null != c.scrollLeft && kb(e, c.scrollLeft, true, true);
-            if (c.scrollToPos) {
-              var k = C(g, c.scrollToPos.from);
-              var l = C(g, c.scrollToPos.to);
-              var m2 = c.scrollToPos.margin;
-              null == m2 && (m2 = 0);
-              e.options.lineWrapping || k != l || (l = "before" == k.sticky ? t(k.line, k.ch + 1, "before") : k, k = k.ch ? t(k.line, "before" == k.sticky ? k.ch - 1 : k.ch, "after") : k);
-              for (var n = 0; 5 > n; n++) {
-                var p = false;
-                h2 = Ba(
-                  e,
-                  k
-                );
-                var q = l && l != k ? Ba(e, l) : h2;
-                h2 = { left: Math.min(h2.left, q.left), top: Math.min(h2.top, q.top) - m2, right: Math.max(h2.left, q.left), bottom: Math.max(h2.bottom, q.bottom) + m2 };
-                q = Td(e, h2);
-                var r = e.doc.scrollTop, u = e.doc.scrollLeft;
-                null != q.scrollTop && (Xb(e, q.scrollTop), 1 < Math.abs(e.doc.scrollTop - r) && (p = true));
-                null != q.scrollLeft && (kb(e, q.scrollLeft), 1 < Math.abs(e.doc.scrollLeft - u) && (p = true));
-                if (!p)
-                  break;
-              }
-              l = h2;
-              Z(e, "scrollCursorIntoView") || (m2 = e.display, n = m2.sizer.getBoundingClientRect(), k = null, p = m2.wrapper.ownerDocument, 0 > l.top + n.top ? k = true : l.bottom + n.top > (p.defaultView.innerHeight || p.documentElement.clientHeight) && (k = false), null == k || Vg || (l = v2("div", "​", null, "position: absolute;\n                         top: " + (l.top - m2.viewOffset - e.display.lineSpace.offsetTop) + "px;\n                         height: " + (l.bottom - l.top + Ha(e) + m2.barHeight) + "px;\n                         left: " + l.left + "px; width: " + Math.max(2, l.right - l.left) + "px;"), e.display.lineSpace.appendChild(l), l.scrollIntoView(k), e.display.lineSpace.removeChild(l)));
-            }
-            l = c.maybeHiddenMarkers;
-            k = c.maybeUnhiddenMarkers;
-            if (l)
-              for (m2 = 0; m2 < l.length; ++m2)
-                l[m2].lines.length || W(l[m2], "hide");
-            if (k)
-              for (l = 0; l < k.length; ++l)
-                k[l].lines.length && W(k[l], "unhide");
-            f.wrapper.offsetHeight && (g.scrollTop = e.display.scroller.scrollTop);
-            c.changeObjs && W(e, "changes", e, c.changeObjs);
-            c.update && c.update.finish();
-          }
-        });
-      }
-      function ra(a, b) {
+      });
+    }
+    function ra(a, b) {
+      if (a.curOp)
+        return b();
+      lb(a);
+      try {
+        return b();
+      } finally {
+        mb(a);
+      }
+    }
+    function ba(a, b) {
+      return function() {
         if (a.curOp)
-          return b();
+          return b.apply(a, arguments);
         lb(a);
         try {
-          return b();
+          return b.apply(a, arguments);
         } finally {
           mb(a);
         }
-      }
-      function ba(a, b) {
-        return function() {
-          if (a.curOp)
-            return b.apply(a, arguments);
-          lb(a);
-          try {
-            return b.apply(a, arguments);
-          } finally {
-            mb(a);
-          }
-        };
-      }
-      function ia(a) {
-        return function() {
-          if (this.curOp)
-            return a.apply(
-              this,
-              arguments
-            );
-          lb(this);
-          try {
-            return a.apply(this, arguments);
-          } finally {
-            mb(this);
-          }
-        };
-      }
-      function ca(a) {
-        return function() {
-          var b = this.cm;
-          if (!b || b.curOp)
-            return a.apply(this, arguments);
-          lb(b);
-          try {
-            return a.apply(this, arguments);
-          } finally {
-            mb(b);
-          }
-        };
-      }
-      function Yb(a, b) {
-        a.doc.highlightFrontier < a.display.viewTo && a.state.highlight.set(b, gd(Wg, a));
-      }
-      function Wg(a) {
-        var b = a.doc;
-        if (!(b.highlightFrontier >= a.display.viewTo)) {
-          var d2 = +/* @__PURE__ */ new Date() + a.options.workTime, c = Ob(a, b.highlightFrontier), e = [];
-          b.iter(c.line, Math.min(b.first + b.size, a.display.viewTo + 500), function(f) {
-            if (c.line >= a.display.viewFrom) {
-              var g = f.styles, h2 = f.text.length > a.options.maxHighlightLength ? $a(b.mode, c.state) : null, k = ye(a, f, c, true);
-              h2 && (c.state = h2);
-              f.styles = k.styles;
-              h2 = f.styleClasses;
-              (k = k.classes) ? f.styleClasses = k : h2 && (f.styleClasses = null);
-              k = !g || g.length != f.styles.length || h2 != k && (!h2 || !k || h2.bgClass != k.bgClass || h2.textClass != k.textClass);
-              for (h2 = 0; !k && h2 < g.length; ++h2)
-                k = g[h2] != f.styles[h2];
-              k && e.push(c.line);
-              f.stateAfter = c.save();
-            } else
-              f.text.length <= a.options.maxHighlightLength && td(a, f.text, c), f.stateAfter = 0 == c.line % 5 ? c.save() : null;
-            c.nextLine();
-            if (+/* @__PURE__ */ new Date() > d2)
-              return Yb(a, a.options.workDelay), true;
-          });
-          b.highlightFrontier = c.line;
-          b.modeFrontier = Math.max(b.modeFrontier, c.line);
-          e.length && ra(a, function() {
-            for (var f = 0; f < e.length; f++)
-              Sa(a, e[f], "text");
-          });
+      };
+    }
+    function ia(a) {
+      return function() {
+        if (this.curOp)
+          return a.apply(
+            this,
+            arguments
+          );
+        lb(this);
+        try {
+          return a.apply(this, arguments);
+        } finally {
+          mb(this);
         }
+      };
+    }
+    function ca(a) {
+      return function() {
+        var b = this.cm;
+        if (!b || b.curOp)
+          return a.apply(this, arguments);
+        lb(b);
+        try {
+          return a.apply(this, arguments);
+        } finally {
+          mb(b);
+        }
+      };
+    }
+    function Yb(a, b) {
+      a.doc.highlightFrontier < a.display.viewTo && a.state.highlight.set(b, gd(Wg, a));
+    }
+    function Wg(a) {
+      var b = a.doc;
+      if (!(b.highlightFrontier >= a.display.viewTo)) {
+        var d2 = +/* @__PURE__ */ new Date() + a.options.workTime, c = Ob(a, b.highlightFrontier), e = [];
+        b.iter(c.line, Math.min(b.first + b.size, a.display.viewTo + 500), function(f) {
+          if (c.line >= a.display.viewFrom) {
+            var g = f.styles, h2 = f.text.length > a.options.maxHighlightLength ? $a(b.mode, c.state) : null, k = ye(a, f, c, true);
+            h2 && (c.state = h2);
+            f.styles = k.styles;
+            h2 = f.styleClasses;
+            (k = k.classes) ? f.styleClasses = k : h2 && (f.styleClasses = null);
+            k = !g || g.length != f.styles.length || h2 != k && (!h2 || !k || h2.bgClass != k.bgClass || h2.textClass != k.textClass);
+            for (h2 = 0; !k && h2 < g.length; ++h2)
+              k = g[h2] != f.styles[h2];
+            k && e.push(c.line);
+            f.stateAfter = c.save();
+          } else
+            f.text.length <= a.options.maxHighlightLength && td(a, f.text, c), f.stateAfter = 0 == c.line % 5 ? c.save() : null;
+          c.nextLine();
+          if (+/* @__PURE__ */ new Date() > d2)
+            return Yb(a, a.options.workDelay), true;
+        });
+        b.highlightFrontier = c.line;
+        b.modeFrontier = Math.max(b.modeFrontier, c.line);
+        e.length && ra(a, function() {
+          for (var f = 0; f < e.length; f++)
+            Sa(a, e[f], "text");
+        });
       }
-      function Vd(a, b) {
-        var d2 = a.display, c = a.doc;
-        if (b.editorIsHidden)
-          return Ra(a), false;
-        if (!b.force && b.visible.from >= d2.viewFrom && b.visible.to <= d2.viewTo && (null == d2.updateLineNumbers || d2.updateLineNumbers >= d2.viewTo) && d2.renderedView == d2.view && 0 == ff(a))
-          return false;
-        rf(a) && (Ra(a), b.dims = Gd(a));
-        var e = c.first + c.size, f = Math.max(b.visible.from - a.options.viewportMargin, c.first), g = Math.min(e, b.visible.to + a.options.viewportMargin);
-        d2.viewFrom < f && 20 > f - d2.viewFrom && (f = Math.max(c.first, d2.viewFrom));
-        d2.viewTo > g && 20 > d2.viewTo - g && (g = Math.min(e, d2.viewTo));
-        Ka && (f = xd(a.doc, f), g = Je(a.doc, g));
-        c = f != d2.viewFrom || g != d2.viewTo || d2.lastWrapHeight != b.wrapperHeight || d2.lastWrapWidth != b.wrapperWidth;
-        e = a.display;
-        0 == e.view.length || f >= e.viewTo || g <= e.viewFrom ? (e.view = Fc(a, f, g), e.viewFrom = f) : (e.viewFrom > f ? e.view = Fc(a, f, e.viewFrom).concat(e.view) : e.viewFrom < f && (e.view = e.view.slice(db(a, f))), e.viewFrom = f, e.viewTo < g ? e.view = e.view.concat(Fc(a, e.viewTo, g)) : e.viewTo > g && (e.view = e.view.slice(0, db(a, g))));
-        e.viewTo = g;
-        d2.viewOffset = Ga(w(a.doc, d2.viewFrom));
-        a.display.mover.style.top = d2.viewOffset + "px";
-        g = ff(a);
-        if (!c && 0 == g && !b.force && d2.renderedView == d2.view && (null == d2.updateLineNumbers || d2.updateLineNumbers >= d2.viewTo))
-          return false;
-        a.hasFocus() ? f = null : (f = ka(qa(a))) && ja(a.display.lineDiv, f) ? (f = { activeElt: f }, window.getSelection && (e = qa(a).defaultView.getSelection(), e.anchorNode && e.extend && ja(a.display.lineDiv, e.anchorNode) && (f.anchorNode = e.anchorNode, f.anchorOffset = e.anchorOffset, f.focusNode = e.focusNode, f.focusOffset = e.focusOffset))) : f = null;
-        4 < g && (d2.lineDiv.style.display = "none");
-        Xg(a, d2.updateLineNumbers, b.dims);
-        4 < g && (d2.lineDiv.style.display = "");
-        d2.renderedView = d2.view;
-        (g = f) && g.activeElt && g.activeElt != ka(g.activeElt.ownerDocument) && (g.activeElt.focus(), !/^(INPUT|TEXTAREA)$/.test(g.activeElt.nodeName) && g.anchorNode && ja(
-          document.body,
-          g.anchorNode
-        ) && ja(document.body, g.focusNode) && (e = g.activeElt.ownerDocument, f = e.defaultView.getSelection(), e = e.createRange(), e.setEnd(g.anchorNode, g.anchorOffset), e.collapse(false), f.removeAllRanges(), f.addRange(e), f.extend(g.focusNode, g.focusOffset)));
-        E(d2.cursorDiv);
-        E(d2.selectionDiv);
-        d2.gutters.style.height = d2.sizer.style.minHeight = 0;
-        c && (d2.lastWrapHeight = b.wrapperHeight, d2.lastWrapWidth = b.wrapperWidth, Yb(a, 400));
-        d2.updateLineNumbers = null;
+    }
+    function Vd(a, b) {
+      var d2 = a.display, c = a.doc;
+      if (b.editorIsHidden)
+        return Ra(a), false;
+      if (!b.force && b.visible.from >= d2.viewFrom && b.visible.to <= d2.viewTo && (null == d2.updateLineNumbers || d2.updateLineNumbers >= d2.viewTo) && d2.renderedView == d2.view && 0 == ff(a))
+        return false;
+      rf(a) && (Ra(a), b.dims = Gd(a));
+      var e = c.first + c.size, f = Math.max(b.visible.from - a.options.viewportMargin, c.first), g = Math.min(e, b.visible.to + a.options.viewportMargin);
+      d2.viewFrom < f && 20 > f - d2.viewFrom && (f = Math.max(c.first, d2.viewFrom));
+      d2.viewTo > g && 20 > d2.viewTo - g && (g = Math.min(e, d2.viewTo));
+      Ka && (f = xd(a.doc, f), g = Je(a.doc, g));
+      c = f != d2.viewFrom || g != d2.viewTo || d2.lastWrapHeight != b.wrapperHeight || d2.lastWrapWidth != b.wrapperWidth;
+      e = a.display;
+      0 == e.view.length || f >= e.viewTo || g <= e.viewFrom ? (e.view = Fc(a, f, g), e.viewFrom = f) : (e.viewFrom > f ? e.view = Fc(a, f, e.viewFrom).concat(e.view) : e.viewFrom < f && (e.view = e.view.slice(db(a, f))), e.viewFrom = f, e.viewTo < g ? e.view = e.view.concat(Fc(a, e.viewTo, g)) : e.viewTo > g && (e.view = e.view.slice(0, db(a, g))));
+      e.viewTo = g;
+      d2.viewOffset = Ga(w(a.doc, d2.viewFrom));
+      a.display.mover.style.top = d2.viewOffset + "px";
+      g = ff(a);
+      if (!c && 0 == g && !b.force && d2.renderedView == d2.view && (null == d2.updateLineNumbers || d2.updateLineNumbers >= d2.viewTo))
+        return false;
+      a.hasFocus() ? f = null : (f = ka(qa(a))) && ja(a.display.lineDiv, f) ? (f = { activeElt: f }, window.getSelection && (e = qa(a).defaultView.getSelection(), e.anchorNode && e.extend && ja(a.display.lineDiv, e.anchorNode) && (f.anchorNode = e.anchorNode, f.anchorOffset = e.anchorOffset, f.focusNode = e.focusNode, f.focusOffset = e.focusOffset))) : f = null;
+      4 < g && (d2.lineDiv.style.display = "none");
+      Xg(a, d2.updateLineNumbers, b.dims);
+      4 < g && (d2.lineDiv.style.display = "");
+      d2.renderedView = d2.view;
+      (g = f) && g.activeElt && g.activeElt != ka(g.activeElt.ownerDocument) && (g.activeElt.focus(), !/^(INPUT|TEXTAREA)$/.test(g.activeElt.nodeName) && g.anchorNode && ja(
+        document.body,
+        g.anchorNode
+      ) && ja(document.body, g.focusNode) && (e = g.activeElt.ownerDocument, f = e.defaultView.getSelection(), e = e.createRange(), e.setEnd(g.anchorNode, g.anchorOffset), e.collapse(false), f.removeAllRanges(), f.addRange(e), f.extend(g.focusNode, g.focusOffset)));
+      E(d2.cursorDiv);
+      E(d2.selectionDiv);
+      d2.gutters.style.height = d2.sizer.style.minHeight = 0;
+      c && (d2.lastWrapHeight = b.wrapperHeight, d2.lastWrapWidth = b.wrapperWidth, Yb(a, 400));
+      d2.updateLineNumbers = null;
+      return true;
+    }
+    function qf(a, b) {
+      for (var d2 = b.viewport, c = true; ; c = false) {
+        if (c && a.options.lineWrapping && b.oldDisplayWidth != cb(a))
+          c && (b.visible = Mc(a.display, a.doc, d2));
+        else if (d2 && null != d2.top && (d2 = { top: Math.min(a.doc.height + Dd(a.display) - Ed(a), d2.top) }), b.visible = Mc(a.display, a.doc, d2), b.visible.from >= a.display.viewFrom && b.visible.to <= a.display.viewTo)
+          break;
+        if (!Vd(a, b))
+          break;
+        Lc(a);
+        c = Zb(a);
+        Vb(a);
+        yb(a, c);
+        Wd(a, c);
+        b.force = false;
+      }
+      b.signal(a, "update", a);
+      if (a.display.viewFrom != a.display.reportedViewFrom || a.display.viewTo != a.display.reportedViewTo)
+        b.signal(a, "viewportChange", a, a.display.viewFrom, a.display.viewTo), a.display.reportedViewFrom = a.display.viewFrom, a.display.reportedViewTo = a.display.viewTo;
+    }
+    function Ud(a, b) {
+      b = new Pc(a, b);
+      if (Vd(a, b)) {
+        Lc(a);
+        qf(a, b);
+        var d2 = Zb(a);
+        Vb(a);
+        yb(a, d2);
+        Wd(a, d2);
+        b.finish();
+      }
+    }
+    function Xg(a, b, d2) {
+      function c(p) {
+        var q = p.nextSibling;
+        fa && ya && a.display.currentWheelTarget == p ? p.style.display = "none" : p.parentNode.removeChild(p);
+        return q;
+      }
+      var e = a.display, f = a.options.lineNumbers, g = e.lineDiv, h2 = g.firstChild, k = e.view;
+      e = e.viewFrom;
+      for (var l = 0; l < k.length; l++) {
+        var m2 = k[l];
+        if (!m2.hidden)
+          if (m2.node && m2.node.parentNode == g) {
+            for (; h2 != m2.node; )
+              h2 = c(h2);
+            h2 = f && null != b && b <= e && m2.lineNumber;
+            m2.changes && (-1 < ea(m2.changes, "gutter") && (h2 = false), Oe(a, m2, e, d2));
+            h2 && (E(m2.lineNumber), m2.lineNumber.appendChild(document.createTextNode(qd(a.options, e))));
+            h2 = m2.node.nextSibling;
+          } else {
+            var n = Pg(a, m2, e, d2);
+            g.insertBefore(n, h2);
+          }
+        e += m2.size;
+      }
+      for (; h2; )
+        h2 = c(h2);
+    }
+    function Xd(a) {
+      a.sizer.style.marginLeft = a.gutters.offsetWidth + "px";
+      aa(a, "gutterChanged", a);
+    }
+    function Wd(a, b) {
+      a.display.sizer.style.minHeight = b.docHeight + "px";
+      a.display.heightForcer.style.top = b.docHeight + "px";
+      a.display.gutters.style.height = b.docHeight + a.display.barHeight + Ha(a) + "px";
+    }
+    function mf(a) {
+      var b = a.display, d2 = b.view;
+      if (b.alignWidgets || b.gutters.firstChild && a.options.fixedGutter) {
+        for (var c = Md(b) - b.scroller.scrollLeft + a.doc.scrollLeft, e = b.gutters.offsetWidth, f = c + "px", g = 0; g < d2.length; g++)
+          if (!d2[g].hidden) {
+            a.options.fixedGutter && (d2[g].gutter && (d2[g].gutter.style.left = f), d2[g].gutterBackground && (d2[g].gutterBackground.style.left = f));
+            var h2 = d2[g].alignable;
+            if (h2)
+              for (var k = 0; k < h2.length; k++)
+                h2[k].style.left = f;
+          }
+        a.options.fixedGutter && (b.gutters.style.left = c + e + "px");
+      }
+    }
+    function rf(a) {
+      if (!a.options.lineNumbers)
+        return false;
+      var b = a.doc;
+      b = qd(a.options, b.first + b.size - 1);
+      var d2 = a.display;
+      if (b.length != d2.lineNumChars) {
+        var c = d2.measure.appendChild(v2("div", [v2("div", b)], "CodeMirror-linenumber CodeMirror-gutter-elt")), e = c.firstChild.offsetWidth;
+        c = c.offsetWidth - e;
+        d2.lineGutter.style.width = "";
+        d2.lineNumInnerWidth = Math.max(e, d2.lineGutter.offsetWidth - c) + 1;
+        d2.lineNumWidth = d2.lineNumInnerWidth + c;
+        d2.lineNumChars = d2.lineNumInnerWidth ? b.length : -1;
+        d2.lineGutter.style.width = d2.lineNumWidth + "px";
+        Xd(a.display);
         return true;
       }
-      function qf(a, b) {
-        for (var d2 = b.viewport, c = true; ; c = false) {
-          if (c && a.options.lineWrapping && b.oldDisplayWidth != cb(a))
-            c && (b.visible = Mc(a.display, a.doc, d2));
-          else if (d2 && null != d2.top && (d2 = { top: Math.min(a.doc.height + Dd(a.display) - Ed(a), d2.top) }), b.visible = Mc(a.display, a.doc, d2), b.visible.from >= a.display.viewFrom && b.visible.to <= a.display.viewTo)
-            break;
-          if (!Vd(a, b))
-            break;
-          Lc(a);
-          c = Zb(a);
-          Vb(a);
-          yb(a, c);
-          Wd(a, c);
-          b.force = false;
-        }
-        b.signal(a, "update", a);
-        if (a.display.viewFrom != a.display.reportedViewFrom || a.display.viewTo != a.display.reportedViewTo)
-          b.signal(a, "viewportChange", a, a.display.viewFrom, a.display.viewTo), a.display.reportedViewFrom = a.display.viewFrom, a.display.reportedViewTo = a.display.viewTo;
-      }
-      function Ud(a, b) {
-        b = new Pc(a, b);
-        if (Vd(a, b)) {
-          Lc(a);
-          qf(a, b);
-          var d2 = Zb(a);
-          Vb(a);
-          yb(a, d2);
-          Wd(a, d2);
-          b.finish();
-        }
-      }
-      function Xg(a, b, d2) {
-        function c(p) {
-          var q = p.nextSibling;
-          fa && ya && a.display.currentWheelTarget == p ? p.style.display = "none" : p.parentNode.removeChild(p);
-          return q;
-        }
-        var e = a.display, f = a.options.lineNumbers, g = e.lineDiv, h2 = g.firstChild, k = e.view;
-        e = e.viewFrom;
-        for (var l = 0; l < k.length; l++) {
-          var m2 = k[l];
-          if (!m2.hidden)
-            if (m2.node && m2.node.parentNode == g) {
-              for (; h2 != m2.node; )
-                h2 = c(h2);
-              h2 = f && null != b && b <= e && m2.lineNumber;
-              m2.changes && (-1 < ea(m2.changes, "gutter") && (h2 = false), Oe(a, m2, e, d2));
-              h2 && (E(m2.lineNumber), m2.lineNumber.appendChild(document.createTextNode(qd(a.options, e))));
-              h2 = m2.node.nextSibling;
-            } else {
-              var n = Pg(a, m2, e, d2);
-              g.insertBefore(n, h2);
-            }
-          e += m2.size;
-        }
-        for (; h2; )
-          h2 = c(h2);
-      }
-      function Xd(a) {
-        a.sizer.style.marginLeft = a.gutters.offsetWidth + "px";
-        aa(a, "gutterChanged", a);
-      }
-      function Wd(a, b) {
-        a.display.sizer.style.minHeight = b.docHeight + "px";
-        a.display.heightForcer.style.top = b.docHeight + "px";
-        a.display.gutters.style.height = b.docHeight + a.display.barHeight + Ha(a) + "px";
-      }
-      function mf(a) {
-        var b = a.display, d2 = b.view;
-        if (b.alignWidgets || b.gutters.firstChild && a.options.fixedGutter) {
-          for (var c = Md(b) - b.scroller.scrollLeft + a.doc.scrollLeft, e = b.gutters.offsetWidth, f = c + "px", g = 0; g < d2.length; g++)
-            if (!d2[g].hidden) {
-              a.options.fixedGutter && (d2[g].gutter && (d2[g].gutter.style.left = f), d2[g].gutterBackground && (d2[g].gutterBackground.style.left = f));
-              var h2 = d2[g].alignable;
-              if (h2)
-                for (var k = 0; k < h2.length; k++)
-                  h2[k].style.left = f;
-            }
-          a.options.fixedGutter && (b.gutters.style.left = c + e + "px");
-        }
-      }
-      function rf(a) {
-        if (!a.options.lineNumbers)
-          return false;
-        var b = a.doc;
-        b = qd(a.options, b.first + b.size - 1);
-        var d2 = a.display;
-        if (b.length != d2.lineNumChars) {
-          var c = d2.measure.appendChild(v2("div", [v2("div", b)], "CodeMirror-linenumber CodeMirror-gutter-elt")), e = c.firstChild.offsetWidth;
-          c = c.offsetWidth - e;
-          d2.lineGutter.style.width = "";
-          d2.lineNumInnerWidth = Math.max(e, d2.lineGutter.offsetWidth - c) + 1;
-          d2.lineNumWidth = d2.lineNumInnerWidth + c;
-          d2.lineNumChars = d2.lineNumInnerWidth ? b.length : -1;
-          d2.lineGutter.style.width = d2.lineNumWidth + "px";
-          Xd(a.display);
-          return true;
-        }
-        return false;
-      }
-      function Yd(a, b) {
-        for (var d2 = [], c = false, e = 0; e < a.length; e++) {
-          var f = a[e], g = null;
-          "string" != typeof f && (g = f.style, f = f.className);
-          if ("CodeMirror-linenumbers" == f)
-            if (b)
-              c = true;
-            else
-              continue;
-          d2.push({ className: f, style: g });
-        }
-        b && !c && d2.push({ className: "CodeMirror-linenumbers", style: null });
-        return d2;
-      }
-      function sf(a) {
-        var b = a.gutters, d2 = a.gutterSpecs;
-        E(b);
-        a.lineGutter = null;
-        for (var c = 0; c < d2.length; ++c) {
-          var e = d2[c], f = e.className;
-          e = e.style;
-          var g = b.appendChild(v2("div", null, "CodeMirror-gutter " + f));
-          e && (g.style.cssText = e);
-          "CodeMirror-linenumbers" == f && (a.lineGutter = g, g.style.width = (a.lineNumWidth || 1) + "px");
-        }
-        b.style.display = d2.length ? "" : "none";
-        Xd(a);
-      }
-      function $b(a) {
-        sf(a.display);
-        ma(a);
-        mf(a);
-      }
-      function Yg(a, b, d2, c) {
-        this.input = d2;
-        this.scrollbarFiller = v2("div", null, "CodeMirror-scrollbar-filler");
-        this.scrollbarFiller.setAttribute("cm-not-content", "true");
-        this.gutterFiller = v2("div", null, "CodeMirror-gutter-filler");
-        this.gutterFiller.setAttribute("cm-not-content", "true");
-        this.lineDiv = M("div", null, "CodeMirror-code");
-        this.selectionDiv = v2("div", null, null, "position: relative; z-index: 1");
-        this.cursorDiv = v2("div", null, "CodeMirror-cursors");
-        this.measure = v2("div", null, "CodeMirror-measure");
-        this.lineMeasure = v2("div", null, "CodeMirror-measure");
-        this.lineSpace = M("div", [this.measure, this.lineMeasure, this.selectionDiv, this.cursorDiv, this.lineDiv], null, "position: relative; outline: none");
-        var e = M("div", [this.lineSpace], "CodeMirror-lines");
-        this.mover = v2("div", [e], null, "position: relative");
-        this.sizer = v2("div", [this.mover], "CodeMirror-sizer");
-        this.sizerWidth = null;
-        this.heightForcer = v2("div", null, null, "position: absolute; height: 50px; width: 1px;");
-        this.gutters = v2("div", null, "CodeMirror-gutters");
-        this.lineGutter = null;
-        this.scroller = v2("div", [this.sizer, this.heightForcer, this.gutters], "CodeMirror-scroll");
-        this.scroller.setAttribute("tabIndex", "-1");
-        this.wrapper = v2("div", [this.scrollbarFiller, this.gutterFiller, this.scroller], "CodeMirror");
-        Qa && 105 <= tf && (this.wrapper.style.clipPath = "inset(0px)");
-        this.wrapper.setAttribute("translate", "no");
-        G && 8 > T && (this.gutters.style.zIndex = -1, this.scroller.style.paddingRight = 0);
-        fa || Ma && ac || (this.scroller.draggable = true);
-        a && (a.appendChild ? a.appendChild(this.wrapper) : a(this.wrapper));
-        this.reportedViewFrom = this.reportedViewTo = this.viewFrom = this.viewTo = b.first;
-        this.view = [];
-        this.externalMeasured = this.renderedView = null;
-        this.lastWrapHeight = this.lastWrapWidth = this.viewOffset = 0;
-        this.updateLineNumbers = null;
-        this.nativeBarWidth = this.barHeight = this.barWidth = 0;
-        this.scrollbarsClipped = false;
-        this.lineNumWidth = this.lineNumInnerWidth = this.lineNumChars = null;
-        this.alignWidgets = false;
-        this.maxLine = this.cachedCharWidth = this.cachedTextHeight = this.cachedPaddingH = null;
-        this.maxLineLength = 0;
-        this.maxLineChanged = false;
-        this.wheelDX = this.wheelDY = this.wheelStartX = this.wheelStartY = null;
-        this.shift = false;
-        this.activeTouch = this.selForContextMenu = null;
-        this.gutterSpecs = Yd(c.gutters, c.lineNumbers);
-        sf(this);
-        d2.init(this);
-      }
-      function uf(a) {
-        var b = a.wheelDeltaX, d2 = a.wheelDeltaY;
-        null == b && a.detail && a.axis == a.HORIZONTAL_AXIS && (b = a.detail);
-        null == d2 && a.detail && a.axis == a.VERTICAL_AXIS ? d2 = a.detail : null == d2 && (d2 = a.wheelDelta);
-        return { x: b, y: d2 };
-      }
-      function Zg(a) {
-        a = uf(a);
-        a.x *= Na;
-        a.y *= Na;
-        return a;
-      }
-      function vf(a, b) {
-        Qa && 102 == tf && (null == a.display.chromeScrollHack ? a.display.sizer.style.pointerEvents = "none" : clearTimeout(a.display.chromeScrollHack), a.display.chromeScrollHack = setTimeout(function() {
-          a.display.chromeScrollHack = null;
-          a.display.sizer.style.pointerEvents = "";
-        }, 100));
-        var d2 = uf(b), c = d2.x;
-        d2 = d2.y;
-        var e = Na;
-        0 === b.deltaMode && (c = b.deltaX, d2 = b.deltaY, e = 1);
-        var f = a.display, g = f.scroller, h2 = g.scrollWidth > g.clientWidth, k = g.scrollHeight > g.clientHeight;
-        if (c && h2 || d2 && k) {
-          if (d2 && ya && fa) {
-            h2 = b.target;
-            var l = f.view;
-            a:
-              for (; h2 != g; h2 = h2.parentNode)
-                for (var m2 = 0; m2 < l.length; m2++)
-                  if (l[m2].node == h2) {
-                    a.display.currentWheelTarget = h2;
-                    break a;
-                  }
-          }
-          !c || Ma || Ca || null == e ? (d2 && null != e && (e *= d2, k = a.doc.scrollTop, h2 = k + f.wrapper.clientHeight, 0 > e ? k = Math.max(0, k + e - 50) : h2 = Math.min(a.doc.height, h2 + e + 50), Ud(a, { top: k, bottom: h2 })), 20 > Qc && 0 !== b.deltaMode && (null == f.wheelStartX ? (f.wheelStartX = g.scrollLeft, f.wheelStartY = g.scrollTop, f.wheelDX = c, f.wheelDY = d2, setTimeout(function() {
-            if (null != f.wheelStartX) {
-              var n = g.scrollLeft - f.wheelStartX, p = g.scrollTop - f.wheelStartY;
-              n = p && f.wheelDY && p / f.wheelDY || n && f.wheelDX && n / f.wheelDX;
-              f.wheelStartX = f.wheelStartY = null;
-              n && (Na = (Na * Qc + n) / (Qc + 1), ++Qc);
-            }
-          }, 200)) : (f.wheelDX += c, f.wheelDY += d2))) : (d2 && k && Xb(a, Math.max(0, g.scrollTop + d2 * e)), kb(a, Math.max(0, g.scrollLeft + c * e)), (!d2 || d2 && k) && la(b), f.wheelStartX = null);
-        }
-      }
-      function Da(a, b, d2) {
-        a = a && a.options.selectionsMayTouch;
-        d2 = b[d2];
-        b.sort(function(k, l) {
-          return B(k.from(), l.from());
-        });
-        d2 = ea(b, d2);
-        for (var c = 1; c < b.length; c++) {
-          var e = b[c], f = b[c - 1], g = B(f.to(), e.from());
-          if (a && !e.empty() ? 0 < g : 0 <= g) {
-            g = Bc(f.from(), e.from());
-            var h2 = Ac(f.to(), e.to());
-            e = f.empty() ? e.from() == e.head : f.from() == f.head;
-            c <= d2 && --d2;
-            b.splice(--c, 2, new I(e ? h2 : g, e ? g : h2));
-          }
-        }
-        return new va(b, d2);
-      }
-      function Oa(a, b) {
-        return new va([new I(a, b || a)], 0);
-      }
-      function Ta(a) {
-        return a.text ? t(a.from.line + a.text.length - 1, J(a.text).length + (1 == a.text.length ? a.from.ch : 0)) : a.to;
-      }
-      function wf(a, b) {
-        if (0 > B(a, b.from))
-          return a;
-        if (0 >= B(a, b.to))
-          return Ta(b);
-        var d2 = a.line + b.text.length - (b.to.line - b.from.line) - 1, c = a.ch;
-        a.line == b.to.line && (c += Ta(b).ch - b.to.ch);
-        return t(d2, c);
-      }
-      function Zd(a, b) {
-        for (var d2 = [], c = 0; c < a.sel.ranges.length; c++) {
-          var e = a.sel.ranges[c];
-          d2.push(new I(wf(e.anchor, b), wf(e.head, b)));
-        }
-        return Da(a.cm, d2, a.sel.primIndex);
-      }
-      function xf(a, b, d2) {
-        return a.line == b.line ? t(d2.line, a.ch - b.ch + d2.ch) : t(d2.line + (a.line - b.line), a.ch);
-      }
-      function $d(a) {
-        a.doc.mode = nd(a.options, a.doc.modeOption);
-        bc(a);
-      }
-      function bc(a) {
-        a.doc.iter(function(b) {
-          b.stateAfter && (b.stateAfter = null);
-          b.styles && (b.styles = null);
-        });
-        a.doc.modeFrontier = a.doc.highlightFrontier = a.doc.first;
-        Yb(a, 100);
-        a.state.modeGen++;
-        a.curOp && ma(a);
-      }
-      function yf(a, b) {
-        return 0 == b.from.ch && 0 == b.to.ch && "" == J(b.text) && (!a.cm || a.cm.options.wholeLineUpdateBefore);
-      }
-      function ae(a, b, d2, c) {
-        function e(r, u, A) {
-          r.text = u;
-          r.stateAfter && (r.stateAfter = null);
-          r.styles && (r.styles = null);
-          null != r.order && (r.order = null);
-          Ge(r);
-          He(r, A);
-          u = c ? c(r) : 1;
-          u != r.height && Ea(r, u);
-          aa(r, "change", r, b);
-        }
-        function f(r, u) {
-          for (var A = []; r < u; ++r)
-            A.push(new zb(k[r], d2 ? d2[r] : null, c));
-          return A;
-        }
-        var g = b.from, h2 = b.to, k = b.text, l = w(a, g.line), m2 = w(a, h2.line), n = J(k), p = d2 ? d2[k.length - 1] : null, q = h2.line - g.line;
-        b.full ? (a.insert(0, f(0, k.length)), a.remove(k.length, a.size - k.length)) : yf(a, b) ? (h2 = f(0, k.length - 1), e(m2, m2.text, p), q && a.remove(g.line, q), h2.length && a.insert(g.line, h2)) : l == m2 ? 1 == k.length ? e(l, l.text.slice(0, g.ch) + n + l.text.slice(h2.ch), p) : (q = f(1, k.length - 1), q.push(new zb(n + l.text.slice(h2.ch), p, c)), e(l, l.text.slice(0, g.ch) + k[0], d2 ? d2[0] : null), a.insert(g.line + 1, q)) : 1 == k.length ? (e(l, l.text.slice(0, g.ch) + k[0] + m2.text.slice(h2.ch), d2 ? d2[0] : null), a.remove(g.line + 1, q)) : (e(l, l.text.slice(0, g.ch) + k[0], d2 ? d2[0] : null), e(m2, n + m2.text.slice(h2.ch), p), p = f(1, k.length - 1), 1 < q && a.remove(g.line + 1, q - 1), a.insert(g.line + 1, p));
-        aa(a, "change", a, b);
-      }
-      function Ua(a, b, d2) {
-        function c(e, f, g) {
-          if (e.linked)
-            for (var h2 = 0; h2 < e.linked.length; ++h2) {
-              var k = e.linked[h2];
-              if (k.doc != f) {
-                var l = g && k.sharedHist;
-                if (!d2 || l)
-                  b(k.doc, l), c(k.doc, e, l);
-              }
-            }
-        }
-        c(a, null, true);
-      }
-      function zf(a, b) {
-        if (b.cm)
-          throw Error("This document is already in use.");
-        a.doc = b;
-        b.cm = a;
-        Nd(a);
-        $d(a);
-        Af(a);
-        a.options.direction = b.direction;
-        a.options.lineWrapping || zd(a);
-        a.options.mode = b.modeOption;
-        ma(a);
-      }
-      function Af(a) {
-        ("rtl" == a.doc.direction ? Ya : jb)(a.display.lineDiv, "CodeMirror-rtl");
-      }
-      function $g(a) {
-        ra(a, function() {
-          Af(a);
-          ma(a);
-        });
-      }
-      function Rc(a) {
-        this.done = [];
-        this.undone = [];
-        this.undoDepth = a ? a.undoDepth : Infinity;
-        this.lastModTime = this.lastSelTime = 0;
-        this.lastOrigin = this.lastSelOrigin = this.lastOp = this.lastSelOp = null;
-        this.generation = this.maxGeneration = a ? a.maxGeneration : 1;
-      }
-      function be(a, b) {
-        var d2 = { from: sd(b.from), to: Ta(b), text: ab(a, b.from, b.to) };
-        Bf(a, d2, b.from.line, b.to.line + 1);
-        Ua(a, function(c) {
-          return Bf(c, d2, b.from.line, b.to.line + 1);
-        }, true);
-        return d2;
-      }
-      function Cf(a) {
-        for (; a.length; )
-          if (J(a).ranges)
-            a.pop();
-          else
-            break;
-      }
-      function Df(a, b, d2, c) {
-        var e = a.history;
-        e.undone.length = 0;
-        var f = +/* @__PURE__ */ new Date(), g;
-        if (g = e.lastOp == c || e.lastOrigin == b.origin && b.origin && ("+" == b.origin.charAt(0) && e.lastModTime > f - (a.cm ? a.cm.options.historyEventDelay : 500) || "*" == b.origin.charAt(0))) {
-          if (e.lastOp == c) {
-            Cf(e.done);
-            var h2 = J(e.done);
-          } else
-            e.done.length && !J(e.done).ranges ? h2 = J(e.done) : 1 < e.done.length && !e.done[e.done.length - 2].ranges ? (e.done.pop(), h2 = J(e.done)) : h2 = void 0;
-          g = h2;
-        }
-        if (g) {
-          var k = J(h2.changes);
-          0 == B(b.from, b.to) && 0 == B(b.from, k.to) ? k.to = Ta(b) : h2.changes.push(be(a, b));
-        } else
-          for ((h2 = J(e.done)) && h2.ranges || Sc(a.sel, e.done), h2 = { changes: [be(a, b)], generation: e.generation }, e.done.push(h2); e.done.length > e.undoDepth; )
-            e.done.shift(), e.done[0].ranges || e.done.shift();
-        e.done.push(d2);
-        e.generation = ++e.maxGeneration;
-        e.lastModTime = e.lastSelTime = f;
-        e.lastOp = e.lastSelOp = c;
-        e.lastOrigin = e.lastSelOrigin = b.origin;
-        k || W(a, "historyAdded");
-      }
-      function Sc(a, b) {
-        var d2 = J(b);
-        d2 && d2.ranges && d2.equals(a) || b.push(a);
-      }
-      function Bf(a, b, d2, c) {
-        var e = b["spans_" + a.id], f = 0;
-        a.iter(Math.max(a.first, d2), Math.min(a.first + a.size, c), function(g) {
-          g.markedSpans && ((e || (e = b["spans_" + a.id] = {}))[f] = g.markedSpans);
-          ++f;
-        });
-      }
-      function Ef(a, b) {
-        var d2;
-        if (d2 = b["spans_" + a.id]) {
-          for (var c = [], e = 0; e < b.text.length; ++e) {
-            var f = c, g = f.push;
-            var h2 = void 0;
-            var k = d2[e];
-            if (k) {
-              for (var l = 0; l < k.length; ++l)
-                k[l].marker.explicitlyCleared ? h2 || (h2 = k.slice(0, l)) : h2 && h2.push(k[l]);
-              h2 = h2 ? h2.length ? h2 : null : k;
-            } else
-              h2 = null;
-            g.call(f, h2);
-          }
-          d2 = c;
-        } else
-          d2 = null;
-        a = vd(a, b);
-        if (!d2)
-          return a;
-        if (!a)
-          return d2;
-        for (b = 0; b < d2.length; ++b)
-          if (c = d2[b], e = a[b], c && e)
-            a:
-              for (f = 0; f < e.length; ++f) {
-                g = e[f];
-                for (h2 = 0; h2 < c.length; ++h2)
-                  if (c[h2].marker == g.marker)
-                    continue a;
-                c.push(g);
-              }
-          else
-            e && (d2[b] = e);
-        return d2;
-      }
-      function Ab(a, b, d2) {
-        for (var c = [], e = 0; e < a.length; ++e) {
-          var f = a[e];
-          if (f.ranges)
-            c.push(d2 ? va.prototype.deepCopy.call(f) : f);
-          else {
-            f = f.changes;
-            var g = [];
-            c.push({ changes: g });
-            for (var h2 = 0; h2 < f.length; ++h2) {
-              var k = f[h2], l;
-              g.push({ from: k.from, to: k.to, text: k.text });
-              if (b)
-                for (var m2 in k)
-                  (l = m2.match(/^spans_(\d+)$/)) && -1 < ea(b, Number(l[1])) && (J(g)[m2] = k[m2], delete k[m2]);
-            }
-          }
-        }
-        return c;
-      }
-      function ce(a, b, d2, c) {
-        return c ? (a = a.anchor, d2 && (c = 0 > B(b, a), c != 0 > B(d2, a) ? (a = b, b = d2) : c != 0 > B(b, d2) && (b = d2)), new I(a, b)) : new I(d2 || b, b);
-      }
-      function Tc(a, b, d2, c, e) {
-        null == e && (e = a.cm && (a.cm.display.shift || a.extend));
-        da(a, new va([ce(a.sel.primary(), b, d2, e)], 0), c);
-      }
-      function Ff(a, b, d2) {
-        for (var c = [], e = a.cm && (a.cm.display.shift || a.extend), f = 0; f < a.sel.ranges.length; f++)
-          c[f] = ce(a.sel.ranges[f], b[f], null, e);
-        b = Da(a.cm, c, a.sel.primIndex);
-        da(
-          a,
-          b,
-          d2
-        );
-      }
-      function de(a, b, d2, c) {
-        var e = a.sel.ranges.slice(0);
-        e[b] = d2;
-        da(a, Da(a.cm, e, a.sel.primIndex), c);
-      }
-      function ah(a, b, d2) {
-        d2 = { ranges: b.ranges, update: function(c) {
-          this.ranges = [];
-          for (var e = 0; e < c.length; e++)
-            this.ranges[e] = new I(C(a, c[e].anchor), C(a, c[e].head));
-        }, origin: d2 && d2.origin };
-        W(a, "beforeSelectionChange", a, d2);
-        a.cm && W(a.cm, "beforeSelectionChange", a.cm, d2);
-        return d2.ranges != b.ranges ? Da(a.cm, d2.ranges, d2.ranges.length - 1) : b;
-      }
-      function Gf(a, b, d2) {
-        var c = a.history.done, e = J(c);
-        e && e.ranges ? (c[c.length - 1] = b, Uc(a, b, d2)) : da(
-          a,
-          b,
-          d2
-        );
-      }
-      function da(a, b, d2) {
-        Uc(a, b, d2);
-        b = a.sel;
-        var c = a.cm ? a.cm.curOp.id : NaN, e = a.history, f = d2 && d2.origin, g;
-        if (!(g = c == e.lastSelOp) && (g = f && e.lastSelOrigin == f) && !(g = e.lastModTime == e.lastSelTime && e.lastOrigin == f)) {
-          g = J(e.done);
-          var h2 = f.charAt(0);
-          g = "*" == h2 || "+" == h2 && g.ranges.length == b.ranges.length && g.somethingSelected() == b.somethingSelected() && /* @__PURE__ */ new Date() - a.history.lastSelTime <= (a.cm ? a.cm.options.historyEventDelay : 500);
-        }
-        g ? e.done[e.done.length - 1] = b : Sc(b, e.done);
-        e.lastSelTime = +/* @__PURE__ */ new Date();
-        e.lastSelOrigin = f;
-        e.lastSelOp = c;
-        d2 && false !== d2.clearRedo && Cf(e.undone);
-      }
-      function Uc(a, b, d2) {
-        if (xa(a, "beforeSelectionChange") || a.cm && xa(a.cm, "beforeSelectionChange"))
-          b = ah(a, b, d2);
-        var c = d2 && d2.bias || (0 > B(b.primary().head, a.sel.primary().head) ? -1 : 1);
-        Hf(a, If(a, b, c, true));
-        d2 && false === d2.scroll || !a.cm || "nocursor" == a.cm.getOption("readOnly") || xb(a.cm);
-      }
-      function Hf(a, b) {
-        b.equals(a.sel) || (a.sel = b, a.cm && (a.cm.curOp.updateInput = 1, a.cm.curOp.selectionChanged = true, te(a.cm)), aa(a, "cursorActivity", a));
-      }
-      function Jf(a) {
-        Hf(a, If(a, a.sel, null, false));
-      }
-      function If(a, b, d2, c) {
-        for (var e, f = 0; f < b.ranges.length; f++) {
-          var g = b.ranges[f], h2 = b.ranges.length == a.sel.ranges.length && a.sel.ranges[f], k = Vc(a, g.anchor, h2 && h2.anchor, d2, c);
-          h2 = g.head == g.anchor ? k : Vc(a, g.head, h2 && h2.head, d2, c);
-          if (e || k != g.anchor || h2 != g.head)
-            e || (e = b.ranges.slice(0, f)), e[f] = new I(k, h2);
-        }
-        return e ? Da(a.cm, e, b.primIndex) : b;
-      }
-      function Bb(a, b, d2, c, e) {
-        var f = w(a, b.line);
-        if (f.markedSpans)
-          for (var g = 0; g < f.markedSpans.length; ++g) {
-            var h2 = f.markedSpans[g], k = h2.marker, l = "selectLeft" in k ? !k.selectLeft : k.inclusiveLeft, m2 = "selectRight" in k ? !k.selectRight : k.inclusiveRight;
-            if ((null == h2.from || (l ? h2.from <= b.ch : h2.from < b.ch)) && (null == h2.to || (m2 ? h2.to >= b.ch : h2.to > b.ch))) {
-              if (e && (W(k, "beforeCursorEnter"), k.explicitlyCleared))
-                if (f.markedSpans) {
-                  --g;
-                  continue;
-                } else
-                  break;
-              if (k.atomic) {
-                if (d2) {
-                  g = k.find(0 > c ? 1 : -1);
-                  h2 = void 0;
-                  if (0 > c ? m2 : l)
-                    g = Kf(a, g, -c, g && g.line == b.line ? f : null);
-                  if (g && g.line == b.line && (h2 = B(g, d2)) && (0 > c ? 0 > h2 : 0 < h2))
-                    return Bb(a, g, b, c, e);
-                }
-                d2 = k.find(0 > c ? -1 : 1);
-                if (0 > c ? l : m2)
-                  d2 = Kf(a, d2, c, d2.line == b.line ? f : null);
-                return d2 ? Bb(a, d2, b, c, e) : null;
-              }
-            }
-          }
-        return b;
-      }
-      function Vc(a, b, d2, c, e) {
-        c = c || 1;
-        b = Bb(a, b, d2, c, e) || !e && Bb(a, b, d2, c, true) || Bb(a, b, d2, -c, e) || !e && Bb(a, b, d2, -c, true);
-        return b ? b : (a.cantEdit = true, t(a.first, 0));
-      }
-      function Kf(a, b, d2, c) {
-        return 0 > d2 && 0 == b.ch ? b.line > a.first ? C(a, t(b.line - 1)) : null : 0 < d2 && b.ch == (c || w(a, b.line)).text.length ? b.line < a.first + a.size - 1 ? t(b.line + 1, 0) : null : new t(b.line, b.ch + d2);
-      }
-      function Lf(a) {
-        a.setSelection(t(a.firstLine(), 0), t(a.lastLine()), Ia);
-      }
-      function Mf(a, b, d2) {
-        var c = { canceled: false, from: b.from, to: b.to, text: b.text, origin: b.origin, cancel: function() {
-          return c.canceled = true;
-        } };
-        d2 && (c.update = function(e, f, g, h2) {
-          e && (c.from = C(a, e));
-          f && (c.to = C(a, f));
-          g && (c.text = g);
-          void 0 !== h2 && (c.origin = h2);
-        });
-        W(a, "beforeChange", a, c);
-        a.cm && W(a.cm, "beforeChange", a.cm, c);
-        return c.canceled ? (a.cm && (a.cm.curOp.updateInput = 2), null) : { from: c.from, to: c.to, text: c.text, origin: c.origin };
-      }
-      function Cb(a, b, d2) {
-        if (a.cm) {
-          if (!a.cm.curOp)
-            return ba(a.cm, Cb)(a, b, d2);
-          if (a.cm.state.suppressEdits)
-            return;
-        }
-        if (xa(a, "beforeChange") || a.cm && xa(a.cm, "beforeChange")) {
-          if (b = Mf(a, b, true), !b)
-            return;
-        }
-        if (d2 = Nf && !d2 && Hg(a, b.from, b.to))
-          for (var c = d2.length - 1; 0 <= c; --c)
-            Of(a, { from: d2[c].from, to: d2[c].to, text: c ? [""] : b.text, origin: b.origin });
-        else
-          Of(a, b);
-      }
-      function Of(a, b) {
-        if (1 != b.text.length || "" != b.text[0] || 0 != B(b.from, b.to)) {
-          var d2 = Zd(a, b);
-          Df(a, b, d2, a.cm ? a.cm.curOp.id : NaN);
-          cc(a, b, d2, vd(a, b));
-          var c = [];
-          Ua(a, function(e, f) {
-            f || -1 != ea(c, e.history) || (Pf(e.history, b), c.push(e.history));
-            cc(e, b, null, vd(e, b));
-          });
-        }
-      }
-      function Wc(a, b, d2) {
-        var c = a.cm && a.cm.state.suppressEdits;
-        if (!c || d2) {
-          for (var e = a.history, f, g = a.sel, h2 = "undo" == b ? e.done : e.undone, k = "undo" == b ? e.undone : e.done, l = 0; l < h2.length && (f = h2[l], d2 ? !f.ranges || f.equals(a.sel) : f.ranges); l++)
-            ;
-          if (l != h2.length) {
-            for (e.lastOrigin = e.lastSelOrigin = null; ; )
-              if (f = h2.pop(), f.ranges) {
-                Sc(f, k);
-                if (d2 && !f.equals(a.sel)) {
-                  da(a, f, { clearRedo: false });
-                  return;
-                }
-                g = f;
-              } else {
-                if (c) {
-                  h2.push(f);
-                  return;
-                }
-                break;
-              }
-            var m2 = [];
-            Sc(g, k);
-            k.push({ changes: m2, generation: e.generation });
-            e.generation = f.generation || ++e.maxGeneration;
-            var n = xa(a, "beforeChange") || a.cm && xa(a.cm, "beforeChange");
-            d2 = function(p) {
-              var q = f.changes[p];
-              q.origin = b;
-              if (n && !Mf(a, q, false))
-                return h2.length = 0, {};
-              m2.push(be(a, q));
-              var r = p ? Zd(a, q) : J(h2);
-              cc(a, q, r, Ef(a, q));
-              !p && a.cm && a.cm.scrollIntoView({ from: q.from, to: Ta(q) });
-              var u = [];
-              Ua(a, function(A, Y) {
-                Y || -1 != ea(u, A.history) || (Pf(A.history, q), u.push(A.history));
-                cc(A, q, null, Ef(A, q));
-              });
-            };
-            for (c = f.changes.length - 1; 0 <= c; --c)
-              if (e = d2(c))
-                return e.v;
-          }
-        }
-      }
-      function Qf(a, b) {
-        if (0 != b && (a.first += b, a.sel = new va(wc(a.sel.ranges, function(e) {
-          return new I(t(e.anchor.line + b, e.anchor.ch), t(e.head.line + b, e.head.ch));
-        }), a.sel.primIndex), a.cm)) {
-          ma(a.cm, a.first, a.first - b, b);
-          for (var d2 = a.cm.display, c = d2.viewFrom; c < d2.viewTo; c++)
-            Sa(
-              a.cm,
-              c,
-              "gutter"
-            );
-        }
-      }
-      function cc(a, b, d2, c) {
-        if (a.cm && !a.cm.curOp)
-          return ba(a.cm, cc)(a, b, d2, c);
-        if (b.to.line < a.first)
-          Qf(a, b.text.length - 1 - (b.to.line - b.from.line));
-        else if (!(b.from.line > a.lastLine())) {
-          if (b.from.line < a.first) {
-            var e = b.text.length - 1 - (a.first - b.from.line);
-            Qf(a, e);
-            b = { from: t(a.first, 0), to: t(b.to.line + e, b.to.ch), text: [J(b.text)], origin: b.origin };
-          }
-          e = a.lastLine();
-          b.to.line > e && (b = { from: b.from, to: t(e, w(a, e).text.length), text: [b.text[0]], origin: b.origin });
-          b.removed = ab(a, b.from, b.to);
-          d2 || (d2 = Zd(a, b));
-          a.cm ? bh(
-            a.cm,
-            b,
-            c
-          ) : ae(a, b, c);
-          Uc(a, d2, Ia);
-          a.cantEdit && Vc(a, t(a.firstLine(), 0)) && (a.cantEdit = false);
-        }
-      }
-      function bh(a, b, d2) {
-        var c = a.doc, e = a.display, f = b.from, g = b.to, h2 = false, k = f.line;
-        a.options.lineWrapping || (k = N(za(w(c, f.line))), c.iter(k, g.line + 1, function(l) {
-          if (l == e.maxLine)
-            return h2 = true;
-        }));
-        -1 < c.sel.contains(b.from, b.to) && te(a);
-        ae(c, b, d2, ef(a));
-        a.options.lineWrapping || (c.iter(k, f.line + b.text.length, function(l) {
-          var m2 = Ec(l);
-          m2 > e.maxLineLength && (e.maxLine = l, e.maxLineLength = m2, e.maxLineChanged = true, h2 = false);
-        }), h2 && (a.curOp.updateMaxLine = true));
-        Gg(c, f.line);
-        Yb(a, 400);
-        d2 = b.text.length - (g.line - f.line) - 1;
-        b.full ? ma(a) : f.line != g.line || 1 != b.text.length || yf(a.doc, b) ? ma(a, f.line, g.line + 1, d2) : Sa(a, f.line, "text");
-        d2 = xa(a, "changes");
-        if ((c = xa(a, "change")) || d2)
-          b = { from: f, to: g, text: b.text, removed: b.removed, origin: b.origin }, c && aa(a, "change", a, b), d2 && (a.curOp.changeObjs || (a.curOp.changeObjs = [])).push(b);
-        a.display.selForContextMenu = null;
-      }
-      function Db(a, b, d2, c, e) {
-        c || (c = d2);
-        0 > B(c, d2) && (c = [c, d2], d2 = c[0], c = c[1]);
-        "string" == typeof b && (b = a.splitLines(b));
-        Cb(a, {
-          from: d2,
-          to: c,
-          text: b,
-          origin: e
-        });
-      }
-      function Rf(a, b, d2, c) {
-        d2 < a.line ? a.line += c : b < a.line && (a.line = b, a.ch = 0);
-      }
-      function Sf(a, b, d2, c) {
-        for (var e = 0; e < a.length; ++e) {
-          var f = a[e], g = true;
-          if (f.ranges)
-            for (f.copied || (f = a[e] = f.deepCopy(), f.copied = true), g = 0; g < f.ranges.length; g++)
-              Rf(f.ranges[g].anchor, b, d2, c), Rf(f.ranges[g].head, b, d2, c);
-          else {
-            for (var h2 = 0; h2 < f.changes.length; ++h2) {
-              var k = f.changes[h2];
-              if (d2 < k.from.line)
-                k.from = t(k.from.line + c, k.from.ch), k.to = t(k.to.line + c, k.to.ch);
-              else if (b <= k.to.line) {
-                g = false;
-                break;
-              }
-            }
-            g || (a.splice(0, e + 1), e = 0);
-          }
-        }
-      }
-      function Pf(a, b) {
-        var d2 = b.from.line, c = b.to.line;
-        b = b.text.length - (c - d2) - 1;
-        Sf(a.done, d2, c, b);
-        Sf(a.undone, d2, c, b);
-      }
-      function dc(a, b, d2, c) {
-        var e = b, f = b;
-        "number" == typeof b ? f = w(a, Math.max(a.first, Math.min(b, a.first + a.size - 1))) : e = N(b);
-        if (null == e)
-          return null;
-        c(f, e) && a.cm && Sa(a.cm, e, d2);
-        return f;
-      }
-      function ec(a) {
-        this.lines = a;
-        this.parent = null;
-        for (var b = 0, d2 = 0; d2 < a.length; ++d2)
-          a[d2].parent = this, b += a[d2].height;
-        this.height = b;
-      }
-      function fc(a) {
-        this.children = a;
-        for (var b = 0, d2 = 0, c = 0; c < a.length; ++c) {
-          var e = a[c];
-          b += e.chunkSize();
-          d2 += e.height;
-          e.parent = this;
-        }
-        this.size = b;
-        this.height = d2;
-        this.parent = null;
-      }
-      function ch(a, b, d2, c) {
-        var e = new gc(a, d2, c), f = a.cm;
-        f && e.noHScroll && (f.display.alignWidgets = true);
-        dc(a, b, "widget", function(g) {
-          var h2 = g.widgets || (g.widgets = []);
-          null == e.insertAt ? h2.push(e) : h2.splice(Math.min(h2.length, Math.max(0, e.insertAt)), 0, e);
-          e.line = g;
-          f && !Pa(a, g) && (h2 = Ga(g) < a.scrollTop, Ea(g, g.height + Tb(e)), h2 && Nc(f, e.height), f.curOp.forceUpdate = true);
-          return true;
-        });
-        f && aa(f, "lineWidgetAdded", f, e, "number" == typeof b ? b : N(b));
-        return e;
-      }
-      function Eb(a, b, d2, c, e) {
-        if (c && c.shared)
-          return dh(
-            a,
-            b,
-            d2,
-            c,
-            e
-          );
-        if (a.cm && !a.cm.curOp)
-          return ba(a.cm, Eb)(a, b, d2, c, e);
-        var f = new Va(a, e);
-        e = B(b, d2);
-        c && Za(c, f, false);
-        if (0 < e || 0 == e && false !== f.clearWhenEmpty)
-          return f;
-        f.replacedWith && (f.collapsed = true, f.widgetNode = M("span", [f.replacedWith], "CodeMirror-widget"), c.handleMouseEvents || f.widgetNode.setAttribute("cm-ignore-events", "true"), c.insertLeft && (f.widgetNode.insertLeft = true));
-        if (f.collapsed) {
-          if (Ie(a, b.line, b, d2, f) || b.line != d2.line && Ie(a, d2.line, b, d2, f))
-            throw Error("Inserting collapsed marker partially overlapping an existing one");
-          Ka = true;
-        }
-        f.addToHistory && Df(a, { from: b, to: d2, origin: "markText" }, a.sel, NaN);
-        var g = b.line, h2 = a.cm, k;
-        a.iter(g, d2.line + 1, function(l) {
-          h2 && f.collapsed && !h2.options.lineWrapping && za(l) == h2.display.maxLine && (k = true);
-          f.collapsed && g != b.line && Ea(l, 0);
-          var m2 = new Dc(f, g == b.line ? b.ch : null, g == d2.line ? d2.ch : null), n = a.cm && a.cm.curOp;
-          (n = n && window.WeakSet && (n.markedSpans || (n.markedSpans = /* @__PURE__ */ new WeakSet()))) && l.markedSpans && n.has(l.markedSpans) ? l.markedSpans.push(m2) : (l.markedSpans = l.markedSpans ? l.markedSpans.concat([m2]) : [m2], n && n.add(l.markedSpans));
-          m2.marker.attachLine(l);
-          ++g;
-        });
-        f.collapsed && a.iter(b.line, d2.line + 1, function(l) {
-          Pa(a, l) && Ea(l, 0);
-        });
-        f.clearOnEnter && z(f, "beforeCursorEnter", function() {
-          return f.clear();
-        });
-        f.readOnly && (Nf = true, (a.history.done.length || a.history.undone.length) && a.clearHistory());
-        f.collapsed && (f.id = ++Tf, f.atomic = true);
-        if (h2) {
-          k && (h2.curOp.updateMaxLine = true);
-          if (f.collapsed)
-            ma(h2, b.line, d2.line + 1);
-          else if (f.className || f.startStyle || f.endStyle || f.css || f.attributes || f.title)
-            for (c = b.line; c <= d2.line; c++)
-              Sa(h2, c, "text");
-          f.atomic && Jf(h2.doc);
-          aa(h2, "markerAdded", h2, f);
-        }
-        return f;
-      }
-      function dh(a, b, d2, c, e) {
-        c = Za(c);
-        c.shared = false;
-        var f = [Eb(a, b, d2, c, e)], g = f[0], h2 = c.widgetNode;
-        Ua(a, function(k) {
-          h2 && (c.widgetNode = h2.cloneNode(true));
-          f.push(Eb(k, C(k, b), C(k, d2), c, e));
-          for (var l = 0; l < k.linked.length; ++l)
-            if (k.linked[l].isParent)
-              return;
-          g = J(f);
-        });
-        return new hc(f, g);
-      }
-      function Uf(a) {
-        return a.findMarks(t(a.first, 0), a.clipPos(t(a.lastLine())), function(b) {
-          return b.parent;
-        });
-      }
-      function eh(a) {
-        for (var b = function(c) {
-          c = a[c];
-          var e = [c.primary.doc];
-          Ua(c.primary.doc, function(h2) {
-            return e.push(h2);
-          });
-          for (var f = 0; f < c.markers.length; f++) {
-            var g = c.markers[f];
-            -1 == ea(e, g.doc) && (g.parent = null, c.markers.splice(f--, 1));
-          }
-        }, d2 = 0; d2 < a.length; d2++)
-          b(d2);
-      }
-      function fh(a) {
-        var b = this;
-        Vf(b);
-        if (!Z(b, a) && !La(b.display, a)) {
-          la(a);
-          G && (Wf = +/* @__PURE__ */ new Date());
-          var d2 = gb(b, a, true), c = a.dataTransfer.files;
-          if (d2 && !b.isReadOnly())
-            if (c && c.length && window.FileReader && window.File)
-              for (var e = c.length, f = Array(e), g = 0, h2 = function() {
-                ++g == e && ba(b, function() {
-                  d2 = C(b.doc, d2);
-                  var m2 = {
-                    from: d2,
-                    to: d2,
-                    text: b.doc.splitLines(f.filter(function(n) {
-                      return null != n;
-                    }).join(b.doc.lineSeparator())),
-                    origin: "paste"
-                  };
-                  Cb(b.doc, m2);
-                  Gf(b.doc, Oa(C(b.doc, d2), C(b.doc, Ta(m2))));
-                })();
-              }, k = function(m2, n) {
-                if (b.options.allowDropFileTypes && -1 == ea(b.options.allowDropFileTypes, m2.type))
-                  h2();
-                else {
-                  var p = new FileReader();
-                  p.onerror = function() {
-                    return h2();
-                  };
-                  p.onload = function() {
-                    var q = p.result;
-                    /[\x00-\x08\x0e-\x1f]{2}/.test(q) || (f[n] = q);
-                    h2();
-                  };
-                  p.readAsText(m2);
-                }
-              }, l = 0; l < c.length; l++)
-                k(c[l], l);
-            else if (b.state.draggingText && -1 < b.doc.sel.contains(d2))
-              b.state.draggingText(a), setTimeout(function() {
-                return b.display.input.focus();
-              }, 20);
-            else
-              try {
-                if (k = a.dataTransfer.getData("Text")) {
-                  b.state.draggingText && !b.state.draggingText.copy && (l = b.listSelections());
-                  Uc(b.doc, Oa(d2, d2));
-                  if (l)
-                    for (c = 0; c < l.length; ++c)
-                      Db(b.doc, "", l[c].anchor, l[c].head, "drag");
-                  b.replaceSelection(k, "around", "paste");
-                  b.display.input.focus();
-                }
-              } catch (m2) {
-              }
-        }
-      }
-      function Vf(a) {
-        a.display.dragCursor && (a.display.lineSpace.removeChild(a.display.dragCursor), a.display.dragCursor = null);
-      }
-      function Xf(a) {
-        if (document.getElementsByClassName) {
-          for (var b = document.getElementsByClassName("CodeMirror"), d2 = [], c = 0; c < b.length; c++) {
-            var e = b[c].CodeMirror;
-            e && d2.push(e);
-          }
-          d2.length && d2[0].operation(function() {
-            for (var f = 0; f < d2.length; f++)
-              a(d2[f]);
-          });
-        }
-      }
-      function gh() {
-        var a;
-        z(window, "resize", function() {
-          null == a && (a = setTimeout(function() {
-            a = null;
-            Xf(hh);
-          }, 100));
-        });
-        z(window, "blur", function() {
-          return Xf(wb);
-        });
-      }
-      function hh(a) {
-        var b = a.display;
-        b.cachedCharWidth = b.cachedTextHeight = b.cachedPaddingH = null;
-        b.scrollbarsClipped = false;
-        a.setSize();
-      }
-      function ih(a) {
-        var b = a.split(/-(?!$)/);
-        a = b[b.length - 1];
-        for (var d2, c, e, f, g = 0; g < b.length - 1; g++) {
-          var h2 = b[g];
-          if (/^(cmd|meta|m)$/i.test(h2))
-            f = true;
-          else if (/^a(lt)?$/i.test(h2))
-            d2 = true;
-          else if (/^(c|ctrl|control)$/i.test(h2))
+      return false;
+    }
+    function Yd(a, b) {
+      for (var d2 = [], c = false, e = 0; e < a.length; e++) {
+        var f = a[e], g = null;
+        "string" != typeof f && (g = f.style, f = f.className);
+        if ("CodeMirror-linenumbers" == f)
+          if (b)
             c = true;
-          else if (/^s(hift)?$/i.test(h2))
-            e = true;
           else
-            throw Error("Unrecognized modifier name: " + h2);
-        }
-        d2 && (a = "Alt-" + a);
-        c && (a = "Ctrl-" + a);
-        f && (a = "Cmd-" + a);
-        e && (a = "Shift-" + a);
-        return a;
+            continue;
+        d2.push({ className: f, style: g });
       }
-      function jh(a) {
-        var b = {}, d2;
-        for (d2 in a)
-          if (a.hasOwnProperty(d2)) {
-            var c = a[d2];
-            if (!/^(name|fallthrough|(de|at)tach)$/.test(d2)) {
-              if ("..." != c)
-                for (var e = wc(d2.split(" "), ih), f = 0; f < e.length; f++) {
-                  if (f == e.length - 1) {
-                    var g = e.join(" ");
-                    var h2 = c;
-                  } else
-                    g = e.slice(0, f + 1).join(" "), h2 = "...";
-                  var k = b[g];
-                  if (!k)
-                    b[g] = h2;
-                  else if (k != h2)
-                    throw Error("Inconsistent bindings for " + g);
+      b && !c && d2.push({ className: "CodeMirror-linenumbers", style: null });
+      return d2;
+    }
+    function sf(a) {
+      var b = a.gutters, d2 = a.gutterSpecs;
+      E(b);
+      a.lineGutter = null;
+      for (var c = 0; c < d2.length; ++c) {
+        var e = d2[c], f = e.className;
+        e = e.style;
+        var g = b.appendChild(v2("div", null, "CodeMirror-gutter " + f));
+        e && (g.style.cssText = e);
+        "CodeMirror-linenumbers" == f && (a.lineGutter = g, g.style.width = (a.lineNumWidth || 1) + "px");
+      }
+      b.style.display = d2.length ? "" : "none";
+      Xd(a);
+    }
+    function $b(a) {
+      sf(a.display);
+      ma(a);
+      mf(a);
+    }
+    function Yg(a, b, d2, c) {
+      this.input = d2;
+      this.scrollbarFiller = v2("div", null, "CodeMirror-scrollbar-filler");
+      this.scrollbarFiller.setAttribute("cm-not-content", "true");
+      this.gutterFiller = v2("div", null, "CodeMirror-gutter-filler");
+      this.gutterFiller.setAttribute("cm-not-content", "true");
+      this.lineDiv = M("div", null, "CodeMirror-code");
+      this.selectionDiv = v2("div", null, null, "position: relative; z-index: 1");
+      this.cursorDiv = v2("div", null, "CodeMirror-cursors");
+      this.measure = v2("div", null, "CodeMirror-measure");
+      this.lineMeasure = v2("div", null, "CodeMirror-measure");
+      this.lineSpace = M("div", [this.measure, this.lineMeasure, this.selectionDiv, this.cursorDiv, this.lineDiv], null, "position: relative; outline: none");
+      var e = M("div", [this.lineSpace], "CodeMirror-lines");
+      this.mover = v2("div", [e], null, "position: relative");
+      this.sizer = v2("div", [this.mover], "CodeMirror-sizer");
+      this.sizerWidth = null;
+      this.heightForcer = v2("div", null, null, "position: absolute; height: 50px; width: 1px;");
+      this.gutters = v2("div", null, "CodeMirror-gutters");
+      this.lineGutter = null;
+      this.scroller = v2("div", [this.sizer, this.heightForcer, this.gutters], "CodeMirror-scroll");
+      this.scroller.setAttribute("tabIndex", "-1");
+      this.wrapper = v2("div", [this.scrollbarFiller, this.gutterFiller, this.scroller], "CodeMirror");
+      Qa && 105 <= tf && (this.wrapper.style.clipPath = "inset(0px)");
+      this.wrapper.setAttribute("translate", "no");
+      G && 8 > T && (this.gutters.style.zIndex = -1, this.scroller.style.paddingRight = 0);
+      fa || Ma && ac || (this.scroller.draggable = true);
+      a && (a.appendChild ? a.appendChild(this.wrapper) : a(this.wrapper));
+      this.reportedViewFrom = this.reportedViewTo = this.viewFrom = this.viewTo = b.first;
+      this.view = [];
+      this.externalMeasured = this.renderedView = null;
+      this.lastWrapHeight = this.lastWrapWidth = this.viewOffset = 0;
+      this.updateLineNumbers = null;
+      this.nativeBarWidth = this.barHeight = this.barWidth = 0;
+      this.scrollbarsClipped = false;
+      this.lineNumWidth = this.lineNumInnerWidth = this.lineNumChars = null;
+      this.alignWidgets = false;
+      this.maxLine = this.cachedCharWidth = this.cachedTextHeight = this.cachedPaddingH = null;
+      this.maxLineLength = 0;
+      this.maxLineChanged = false;
+      this.wheelDX = this.wheelDY = this.wheelStartX = this.wheelStartY = null;
+      this.shift = false;
+      this.activeTouch = this.selForContextMenu = null;
+      this.gutterSpecs = Yd(c.gutters, c.lineNumbers);
+      sf(this);
+      d2.init(this);
+    }
+    function uf(a) {
+      var b = a.wheelDeltaX, d2 = a.wheelDeltaY;
+      null == b && a.detail && a.axis == a.HORIZONTAL_AXIS && (b = a.detail);
+      null == d2 && a.detail && a.axis == a.VERTICAL_AXIS ? d2 = a.detail : null == d2 && (d2 = a.wheelDelta);
+      return { x: b, y: d2 };
+    }
+    function Zg(a) {
+      a = uf(a);
+      a.x *= Na;
+      a.y *= Na;
+      return a;
+    }
+    function vf(a, b) {
+      Qa && 102 == tf && (null == a.display.chromeScrollHack ? a.display.sizer.style.pointerEvents = "none" : clearTimeout(a.display.chromeScrollHack), a.display.chromeScrollHack = setTimeout(function() {
+        a.display.chromeScrollHack = null;
+        a.display.sizer.style.pointerEvents = "";
+      }, 100));
+      var d2 = uf(b), c = d2.x;
+      d2 = d2.y;
+      var e = Na;
+      0 === b.deltaMode && (c = b.deltaX, d2 = b.deltaY, e = 1);
+      var f = a.display, g = f.scroller, h2 = g.scrollWidth > g.clientWidth, k = g.scrollHeight > g.clientHeight;
+      if (c && h2 || d2 && k) {
+        if (d2 && ya && fa) {
+          h2 = b.target;
+          var l = f.view;
+          a:
+            for (; h2 != g; h2 = h2.parentNode)
+              for (var m2 = 0; m2 < l.length; m2++)
+                if (l[m2].node == h2) {
+                  a.display.currentWheelTarget = h2;
+                  break a;
                 }
-              delete a[d2];
+        }
+        !c || Ma || Ca || null == e ? (d2 && null != e && (e *= d2, k = a.doc.scrollTop, h2 = k + f.wrapper.clientHeight, 0 > e ? k = Math.max(0, k + e - 50) : h2 = Math.min(a.doc.height, h2 + e + 50), Ud(a, { top: k, bottom: h2 })), 20 > Qc && 0 !== b.deltaMode && (null == f.wheelStartX ? (f.wheelStartX = g.scrollLeft, f.wheelStartY = g.scrollTop, f.wheelDX = c, f.wheelDY = d2, setTimeout(function() {
+          if (null != f.wheelStartX) {
+            var n = g.scrollLeft - f.wheelStartX, p = g.scrollTop - f.wheelStartY;
+            n = p && f.wheelDY && p / f.wheelDY || n && f.wheelDX && n / f.wheelDX;
+            f.wheelStartX = f.wheelStartY = null;
+            n && (Na = (Na * Qc + n) / (Qc + 1), ++Qc);
+          }
+        }, 200)) : (f.wheelDX += c, f.wheelDY += d2))) : (d2 && k && Xb(a, Math.max(0, g.scrollTop + d2 * e)), kb(a, Math.max(0, g.scrollLeft + c * e)), (!d2 || d2 && k) && la(b), f.wheelStartX = null);
+      }
+    }
+    function Da(a, b, d2) {
+      a = a && a.options.selectionsMayTouch;
+      d2 = b[d2];
+      b.sort(function(k, l) {
+        return B(k.from(), l.from());
+      });
+      d2 = ea(b, d2);
+      for (var c = 1; c < b.length; c++) {
+        var e = b[c], f = b[c - 1], g = B(f.to(), e.from());
+        if (a && !e.empty() ? 0 < g : 0 <= g) {
+          g = Bc(f.from(), e.from());
+          var h2 = Ac(f.to(), e.to());
+          e = f.empty() ? e.from() == e.head : f.from() == f.head;
+          c <= d2 && --d2;
+          b.splice(--c, 2, new I(e ? h2 : g, e ? g : h2));
+        }
+      }
+      return new va(b, d2);
+    }
+    function Oa(a, b) {
+      return new va([new I(a, b || a)], 0);
+    }
+    function Ta(a) {
+      return a.text ? t(a.from.line + a.text.length - 1, J(a.text).length + (1 == a.text.length ? a.from.ch : 0)) : a.to;
+    }
+    function wf(a, b) {
+      if (0 > B(a, b.from))
+        return a;
+      if (0 >= B(a, b.to))
+        return Ta(b);
+      var d2 = a.line + b.text.length - (b.to.line - b.from.line) - 1, c = a.ch;
+      a.line == b.to.line && (c += Ta(b).ch - b.to.ch);
+      return t(d2, c);
+    }
+    function Zd(a, b) {
+      for (var d2 = [], c = 0; c < a.sel.ranges.length; c++) {
+        var e = a.sel.ranges[c];
+        d2.push(new I(wf(e.anchor, b), wf(e.head, b)));
+      }
+      return Da(a.cm, d2, a.sel.primIndex);
+    }
+    function xf(a, b, d2) {
+      return a.line == b.line ? t(d2.line, a.ch - b.ch + d2.ch) : t(d2.line + (a.line - b.line), a.ch);
+    }
+    function $d(a) {
+      a.doc.mode = nd(a.options, a.doc.modeOption);
+      bc(a);
+    }
+    function bc(a) {
+      a.doc.iter(function(b) {
+        b.stateAfter && (b.stateAfter = null);
+        b.styles && (b.styles = null);
+      });
+      a.doc.modeFrontier = a.doc.highlightFrontier = a.doc.first;
+      Yb(a, 100);
+      a.state.modeGen++;
+      a.curOp && ma(a);
+    }
+    function yf(a, b) {
+      return 0 == b.from.ch && 0 == b.to.ch && "" == J(b.text) && (!a.cm || a.cm.options.wholeLineUpdateBefore);
+    }
+    function ae(a, b, d2, c) {
+      function e(r, u, A) {
+        r.text = u;
+        r.stateAfter && (r.stateAfter = null);
+        r.styles && (r.styles = null);
+        null != r.order && (r.order = null);
+        Ge(r);
+        He(r, A);
+        u = c ? c(r) : 1;
+        u != r.height && Ea(r, u);
+        aa(r, "change", r, b);
+      }
+      function f(r, u) {
+        for (var A = []; r < u; ++r)
+          A.push(new zb(k[r], d2 ? d2[r] : null, c));
+        return A;
+      }
+      var g = b.from, h2 = b.to, k = b.text, l = w(a, g.line), m2 = w(a, h2.line), n = J(k), p = d2 ? d2[k.length - 1] : null, q = h2.line - g.line;
+      b.full ? (a.insert(0, f(0, k.length)), a.remove(k.length, a.size - k.length)) : yf(a, b) ? (h2 = f(0, k.length - 1), e(m2, m2.text, p), q && a.remove(g.line, q), h2.length && a.insert(g.line, h2)) : l == m2 ? 1 == k.length ? e(l, l.text.slice(0, g.ch) + n + l.text.slice(h2.ch), p) : (q = f(1, k.length - 1), q.push(new zb(n + l.text.slice(h2.ch), p, c)), e(l, l.text.slice(0, g.ch) + k[0], d2 ? d2[0] : null), a.insert(g.line + 1, q)) : 1 == k.length ? (e(l, l.text.slice(0, g.ch) + k[0] + m2.text.slice(h2.ch), d2 ? d2[0] : null), a.remove(g.line + 1, q)) : (e(l, l.text.slice(0, g.ch) + k[0], d2 ? d2[0] : null), e(m2, n + m2.text.slice(h2.ch), p), p = f(1, k.length - 1), 1 < q && a.remove(g.line + 1, q - 1), a.insert(g.line + 1, p));
+      aa(a, "change", a, b);
+    }
+    function Ua(a, b, d2) {
+      function c(e, f, g) {
+        if (e.linked)
+          for (var h2 = 0; h2 < e.linked.length; ++h2) {
+            var k = e.linked[h2];
+            if (k.doc != f) {
+              var l = g && k.sharedHist;
+              if (!d2 || l)
+                b(k.doc, l), c(k.doc, e, l);
             }
           }
-        for (var l in b)
-          a[l] = b[l];
-        return a;
       }
-      function Fb(a, b, d2, c) {
-        b = Xc(b);
-        var e = b.call ? b.call(a, c) : b[a];
-        if (false === e)
-          return "nothing";
-        if ("..." === e)
-          return "multi";
-        if (null != e && d2(e))
-          return "handled";
-        if (b.fallthrough) {
-          if ("[object Array]" != Object.prototype.toString.call(b.fallthrough))
-            return Fb(a, b.fallthrough, d2, c);
-          for (e = 0; e < b.fallthrough.length; e++) {
-            var f = Fb(a, b.fallthrough[e], d2, c);
-            if (f)
-              return f;
+      c(a, null, true);
+    }
+    function zf(a, b) {
+      if (b.cm)
+        throw Error("This document is already in use.");
+      a.doc = b;
+      b.cm = a;
+      Nd(a);
+      $d(a);
+      Af(a);
+      a.options.direction = b.direction;
+      a.options.lineWrapping || zd(a);
+      a.options.mode = b.modeOption;
+      ma(a);
+    }
+    function Af(a) {
+      ("rtl" == a.doc.direction ? Ya : jb)(a.display.lineDiv, "CodeMirror-rtl");
+    }
+    function $g(a) {
+      ra(a, function() {
+        Af(a);
+        ma(a);
+      });
+    }
+    function Rc(a) {
+      this.done = [];
+      this.undone = [];
+      this.undoDepth = a ? a.undoDepth : Infinity;
+      this.lastModTime = this.lastSelTime = 0;
+      this.lastOrigin = this.lastSelOrigin = this.lastOp = this.lastSelOp = null;
+      this.generation = this.maxGeneration = a ? a.maxGeneration : 1;
+    }
+    function be(a, b) {
+      var d2 = { from: sd(b.from), to: Ta(b), text: ab(a, b.from, b.to) };
+      Bf(a, d2, b.from.line, b.to.line + 1);
+      Ua(a, function(c) {
+        return Bf(c, d2, b.from.line, b.to.line + 1);
+      }, true);
+      return d2;
+    }
+    function Cf(a) {
+      for (; a.length; )
+        if (J(a).ranges)
+          a.pop();
+        else
+          break;
+    }
+    function Df(a, b, d2, c) {
+      var e = a.history;
+      e.undone.length = 0;
+      var f = +/* @__PURE__ */ new Date(), g;
+      if (g = e.lastOp == c || e.lastOrigin == b.origin && b.origin && ("+" == b.origin.charAt(0) && e.lastModTime > f - (a.cm ? a.cm.options.historyEventDelay : 500) || "*" == b.origin.charAt(0))) {
+        if (e.lastOp == c) {
+          Cf(e.done);
+          var h2 = J(e.done);
+        } else
+          e.done.length && !J(e.done).ranges ? h2 = J(e.done) : 1 < e.done.length && !e.done[e.done.length - 2].ranges ? (e.done.pop(), h2 = J(e.done)) : h2 = void 0;
+        g = h2;
+      }
+      if (g) {
+        var k = J(h2.changes);
+        0 == B(b.from, b.to) && 0 == B(b.from, k.to) ? k.to = Ta(b) : h2.changes.push(be(a, b));
+      } else
+        for ((h2 = J(e.done)) && h2.ranges || Sc(a.sel, e.done), h2 = { changes: [be(a, b)], generation: e.generation }, e.done.push(h2); e.done.length > e.undoDepth; )
+          e.done.shift(), e.done[0].ranges || e.done.shift();
+      e.done.push(d2);
+      e.generation = ++e.maxGeneration;
+      e.lastModTime = e.lastSelTime = f;
+      e.lastOp = e.lastSelOp = c;
+      e.lastOrigin = e.lastSelOrigin = b.origin;
+      k || W(a, "historyAdded");
+    }
+    function Sc(a, b) {
+      var d2 = J(b);
+      d2 && d2.ranges && d2.equals(a) || b.push(a);
+    }
+    function Bf(a, b, d2, c) {
+      var e = b["spans_" + a.id], f = 0;
+      a.iter(Math.max(a.first, d2), Math.min(a.first + a.size, c), function(g) {
+        g.markedSpans && ((e || (e = b["spans_" + a.id] = {}))[f] = g.markedSpans);
+        ++f;
+      });
+    }
+    function Ef(a, b) {
+      var d2;
+      if (d2 = b["spans_" + a.id]) {
+        for (var c = [], e = 0; e < b.text.length; ++e) {
+          var f = c, g = f.push;
+          var h2 = void 0;
+          var k = d2[e];
+          if (k) {
+            for (var l = 0; l < k.length; ++l)
+              k[l].marker.explicitlyCleared ? h2 || (h2 = k.slice(0, l)) : h2 && h2.push(k[l]);
+            h2 = h2 ? h2.length ? h2 : null : k;
+          } else
+            h2 = null;
+          g.call(f, h2);
+        }
+        d2 = c;
+      } else
+        d2 = null;
+      a = vd(a, b);
+      if (!d2)
+        return a;
+      if (!a)
+        return d2;
+      for (b = 0; b < d2.length; ++b)
+        if (c = d2[b], e = a[b], c && e)
+          a:
+            for (f = 0; f < e.length; ++f) {
+              g = e[f];
+              for (h2 = 0; h2 < c.length; ++h2)
+                if (c[h2].marker == g.marker)
+                  continue a;
+              c.push(g);
+            }
+        else
+          e && (d2[b] = e);
+      return d2;
+    }
+    function Ab(a, b, d2) {
+      for (var c = [], e = 0; e < a.length; ++e) {
+        var f = a[e];
+        if (f.ranges)
+          c.push(d2 ? va.prototype.deepCopy.call(f) : f);
+        else {
+          f = f.changes;
+          var g = [];
+          c.push({ changes: g });
+          for (var h2 = 0; h2 < f.length; ++h2) {
+            var k = f[h2], l;
+            g.push({ from: k.from, to: k.to, text: k.text });
+            if (b)
+              for (var m2 in k)
+                (l = m2.match(/^spans_(\d+)$/)) && -1 < ea(b, Number(l[1])) && (J(g)[m2] = k[m2], delete k[m2]);
           }
         }
       }
-      function Yf(a) {
-        a = "string" == typeof a ? a : Wa[a.keyCode];
-        return "Ctrl" == a || "Alt" == a || "Shift" == a || "Mod" == a;
+      return c;
+    }
+    function ce(a, b, d2, c) {
+      return c ? (a = a.anchor, d2 && (c = 0 > B(b, a), c != 0 > B(d2, a) ? (a = b, b = d2) : c != 0 > B(b, d2) && (b = d2)), new I(a, b)) : new I(d2 || b, b);
+    }
+    function Tc(a, b, d2, c, e) {
+      null == e && (e = a.cm && (a.cm.display.shift || a.extend));
+      da(a, new va([ce(a.sel.primary(), b, d2, e)], 0), c);
+    }
+    function Ff(a, b, d2) {
+      for (var c = [], e = a.cm && (a.cm.display.shift || a.extend), f = 0; f < a.sel.ranges.length; f++)
+        c[f] = ce(a.sel.ranges[f], b[f], null, e);
+      b = Da(a.cm, c, a.sel.primIndex);
+      da(
+        a,
+        b,
+        d2
+      );
+    }
+    function de(a, b, d2, c) {
+      var e = a.sel.ranges.slice(0);
+      e[b] = d2;
+      da(a, Da(a.cm, e, a.sel.primIndex), c);
+    }
+    function ah(a, b, d2) {
+      d2 = { ranges: b.ranges, update: function(c) {
+        this.ranges = [];
+        for (var e = 0; e < c.length; e++)
+          this.ranges[e] = new I(C(a, c[e].anchor), C(a, c[e].head));
+      }, origin: d2 && d2.origin };
+      W(a, "beforeSelectionChange", a, d2);
+      a.cm && W(a.cm, "beforeSelectionChange", a.cm, d2);
+      return d2.ranges != b.ranges ? Da(a.cm, d2.ranges, d2.ranges.length - 1) : b;
+    }
+    function Gf(a, b, d2) {
+      var c = a.history.done, e = J(c);
+      e && e.ranges ? (c[c.length - 1] = b, Uc(a, b, d2)) : da(
+        a,
+        b,
+        d2
+      );
+    }
+    function da(a, b, d2) {
+      Uc(a, b, d2);
+      b = a.sel;
+      var c = a.cm ? a.cm.curOp.id : NaN, e = a.history, f = d2 && d2.origin, g;
+      if (!(g = c == e.lastSelOp) && (g = f && e.lastSelOrigin == f) && !(g = e.lastModTime == e.lastSelTime && e.lastOrigin == f)) {
+        g = J(e.done);
+        var h2 = f.charAt(0);
+        g = "*" == h2 || "+" == h2 && g.ranges.length == b.ranges.length && g.somethingSelected() == b.somethingSelected() && /* @__PURE__ */ new Date() - a.history.lastSelTime <= (a.cm ? a.cm.options.historyEventDelay : 500);
       }
-      function Zf(a, b, d2) {
-        var c = a;
-        b.altKey && "Alt" != c && (a = "Alt-" + a);
-        ($f ? b.metaKey : b.ctrlKey) && "Ctrl" != c && (a = "Ctrl-" + a);
-        ($f ? b.ctrlKey : b.metaKey) && "Mod" != c && (a = "Cmd-" + a);
-        !d2 && b.shiftKey && "Shift" != c && (a = "Shift-" + a);
-        return a;
+      g ? e.done[e.done.length - 1] = b : Sc(b, e.done);
+      e.lastSelTime = +/* @__PURE__ */ new Date();
+      e.lastSelOrigin = f;
+      e.lastSelOp = c;
+      d2 && false !== d2.clearRedo && Cf(e.undone);
+    }
+    function Uc(a, b, d2) {
+      if (xa(a, "beforeSelectionChange") || a.cm && xa(a.cm, "beforeSelectionChange"))
+        b = ah(a, b, d2);
+      var c = d2 && d2.bias || (0 > B(b.primary().head, a.sel.primary().head) ? -1 : 1);
+      Hf(a, If(a, b, c, true));
+      d2 && false === d2.scroll || !a.cm || "nocursor" == a.cm.getOption("readOnly") || xb(a.cm);
+    }
+    function Hf(a, b) {
+      b.equals(a.sel) || (a.sel = b, a.cm && (a.cm.curOp.updateInput = 1, a.cm.curOp.selectionChanged = true, te(a.cm)), aa(a, "cursorActivity", a));
+    }
+    function Jf(a) {
+      Hf(a, If(a, a.sel, null, false));
+    }
+    function If(a, b, d2, c) {
+      for (var e, f = 0; f < b.ranges.length; f++) {
+        var g = b.ranges[f], h2 = b.ranges.length == a.sel.ranges.length && a.sel.ranges[f], k = Vc(a, g.anchor, h2 && h2.anchor, d2, c);
+        h2 = g.head == g.anchor ? k : Vc(a, g.head, h2 && h2.head, d2, c);
+        if (e || k != g.anchor || h2 != g.head)
+          e || (e = b.ranges.slice(0, f)), e[f] = new I(k, h2);
       }
-      function ag(a, b) {
-        if (Ca && 34 == a.keyCode && a["char"])
-          return false;
-        var d2 = Wa[a.keyCode];
-        if (null == d2 || a.altGraphKey)
-          return false;
-        3 == a.keyCode && a.code && (d2 = a.code);
-        return Zf(d2, a, b);
+      return e ? Da(a.cm, e, b.primIndex) : b;
+    }
+    function Bb(a, b, d2, c, e) {
+      var f = w(a, b.line);
+      if (f.markedSpans)
+        for (var g = 0; g < f.markedSpans.length; ++g) {
+          var h2 = f.markedSpans[g], k = h2.marker, l = "selectLeft" in k ? !k.selectLeft : k.inclusiveLeft, m2 = "selectRight" in k ? !k.selectRight : k.inclusiveRight;
+          if ((null == h2.from || (l ? h2.from <= b.ch : h2.from < b.ch)) && (null == h2.to || (m2 ? h2.to >= b.ch : h2.to > b.ch))) {
+            if (e && (W(k, "beforeCursorEnter"), k.explicitlyCleared))
+              if (f.markedSpans) {
+                --g;
+                continue;
+              } else
+                break;
+            if (k.atomic) {
+              if (d2) {
+                g = k.find(0 > c ? 1 : -1);
+                h2 = void 0;
+                if (0 > c ? m2 : l)
+                  g = Kf(a, g, -c, g && g.line == b.line ? f : null);
+                if (g && g.line == b.line && (h2 = B(g, d2)) && (0 > c ? 0 > h2 : 0 < h2))
+                  return Bb(a, g, b, c, e);
+              }
+              d2 = k.find(0 > c ? -1 : 1);
+              if (0 > c ? l : m2)
+                d2 = Kf(a, d2, c, d2.line == b.line ? f : null);
+              return d2 ? Bb(a, d2, b, c, e) : null;
+            }
+          }
+        }
+      return b;
+    }
+    function Vc(a, b, d2, c, e) {
+      c = c || 1;
+      b = Bb(a, b, d2, c, e) || !e && Bb(a, b, d2, c, true) || Bb(a, b, d2, -c, e) || !e && Bb(a, b, d2, -c, true);
+      return b ? b : (a.cantEdit = true, t(a.first, 0));
+    }
+    function Kf(a, b, d2, c) {
+      return 0 > d2 && 0 == b.ch ? b.line > a.first ? C(a, t(b.line - 1)) : null : 0 < d2 && b.ch == (c || w(a, b.line)).text.length ? b.line < a.first + a.size - 1 ? t(b.line + 1, 0) : null : new t(b.line, b.ch + d2);
+    }
+    function Lf(a) {
+      a.setSelection(t(a.firstLine(), 0), t(a.lastLine()), Ia);
+    }
+    function Mf(a, b, d2) {
+      var c = { canceled: false, from: b.from, to: b.to, text: b.text, origin: b.origin, cancel: function() {
+        return c.canceled = true;
+      } };
+      d2 && (c.update = function(e, f, g, h2) {
+        e && (c.from = C(a, e));
+        f && (c.to = C(a, f));
+        g && (c.text = g);
+        void 0 !== h2 && (c.origin = h2);
+      });
+      W(a, "beforeChange", a, c);
+      a.cm && W(a.cm, "beforeChange", a.cm, c);
+      return c.canceled ? (a.cm && (a.cm.curOp.updateInput = 2), null) : { from: c.from, to: c.to, text: c.text, origin: c.origin };
+    }
+    function Cb(a, b, d2) {
+      if (a.cm) {
+        if (!a.cm.curOp)
+          return ba(a.cm, Cb)(a, b, d2);
+        if (a.cm.state.suppressEdits)
+          return;
       }
-      function Xc(a) {
-        return "string" == typeof a ? ic[a] : a;
+      if (xa(a, "beforeChange") || a.cm && xa(a.cm, "beforeChange")) {
+        if (b = Mf(a, b, true), !b)
+          return;
       }
-      function Gb(a, b) {
-        for (var d2 = a.doc.sel.ranges, c = [], e = 0; e < d2.length; e++) {
-          for (var f = b(d2[e]); c.length && 0 >= B(f.from, J(c).to); ) {
-            var g = c.pop();
-            if (0 > B(g.from, f.from)) {
-              f.from = g.from;
+      if (d2 = Nf && !d2 && Hg(a, b.from, b.to))
+        for (var c = d2.length - 1; 0 <= c; --c)
+          Of(a, { from: d2[c].from, to: d2[c].to, text: c ? [""] : b.text, origin: b.origin });
+      else
+        Of(a, b);
+    }
+    function Of(a, b) {
+      if (1 != b.text.length || "" != b.text[0] || 0 != B(b.from, b.to)) {
+        var d2 = Zd(a, b);
+        Df(a, b, d2, a.cm ? a.cm.curOp.id : NaN);
+        cc(a, b, d2, vd(a, b));
+        var c = [];
+        Ua(a, function(e, f) {
+          f || -1 != ea(c, e.history) || (Pf(e.history, b), c.push(e.history));
+          cc(e, b, null, vd(e, b));
+        });
+      }
+    }
+    function Wc(a, b, d2) {
+      var c = a.cm && a.cm.state.suppressEdits;
+      if (!c || d2) {
+        for (var e = a.history, f, g = a.sel, h2 = "undo" == b ? e.done : e.undone, k = "undo" == b ? e.undone : e.done, l = 0; l < h2.length && (f = h2[l], d2 ? !f.ranges || f.equals(a.sel) : f.ranges); l++)
+          ;
+        if (l != h2.length) {
+          for (e.lastOrigin = e.lastSelOrigin = null; ; )
+            if (f = h2.pop(), f.ranges) {
+              Sc(f, k);
+              if (d2 && !f.equals(a.sel)) {
+                da(a, f, { clearRedo: false });
+                return;
+              }
+              g = f;
+            } else {
+              if (c) {
+                h2.push(f);
+                return;
+              }
+              break;
+            }
+          var m2 = [];
+          Sc(g, k);
+          k.push({ changes: m2, generation: e.generation });
+          e.generation = f.generation || ++e.maxGeneration;
+          var n = xa(a, "beforeChange") || a.cm && xa(a.cm, "beforeChange");
+          d2 = function(p) {
+            var q = f.changes[p];
+            q.origin = b;
+            if (n && !Mf(a, q, false))
+              return h2.length = 0, {};
+            m2.push(be(a, q));
+            var r = p ? Zd(a, q) : J(h2);
+            cc(a, q, r, Ef(a, q));
+            !p && a.cm && a.cm.scrollIntoView({ from: q.from, to: Ta(q) });
+            var u = [];
+            Ua(a, function(A, Y) {
+              Y || -1 != ea(u, A.history) || (Pf(A.history, q), u.push(A.history));
+              cc(A, q, null, Ef(A, q));
+            });
+          };
+          for (c = f.changes.length - 1; 0 <= c; --c)
+            if (e = d2(c))
+              return e.v;
+        }
+      }
+    }
+    function Qf(a, b) {
+      if (0 != b && (a.first += b, a.sel = new va(wc(a.sel.ranges, function(e) {
+        return new I(t(e.anchor.line + b, e.anchor.ch), t(e.head.line + b, e.head.ch));
+      }), a.sel.primIndex), a.cm)) {
+        ma(a.cm, a.first, a.first - b, b);
+        for (var d2 = a.cm.display, c = d2.viewFrom; c < d2.viewTo; c++)
+          Sa(
+            a.cm,
+            c,
+            "gutter"
+          );
+      }
+    }
+    function cc(a, b, d2, c) {
+      if (a.cm && !a.cm.curOp)
+        return ba(a.cm, cc)(a, b, d2, c);
+      if (b.to.line < a.first)
+        Qf(a, b.text.length - 1 - (b.to.line - b.from.line));
+      else if (!(b.from.line > a.lastLine())) {
+        if (b.from.line < a.first) {
+          var e = b.text.length - 1 - (a.first - b.from.line);
+          Qf(a, e);
+          b = { from: t(a.first, 0), to: t(b.to.line + e, b.to.ch), text: [J(b.text)], origin: b.origin };
+        }
+        e = a.lastLine();
+        b.to.line > e && (b = { from: b.from, to: t(e, w(a, e).text.length), text: [b.text[0]], origin: b.origin });
+        b.removed = ab(a, b.from, b.to);
+        d2 || (d2 = Zd(a, b));
+        a.cm ? bh(
+          a.cm,
+          b,
+          c
+        ) : ae(a, b, c);
+        Uc(a, d2, Ia);
+        a.cantEdit && Vc(a, t(a.firstLine(), 0)) && (a.cantEdit = false);
+      }
+    }
+    function bh(a, b, d2) {
+      var c = a.doc, e = a.display, f = b.from, g = b.to, h2 = false, k = f.line;
+      a.options.lineWrapping || (k = N(za(w(c, f.line))), c.iter(k, g.line + 1, function(l) {
+        if (l == e.maxLine)
+          return h2 = true;
+      }));
+      -1 < c.sel.contains(b.from, b.to) && te(a);
+      ae(c, b, d2, ef(a));
+      a.options.lineWrapping || (c.iter(k, f.line + b.text.length, function(l) {
+        var m2 = Ec(l);
+        m2 > e.maxLineLength && (e.maxLine = l, e.maxLineLength = m2, e.maxLineChanged = true, h2 = false);
+      }), h2 && (a.curOp.updateMaxLine = true));
+      Gg(c, f.line);
+      Yb(a, 400);
+      d2 = b.text.length - (g.line - f.line) - 1;
+      b.full ? ma(a) : f.line != g.line || 1 != b.text.length || yf(a.doc, b) ? ma(a, f.line, g.line + 1, d2) : Sa(a, f.line, "text");
+      d2 = xa(a, "changes");
+      if ((c = xa(a, "change")) || d2)
+        b = { from: f, to: g, text: b.text, removed: b.removed, origin: b.origin }, c && aa(a, "change", a, b), d2 && (a.curOp.changeObjs || (a.curOp.changeObjs = [])).push(b);
+      a.display.selForContextMenu = null;
+    }
+    function Db(a, b, d2, c, e) {
+      c || (c = d2);
+      0 > B(c, d2) && (c = [c, d2], d2 = c[0], c = c[1]);
+      "string" == typeof b && (b = a.splitLines(b));
+      Cb(a, {
+        from: d2,
+        to: c,
+        text: b,
+        origin: e
+      });
+    }
+    function Rf(a, b, d2, c) {
+      d2 < a.line ? a.line += c : b < a.line && (a.line = b, a.ch = 0);
+    }
+    function Sf(a, b, d2, c) {
+      for (var e = 0; e < a.length; ++e) {
+        var f = a[e], g = true;
+        if (f.ranges)
+          for (f.copied || (f = a[e] = f.deepCopy(), f.copied = true), g = 0; g < f.ranges.length; g++)
+            Rf(f.ranges[g].anchor, b, d2, c), Rf(f.ranges[g].head, b, d2, c);
+        else {
+          for (var h2 = 0; h2 < f.changes.length; ++h2) {
+            var k = f.changes[h2];
+            if (d2 < k.from.line)
+              k.from = t(k.from.line + c, k.from.ch), k.to = t(k.to.line + c, k.to.ch);
+            else if (b <= k.to.line) {
+              g = false;
               break;
             }
           }
-          c.push(f);
+          g || (a.splice(0, e + 1), e = 0);
         }
-        ra(a, function() {
-          for (var h2 = c.length - 1; 0 <= h2; h2--)
-            Db(a.doc, "", c[h2].from, c[h2].to, "+delete");
-          xb(a);
-        });
       }
-      function ee(a, b, d2) {
-        b = se(a.text, b + d2, d2);
-        return 0 > b || b > a.text.length ? null : b;
+    }
+    function Pf(a, b) {
+      var d2 = b.from.line, c = b.to.line;
+      b = b.text.length - (c - d2) - 1;
+      Sf(a.done, d2, c, b);
+      Sf(a.undone, d2, c, b);
+    }
+    function dc(a, b, d2, c) {
+      var e = b, f = b;
+      "number" == typeof b ? f = w(a, Math.max(a.first, Math.min(b, a.first + a.size - 1))) : e = N(b);
+      if (null == e)
+        return null;
+      c(f, e) && a.cm && Sa(a.cm, e, d2);
+      return f;
+    }
+    function ec(a) {
+      this.lines = a;
+      this.parent = null;
+      for (var b = 0, d2 = 0; d2 < a.length; ++d2)
+        a[d2].parent = this, b += a[d2].height;
+      this.height = b;
+    }
+    function fc(a) {
+      this.children = a;
+      for (var b = 0, d2 = 0, c = 0; c < a.length; ++c) {
+        var e = a[c];
+        b += e.chunkSize();
+        d2 += e.height;
+        e.parent = this;
       }
-      function fe(a, b, d2) {
-        a = ee(a, b.ch, d2);
-        return null == a ? null : new t(b.line, a, 0 > d2 ? "after" : "before");
-      }
-      function ge(a, b, d2, c, e) {
-        if (a && ("rtl" == b.doc.direction && (e = -e), a = Ja(d2, b.doc.direction))) {
-          a = 0 > e ? J(a) : a[0];
-          var f = 0 > e == (1 == a.level) ? "after" : "before";
-          if (0 < a.level || "rtl" == b.doc.direction) {
-            var g = eb(b, d2);
-            var h2 = 0 > e ? d2.text.length - 1 : 0;
-            var k = Aa(b, g, h2).top;
-            h2 = Jb(function(l) {
-              return Aa(b, g, l).top == k;
-            }, 0 > e == (1 == a.level) ? a.from : a.to - 1, h2);
-            "before" == f && (h2 = ee(d2, h2, 1));
-          } else
-            h2 = 0 > e ? a.to : a.from;
-          return new t(c, h2, f);
-        }
-        return new t(c, 0 > e ? d2.text.length : 0, 0 > e ? "before" : "after");
-      }
-      function kh(a, b, d2, c) {
-        var e = Ja(b, a.doc.direction);
-        if (!e)
-          return fe(b, d2, c);
-        d2.ch >= b.text.length ? (d2.ch = b.text.length, d2.sticky = "before") : 0 >= d2.ch && (d2.ch = 0, d2.sticky = "after");
-        var f = Kb(e, d2.ch, d2.sticky), g = e[f];
-        if ("ltr" == a.doc.direction && 0 == g.level % 2 && (0 < c ? g.to > d2.ch : g.from < d2.ch))
-          return fe(b, d2, c);
-        var h2 = function(q, r) {
-          return ee(b, q instanceof t ? q.ch : q, r);
-        }, k, l = function(q) {
-          if (!a.options.lineWrapping)
-            return { begin: 0, end: b.text.length };
-          k = k || eb(a, b);
-          return df(a, b, k, q);
-        }, m2 = l("before" == d2.sticky ? h2(d2, -1) : d2.ch);
-        if ("rtl" == a.doc.direction || 1 == g.level) {
-          var n = 1 == g.level == 0 > c, p = h2(d2, n ? 1 : -1);
-          if (null != p && (n ? p <= g.to && p <= m2.end : p >= g.from && p >= m2.begin))
-            return new t(d2.line, p, n ? "before" : "after");
-        }
-        g = function(q, r, u) {
-          for (var A = function(K, Q) {
-            return Q ? new t(d2.line, h2(K, 1), "before") : new t(d2.line, K, "after");
-          }; 0 <= q && q < e.length; q += r) {
-            var Y = e[q], x = 0 < r == (1 != Y.level), P = x ? u.begin : h2(u.end, -1);
-            if (Y.from <= P && P < Y.to)
-              return A(P, x);
-            P = x ? Y.from : h2(Y.to, -1);
-            if (u.begin <= P && P < u.end)
-              return A(P, x);
-          }
-        };
-        if (f = g(f + c, c, m2))
-          return f;
-        m2 = 0 < c ? m2.end : h2(m2.begin, -1);
-        return null == m2 || 0 < c && m2 == b.text.length || !(f = g(0 < c ? 0 : e.length - 1, c, l(m2))) ? null : f;
-      }
-      function bg(a, b) {
-        var d2 = w(
-          a.doc,
-          b
-        ), c = za(d2);
-        c != d2 && (b = N(c));
-        return ge(true, a, c, b, 1);
-      }
-      function cg(a, b) {
-        var d2 = bg(a, b.line), c = w(a.doc, d2.line);
-        a = Ja(c, a.doc.direction);
-        return a && 0 != a[0].level ? d2 : (c = Math.max(d2.ch, c.text.search(/\S/)), t(d2.line, b.line == d2.line && b.ch <= c && b.ch ? 0 : c, d2.sticky));
-      }
-      function Yc(a, b, d2) {
-        if ("string" == typeof b && (b = jc[b], !b))
-          return false;
-        a.display.input.ensurePolled();
-        var c = a.display.shift, e = false;
-        try {
-          a.isReadOnly() && (a.state.suppressEdits = true), d2 && (a.display.shift = false), e = b(a) != Zc;
-        } finally {
-          a.display.shift = c, a.state.suppressEdits = false;
-        }
-        return e;
-      }
-      function kc(a, b, d2, c) {
-        var e = a.state.keySeq;
-        if (e) {
-          if (Yf(b))
-            return "handled";
-          /'$/.test(b) ? a.state.keySeq = null : lh.set(50, function() {
-            a.state.keySeq == e && (a.state.keySeq = null, a.display.input.reset());
-          });
-          if (dg(a, e + " " + b, d2, c))
-            return true;
-        }
-        return dg(a, b, d2, c);
-      }
-      function dg(a, b, d2, c) {
-        a: {
-          for (var e = 0; e < a.state.keyMaps.length; e++) {
-            var f = Fb(b, a.state.keyMaps[e], c, a);
-            if (f) {
-              c = f;
-              break a;
-            }
-          }
-          c = a.options.extraKeys && Fb(b, a.options.extraKeys, c, a) || Fb(b, a.options.keyMap, c, a);
-        }
-        "multi" == c && (a.state.keySeq = b);
-        "handled" == c && aa(
-          a,
-          "keyHandled",
+      this.size = b;
+      this.height = d2;
+      this.parent = null;
+    }
+    function ch(a, b, d2, c) {
+      var e = new gc(a, d2, c), f = a.cm;
+      f && e.noHScroll && (f.display.alignWidgets = true);
+      dc(a, b, "widget", function(g) {
+        var h2 = g.widgets || (g.widgets = []);
+        null == e.insertAt ? h2.push(e) : h2.splice(Math.min(h2.length, Math.max(0, e.insertAt)), 0, e);
+        e.line = g;
+        f && !Pa(a, g) && (h2 = Ga(g) < a.scrollTop, Ea(g, g.height + Tb(e)), h2 && Nc(f, e.height), f.curOp.forceUpdate = true);
+        return true;
+      });
+      f && aa(f, "lineWidgetAdded", f, e, "number" == typeof b ? b : N(b));
+      return e;
+    }
+    function Eb(a, b, d2, c, e) {
+      if (c && c.shared)
+        return dh(
           a,
           b,
-          d2
+          d2,
+          c,
+          e
         );
-        if ("handled" == c || "multi" == c)
-          la(d2), Qd(a);
-        return !!c;
+      if (a.cm && !a.cm.curOp)
+        return ba(a.cm, Eb)(a, b, d2, c, e);
+      var f = new Va(a, e);
+      e = B(b, d2);
+      c && Za(c, f, false);
+      if (0 < e || 0 == e && false !== f.clearWhenEmpty)
+        return f;
+      f.replacedWith && (f.collapsed = true, f.widgetNode = M("span", [f.replacedWith], "CodeMirror-widget"), c.handleMouseEvents || f.widgetNode.setAttribute("cm-ignore-events", "true"), c.insertLeft && (f.widgetNode.insertLeft = true));
+      if (f.collapsed) {
+        if (Ie(a, b.line, b, d2, f) || b.line != d2.line && Ie(a, d2.line, b, d2, f))
+          throw Error("Inserting collapsed marker partially overlapping an existing one");
+        Ka = true;
       }
-      function eg(a, b) {
-        var d2 = ag(b, true);
-        return d2 ? b.shiftKey && !a.state.keySeq ? kc(a, "Shift-" + d2, b, function(c) {
-          return Yc(a, c, true);
-        }) || kc(a, d2, b, function(c) {
-          if ("string" == typeof c ? /^go[A-Z]/.test(c) : c.motion)
-            return Yc(a, c);
-        }) : kc(a, d2, b, function(c) {
-          return Yc(a, c);
-        }) : false;
+      f.addToHistory && Df(a, { from: b, to: d2, origin: "markText" }, a.sel, NaN);
+      var g = b.line, h2 = a.cm, k;
+      a.iter(g, d2.line + 1, function(l) {
+        h2 && f.collapsed && !h2.options.lineWrapping && za(l) == h2.display.maxLine && (k = true);
+        f.collapsed && g != b.line && Ea(l, 0);
+        var m2 = new Dc(f, g == b.line ? b.ch : null, g == d2.line ? d2.ch : null), n = a.cm && a.cm.curOp;
+        (n = n && window.WeakSet && (n.markedSpans || (n.markedSpans = /* @__PURE__ */ new WeakSet()))) && l.markedSpans && n.has(l.markedSpans) ? l.markedSpans.push(m2) : (l.markedSpans = l.markedSpans ? l.markedSpans.concat([m2]) : [m2], n && n.add(l.markedSpans));
+        m2.marker.attachLine(l);
+        ++g;
+      });
+      f.collapsed && a.iter(b.line, d2.line + 1, function(l) {
+        Pa(a, l) && Ea(l, 0);
+      });
+      f.clearOnEnter && z(f, "beforeCursorEnter", function() {
+        return f.clear();
+      });
+      f.readOnly && (Nf = true, (a.history.done.length || a.history.undone.length) && a.clearHistory());
+      f.collapsed && (f.id = ++Tf, f.atomic = true);
+      if (h2) {
+        k && (h2.curOp.updateMaxLine = true);
+        if (f.collapsed)
+          ma(h2, b.line, d2.line + 1);
+        else if (f.className || f.startStyle || f.endStyle || f.css || f.attributes || f.title)
+          for (c = b.line; c <= d2.line; c++)
+            Sa(h2, c, "text");
+        f.atomic && Jf(h2.doc);
+        aa(h2, "markerAdded", h2, f);
       }
-      function mh(a, b, d2) {
-        return kc(a, "'" + d2 + "'", b, function(c) {
-          return Yc(a, c, true);
+      return f;
+    }
+    function dh(a, b, d2, c, e) {
+      c = Za(c);
+      c.shared = false;
+      var f = [Eb(a, b, d2, c, e)], g = f[0], h2 = c.widgetNode;
+      Ua(a, function(k) {
+        h2 && (c.widgetNode = h2.cloneNode(true));
+        f.push(Eb(k, C(k, b), C(k, d2), c, e));
+        for (var l = 0; l < k.linked.length; ++l)
+          if (k.linked[l].isParent)
+            return;
+        g = J(f);
+      });
+      return new hc(f, g);
+    }
+    function Uf(a) {
+      return a.findMarks(t(a.first, 0), a.clipPos(t(a.lastLine())), function(b) {
+        return b.parent;
+      });
+    }
+    function eh(a) {
+      for (var b = function(c) {
+        c = a[c];
+        var e = [c.primary.doc];
+        Ua(c.primary.doc, function(h2) {
+          return e.push(h2);
         });
-      }
-      function fg(a) {
-        if (!a.target || a.target == this.display.input.getField()) {
-          if (this.curOp.focus = ka(qa(this)), !Z(this, a)) {
-            G && 11 > T && 27 == a.keyCode && (a.returnValue = false);
-            var b = a.keyCode;
-            this.display.shift = 16 == b || a.shiftKey;
-            var d2 = eg(this, a);
-            Ca && (he = d2 ? b : null, !d2 && 88 == b && !nh && (ya ? a.metaKey : a.ctrlKey) && this.replaceSelection("", null, "cut"));
-            Ma && !ya && !d2 && 46 == b && a.shiftKey && !a.ctrlKey && document.execCommand && document.execCommand("cut");
-            18 != b || /\bCodeMirror-crosshair\b/.test(this.display.lineDiv.className) || oh(this);
-          }
+        for (var f = 0; f < c.markers.length; f++) {
+          var g = c.markers[f];
+          -1 == ea(e, g.doc) && (g.parent = null, c.markers.splice(f--, 1));
         }
-      }
-      function oh(a) {
-        function b(c) {
-          18 != c.keyCode && c.altKey || (jb(d2, "CodeMirror-crosshair"), ta(document, "keyup", b), ta(
-            document,
-            "mouseover",
-            b
-          ));
-        }
-        var d2 = a.display.lineDiv;
-        Ya(d2, "CodeMirror-crosshair");
-        z(document, "keyup", b);
-        z(document, "mouseover", b);
-      }
-      function gg(a) {
-        16 == a.keyCode && (this.doc.sel.shift = false);
-        Z(this, a);
-      }
-      function hg(a) {
-        if (!(a.target && a.target != this.display.input.getField() || La(this.display, a) || Z(this, a) || a.ctrlKey && !a.altKey || ya && a.metaKey)) {
-          var b = a.keyCode, d2 = a.charCode;
-          if (Ca && b == he)
-            he = null, la(a);
-          else if (!Ca || a.which && !(10 > a.which) || !eg(this, a)) {
-            if (b = String.fromCharCode(null == d2 ? b : d2), "\b" != b && !mh(this, a, b))
-              this.display.input.onKeyPress(a);
-          }
-        }
-      }
-      function ph(a, b) {
-        var d2 = +/* @__PURE__ */ new Date();
-        if (lc && lc.compare(d2, a, b))
-          return mc = lc = null, "triple";
-        if (mc && mc.compare(d2, a, b))
-          return lc = new ie(d2, a, b), mc = null, "double";
-        mc = new ie(d2, a, b);
-        lc = null;
-        return "single";
-      }
-      function ig(a) {
-        var b = this.display;
-        if (!(Z(this, a) || b.activeTouch && b.input.supportsTouch())) {
-          if (b.input.ensurePolled(), b.shift = a.shiftKey, La(b, a))
-            fa || (b.scroller.draggable = false, setTimeout(function() {
-              return b.scroller.draggable = true;
-            }, 100));
-          else if (!$c(this, a, "gutterClick", true)) {
-            var d2 = gb(this, a), c = ve(a), e = d2 ? ph(d2, c) : "single";
-            qa(this).defaultView.focus();
-            1 == c && this.state.selectingText && this.state.selectingText(a);
-            if (!d2 || !qh(this, c, d2, e, a)) {
-              if (1 == c)
-                d2 ? rh(this, d2, e, a) : (a.target || a.srcElement) == b.scroller && la(a);
-              else if (2 == c)
-                d2 && Tc(this.doc, d2), setTimeout(function() {
-                  return b.input.focus();
-                }, 20);
-              else if (3 == c)
-                if (je)
-                  this.display.input.onContextMenu(a);
-                else
-                  Sd(this);
+      }, d2 = 0; d2 < a.length; d2++)
+        b(d2);
+    }
+    function fh(a) {
+      var b = this;
+      Vf(b);
+      if (!Z(b, a) && !La(b.display, a)) {
+        la(a);
+        G && (Wf = +/* @__PURE__ */ new Date());
+        var d2 = gb(b, a, true), c = a.dataTransfer.files;
+        if (d2 && !b.isReadOnly())
+          if (c && c.length && window.FileReader && window.File)
+            for (var e = c.length, f = Array(e), g = 0, h2 = function() {
+              ++g == e && ba(b, function() {
+                d2 = C(b.doc, d2);
+                var m2 = {
+                  from: d2,
+                  to: d2,
+                  text: b.doc.splitLines(f.filter(function(n) {
+                    return null != n;
+                  }).join(b.doc.lineSeparator())),
+                  origin: "paste"
+                };
+                Cb(b.doc, m2);
+                Gf(b.doc, Oa(C(b.doc, d2), C(b.doc, Ta(m2))));
+              })();
+            }, k = function(m2, n) {
+              if (b.options.allowDropFileTypes && -1 == ea(b.options.allowDropFileTypes, m2.type))
+                h2();
+              else {
+                var p = new FileReader();
+                p.onerror = function() {
+                  return h2();
+                };
+                p.onload = function() {
+                  var q = p.result;
+                  /[\x00-\x08\x0e-\x1f]{2}/.test(q) || (f[n] = q);
+                  h2();
+                };
+                p.readAsText(m2);
+              }
+            }, l = 0; l < c.length; l++)
+              k(c[l], l);
+          else if (b.state.draggingText && -1 < b.doc.sel.contains(d2))
+            b.state.draggingText(a), setTimeout(function() {
+              return b.display.input.focus();
+            }, 20);
+          else
+            try {
+              if (k = a.dataTransfer.getData("Text")) {
+                b.state.draggingText && !b.state.draggingText.copy && (l = b.listSelections());
+                Uc(b.doc, Oa(d2, d2));
+                if (l)
+                  for (c = 0; c < l.length; ++c)
+                    Db(b.doc, "", l[c].anchor, l[c].head, "drag");
+                b.replaceSelection(k, "around", "paste");
+                b.display.input.focus();
+              }
+            } catch (m2) {
             }
+      }
+    }
+    function Vf(a) {
+      a.display.dragCursor && (a.display.lineSpace.removeChild(a.display.dragCursor), a.display.dragCursor = null);
+    }
+    function Xf(a) {
+      if (document.getElementsByClassName) {
+        for (var b = document.getElementsByClassName("CodeMirror"), d2 = [], c = 0; c < b.length; c++) {
+          var e = b[c].CodeMirror;
+          e && d2.push(e);
+        }
+        d2.length && d2[0].operation(function() {
+          for (var f = 0; f < d2.length; f++)
+            a(d2[f]);
+        });
+      }
+    }
+    function gh() {
+      var a;
+      z(window, "resize", function() {
+        null == a && (a = setTimeout(function() {
+          a = null;
+          Xf(hh);
+        }, 100));
+      });
+      z(window, "blur", function() {
+        return Xf(wb);
+      });
+    }
+    function hh(a) {
+      var b = a.display;
+      b.cachedCharWidth = b.cachedTextHeight = b.cachedPaddingH = null;
+      b.scrollbarsClipped = false;
+      a.setSize();
+    }
+    function ih(a) {
+      var b = a.split(/-(?!$)/);
+      a = b[b.length - 1];
+      for (var d2, c, e, f, g = 0; g < b.length - 1; g++) {
+        var h2 = b[g];
+        if (/^(cmd|meta|m)$/i.test(h2))
+          f = true;
+        else if (/^a(lt)?$/i.test(h2))
+          d2 = true;
+        else if (/^(c|ctrl|control)$/i.test(h2))
+          c = true;
+        else if (/^s(hift)?$/i.test(h2))
+          e = true;
+        else
+          throw Error("Unrecognized modifier name: " + h2);
+      }
+      d2 && (a = "Alt-" + a);
+      c && (a = "Ctrl-" + a);
+      f && (a = "Cmd-" + a);
+      e && (a = "Shift-" + a);
+      return a;
+    }
+    function jh(a) {
+      var b = {}, d2;
+      for (d2 in a)
+        if (a.hasOwnProperty(d2)) {
+          var c = a[d2];
+          if (!/^(name|fallthrough|(de|at)tach)$/.test(d2)) {
+            if ("..." != c)
+              for (var e = wc(d2.split(" "), ih), f = 0; f < e.length; f++) {
+                if (f == e.length - 1) {
+                  var g = e.join(" ");
+                  var h2 = c;
+                } else
+                  g = e.slice(0, f + 1).join(" "), h2 = "...";
+                var k = b[g];
+                if (!k)
+                  b[g] = h2;
+                else if (k != h2)
+                  throw Error("Inconsistent bindings for " + g);
+              }
+            delete a[d2];
+          }
+        }
+      for (var l in b)
+        a[l] = b[l];
+      return a;
+    }
+    function Fb(a, b, d2, c) {
+      b = Xc(b);
+      var e = b.call ? b.call(a, c) : b[a];
+      if (false === e)
+        return "nothing";
+      if ("..." === e)
+        return "multi";
+      if (null != e && d2(e))
+        return "handled";
+      if (b.fallthrough) {
+        if ("[object Array]" != Object.prototype.toString.call(b.fallthrough))
+          return Fb(a, b.fallthrough, d2, c);
+        for (e = 0; e < b.fallthrough.length; e++) {
+          var f = Fb(a, b.fallthrough[e], d2, c);
+          if (f)
+            return f;
+        }
+      }
+    }
+    function Yf(a) {
+      a = "string" == typeof a ? a : Wa[a.keyCode];
+      return "Ctrl" == a || "Alt" == a || "Shift" == a || "Mod" == a;
+    }
+    function Zf(a, b, d2) {
+      var c = a;
+      b.altKey && "Alt" != c && (a = "Alt-" + a);
+      ($f ? b.metaKey : b.ctrlKey) && "Ctrl" != c && (a = "Ctrl-" + a);
+      ($f ? b.ctrlKey : b.metaKey) && "Mod" != c && (a = "Cmd-" + a);
+      !d2 && b.shiftKey && "Shift" != c && (a = "Shift-" + a);
+      return a;
+    }
+    function ag(a, b) {
+      if (Ca && 34 == a.keyCode && a["char"])
+        return false;
+      var d2 = Wa[a.keyCode];
+      if (null == d2 || a.altGraphKey)
+        return false;
+      3 == a.keyCode && a.code && (d2 = a.code);
+      return Zf(d2, a, b);
+    }
+    function Xc(a) {
+      return "string" == typeof a ? ic[a] : a;
+    }
+    function Gb(a, b) {
+      for (var d2 = a.doc.sel.ranges, c = [], e = 0; e < d2.length; e++) {
+        for (var f = b(d2[e]); c.length && 0 >= B(f.from, J(c).to); ) {
+          var g = c.pop();
+          if (0 > B(g.from, f.from)) {
+            f.from = g.from;
+            break;
+          }
+        }
+        c.push(f);
+      }
+      ra(a, function() {
+        for (var h2 = c.length - 1; 0 <= h2; h2--)
+          Db(a.doc, "", c[h2].from, c[h2].to, "+delete");
+        xb(a);
+      });
+    }
+    function ee(a, b, d2) {
+      b = se(a.text, b + d2, d2);
+      return 0 > b || b > a.text.length ? null : b;
+    }
+    function fe(a, b, d2) {
+      a = ee(a, b.ch, d2);
+      return null == a ? null : new t(b.line, a, 0 > d2 ? "after" : "before");
+    }
+    function ge(a, b, d2, c, e) {
+      if (a && ("rtl" == b.doc.direction && (e = -e), a = Ja(d2, b.doc.direction))) {
+        a = 0 > e ? J(a) : a[0];
+        var f = 0 > e == (1 == a.level) ? "after" : "before";
+        if (0 < a.level || "rtl" == b.doc.direction) {
+          var g = eb(b, d2);
+          var h2 = 0 > e ? d2.text.length - 1 : 0;
+          var k = Aa(b, g, h2).top;
+          h2 = Jb(function(l) {
+            return Aa(b, g, l).top == k;
+          }, 0 > e == (1 == a.level) ? a.from : a.to - 1, h2);
+          "before" == f && (h2 = ee(d2, h2, 1));
+        } else
+          h2 = 0 > e ? a.to : a.from;
+        return new t(c, h2, f);
+      }
+      return new t(c, 0 > e ? d2.text.length : 0, 0 > e ? "before" : "after");
+    }
+    function kh(a, b, d2, c) {
+      var e = Ja(b, a.doc.direction);
+      if (!e)
+        return fe(b, d2, c);
+      d2.ch >= b.text.length ? (d2.ch = b.text.length, d2.sticky = "before") : 0 >= d2.ch && (d2.ch = 0, d2.sticky = "after");
+      var f = Kb(e, d2.ch, d2.sticky), g = e[f];
+      if ("ltr" == a.doc.direction && 0 == g.level % 2 && (0 < c ? g.to > d2.ch : g.from < d2.ch))
+        return fe(b, d2, c);
+      var h2 = function(q, r) {
+        return ee(b, q instanceof t ? q.ch : q, r);
+      }, k, l = function(q) {
+        if (!a.options.lineWrapping)
+          return { begin: 0, end: b.text.length };
+        k = k || eb(a, b);
+        return df(a, b, k, q);
+      }, m2 = l("before" == d2.sticky ? h2(d2, -1) : d2.ch);
+      if ("rtl" == a.doc.direction || 1 == g.level) {
+        var n = 1 == g.level == 0 > c, p = h2(d2, n ? 1 : -1);
+        if (null != p && (n ? p <= g.to && p <= m2.end : p >= g.from && p >= m2.begin))
+          return new t(d2.line, p, n ? "before" : "after");
+      }
+      g = function(q, r, u) {
+        for (var A = function(K, Q) {
+          return Q ? new t(d2.line, h2(K, 1), "before") : new t(d2.line, K, "after");
+        }; 0 <= q && q < e.length; q += r) {
+          var Y = e[q], x = 0 < r == (1 != Y.level), P = x ? u.begin : h2(u.end, -1);
+          if (Y.from <= P && P < Y.to)
+            return A(P, x);
+          P = x ? Y.from : h2(Y.to, -1);
+          if (u.begin <= P && P < u.end)
+            return A(P, x);
+        }
+      };
+      if (f = g(f + c, c, m2))
+        return f;
+      m2 = 0 < c ? m2.end : h2(m2.begin, -1);
+      return null == m2 || 0 < c && m2 == b.text.length || !(f = g(0 < c ? 0 : e.length - 1, c, l(m2))) ? null : f;
+    }
+    function bg(a, b) {
+      var d2 = w(
+        a.doc,
+        b
+      ), c = za(d2);
+      c != d2 && (b = N(c));
+      return ge(true, a, c, b, 1);
+    }
+    function cg(a, b) {
+      var d2 = bg(a, b.line), c = w(a.doc, d2.line);
+      a = Ja(c, a.doc.direction);
+      return a && 0 != a[0].level ? d2 : (c = Math.max(d2.ch, c.text.search(/\S/)), t(d2.line, b.line == d2.line && b.ch <= c && b.ch ? 0 : c, d2.sticky));
+    }
+    function Yc(a, b, d2) {
+      if ("string" == typeof b && (b = jc[b], !b))
+        return false;
+      a.display.input.ensurePolled();
+      var c = a.display.shift, e = false;
+      try {
+        a.isReadOnly() && (a.state.suppressEdits = true), d2 && (a.display.shift = false), e = b(a) != Zc;
+      } finally {
+        a.display.shift = c, a.state.suppressEdits = false;
+      }
+      return e;
+    }
+    function kc(a, b, d2, c) {
+      var e = a.state.keySeq;
+      if (e) {
+        if (Yf(b))
+          return "handled";
+        /'$/.test(b) ? a.state.keySeq = null : lh.set(50, function() {
+          a.state.keySeq == e && (a.state.keySeq = null, a.display.input.reset());
+        });
+        if (dg(a, e + " " + b, d2, c))
+          return true;
+      }
+      return dg(a, b, d2, c);
+    }
+    function dg(a, b, d2, c) {
+      a: {
+        for (var e = 0; e < a.state.keyMaps.length; e++) {
+          var f = Fb(b, a.state.keyMaps[e], c, a);
+          if (f) {
+            c = f;
+            break a;
+          }
+        }
+        c = a.options.extraKeys && Fb(b, a.options.extraKeys, c, a) || Fb(b, a.options.keyMap, c, a);
+      }
+      "multi" == c && (a.state.keySeq = b);
+      "handled" == c && aa(
+        a,
+        "keyHandled",
+        a,
+        b,
+        d2
+      );
+      if ("handled" == c || "multi" == c)
+        la(d2), Qd(a);
+      return !!c;
+    }
+    function eg(a, b) {
+      var d2 = ag(b, true);
+      return d2 ? b.shiftKey && !a.state.keySeq ? kc(a, "Shift-" + d2, b, function(c) {
+        return Yc(a, c, true);
+      }) || kc(a, d2, b, function(c) {
+        if ("string" == typeof c ? /^go[A-Z]/.test(c) : c.motion)
+          return Yc(a, c);
+      }) : kc(a, d2, b, function(c) {
+        return Yc(a, c);
+      }) : false;
+    }
+    function mh(a, b, d2) {
+      return kc(a, "'" + d2 + "'", b, function(c) {
+        return Yc(a, c, true);
+      });
+    }
+    function fg(a) {
+      if (!a.target || a.target == this.display.input.getField()) {
+        if (this.curOp.focus = ka(qa(this)), !Z(this, a)) {
+          G && 11 > T && 27 == a.keyCode && (a.returnValue = false);
+          var b = a.keyCode;
+          this.display.shift = 16 == b || a.shiftKey;
+          var d2 = eg(this, a);
+          Ca && (he = d2 ? b : null, !d2 && 88 == b && !nh && (ya ? a.metaKey : a.ctrlKey) && this.replaceSelection("", null, "cut"));
+          Ma && !ya && !d2 && 46 == b && a.shiftKey && !a.ctrlKey && document.execCommand && document.execCommand("cut");
+          18 != b || /\bCodeMirror-crosshair\b/.test(this.display.lineDiv.className) || oh(this);
+        }
+      }
+    }
+    function oh(a) {
+      function b(c) {
+        18 != c.keyCode && c.altKey || (jb(d2, "CodeMirror-crosshair"), ta(document, "keyup", b), ta(
+          document,
+          "mouseover",
+          b
+        ));
+      }
+      var d2 = a.display.lineDiv;
+      Ya(d2, "CodeMirror-crosshair");
+      z(document, "keyup", b);
+      z(document, "mouseover", b);
+    }
+    function gg(a) {
+      16 == a.keyCode && (this.doc.sel.shift = false);
+      Z(this, a);
+    }
+    function hg(a) {
+      if (!(a.target && a.target != this.display.input.getField() || La(this.display, a) || Z(this, a) || a.ctrlKey && !a.altKey || ya && a.metaKey)) {
+        var b = a.keyCode, d2 = a.charCode;
+        if (Ca && b == he)
+          he = null, la(a);
+        else if (!Ca || a.which && !(10 > a.which) || !eg(this, a)) {
+          if (b = String.fromCharCode(null == d2 ? b : d2), "\b" != b && !mh(this, a, b))
+            this.display.input.onKeyPress(a);
+        }
+      }
+    }
+    function ph(a, b) {
+      var d2 = +/* @__PURE__ */ new Date();
+      if (lc && lc.compare(d2, a, b))
+        return mc = lc = null, "triple";
+      if (mc && mc.compare(d2, a, b))
+        return lc = new ie(d2, a, b), mc = null, "double";
+      mc = new ie(d2, a, b);
+      lc = null;
+      return "single";
+    }
+    function ig(a) {
+      var b = this.display;
+      if (!(Z(this, a) || b.activeTouch && b.input.supportsTouch())) {
+        if (b.input.ensurePolled(), b.shift = a.shiftKey, La(b, a))
+          fa || (b.scroller.draggable = false, setTimeout(function() {
+            return b.scroller.draggable = true;
+          }, 100));
+        else if (!$c(this, a, "gutterClick", true)) {
+          var d2 = gb(this, a), c = ve(a), e = d2 ? ph(d2, c) : "single";
+          qa(this).defaultView.focus();
+          1 == c && this.state.selectingText && this.state.selectingText(a);
+          if (!d2 || !qh(this, c, d2, e, a)) {
+            if (1 == c)
+              d2 ? rh(this, d2, e, a) : (a.target || a.srcElement) == b.scroller && la(a);
+            else if (2 == c)
+              d2 && Tc(this.doc, d2), setTimeout(function() {
+                return b.input.focus();
+              }, 20);
+            else if (3 == c)
+              if (je)
+                this.display.input.onContextMenu(a);
+              else
+                Sd(this);
           }
         }
       }
-      function qh(a, b, d2, c, e) {
-        var f = "Click";
-        "double" == c ? f = "Double" + f : "triple" == c && (f = "Triple" + f);
-        return kc(a, Zf((1 == b ? "Left" : 2 == b ? "Middle" : "Right") + f, e), e, function(g) {
-          "string" == typeof g && (g = jc[g]);
-          if (!g)
-            return false;
-          var h2 = false;
-          try {
-            a.isReadOnly() && (a.state.suppressEdits = true), h2 = g(a, d2) != Zc;
-          } finally {
-            a.state.suppressEdits = false;
-          }
-          return h2;
-        });
-      }
-      function rh(a, b, d2, c) {
-        G ? setTimeout(gd(hf, a), 0) : a.curOp.focus = ka(qa(a));
-        var e = a.getOption("configureMouse");
-        e = e ? e(a, d2, c) : {};
-        null == e.unit && (e.unit = (sh ? c.shiftKey && c.metaKey : c.altKey) ? "rectangle" : "single" == d2 ? "char" : "double" == d2 ? "word" : "line");
-        if (null == e.extend || a.doc.extend)
-          e.extend = a.doc.extend || c.shiftKey;
-        null == e.addNew && (e.addNew = ya ? c.metaKey : c.ctrlKey);
-        null == e.moveOnDrag && (e.moveOnDrag = !(ya ? c.altKey : c.ctrlKey));
-        var f = a.doc.sel, g;
-        a.options.dragDrop && th && !a.isReadOnly() && "single" == d2 && -1 < (g = f.contains(b)) && (0 > B((g = f.ranges[g]).from(), b) || 0 < b.xRel) && (0 < B(g.to(), b) || 0 > b.xRel) ? uh(a, c, b, e) : vh(a, c, b, e);
-      }
-      function uh(a, b, d2, c) {
-        var e = a.display, f = false, g = ba(a, function(l) {
-          fa && (e.scroller.draggable = false);
-          a.state.draggingText = false;
-          a.state.delayingBlurEvent && (a.hasFocus() ? a.state.delayingBlurEvent = false : Sd(a));
-          ta(e.wrapper.ownerDocument, "mouseup", g);
-          ta(
-            e.wrapper.ownerDocument,
-            "mousemove",
-            h2
-          );
-          ta(e.scroller, "dragstart", k);
-          ta(e.scroller, "drop", g);
-          f || (la(l), c.addNew || Tc(a.doc, d2, null, null, c.extend), fa && !ad || G && 9 == T ? setTimeout(function() {
-            e.wrapper.ownerDocument.body.focus({ preventScroll: true });
-            e.input.focus();
-          }, 20) : e.input.focus());
-        }), h2 = function(l) {
-          f = f || 10 <= Math.abs(b.clientX - l.clientX) + Math.abs(b.clientY - l.clientY);
-        }, k = function() {
-          return f = true;
-        };
-        fa && (e.scroller.draggable = true);
-        a.state.draggingText = g;
-        g.copy = !c.moveOnDrag;
-        z(e.wrapper.ownerDocument, "mouseup", g);
-        z(
+    }
+    function qh(a, b, d2, c, e) {
+      var f = "Click";
+      "double" == c ? f = "Double" + f : "triple" == c && (f = "Triple" + f);
+      return kc(a, Zf((1 == b ? "Left" : 2 == b ? "Middle" : "Right") + f, e), e, function(g) {
+        "string" == typeof g && (g = jc[g]);
+        if (!g)
+          return false;
+        var h2 = false;
+        try {
+          a.isReadOnly() && (a.state.suppressEdits = true), h2 = g(a, d2) != Zc;
+        } finally {
+          a.state.suppressEdits = false;
+        }
+        return h2;
+      });
+    }
+    function rh(a, b, d2, c) {
+      G ? setTimeout(gd(hf, a), 0) : a.curOp.focus = ka(qa(a));
+      var e = a.getOption("configureMouse");
+      e = e ? e(a, d2, c) : {};
+      null == e.unit && (e.unit = (sh ? c.shiftKey && c.metaKey : c.altKey) ? "rectangle" : "single" == d2 ? "char" : "double" == d2 ? "word" : "line");
+      if (null == e.extend || a.doc.extend)
+        e.extend = a.doc.extend || c.shiftKey;
+      null == e.addNew && (e.addNew = ya ? c.metaKey : c.ctrlKey);
+      null == e.moveOnDrag && (e.moveOnDrag = !(ya ? c.altKey : c.ctrlKey));
+      var f = a.doc.sel, g;
+      a.options.dragDrop && th && !a.isReadOnly() && "single" == d2 && -1 < (g = f.contains(b)) && (0 > B((g = f.ranges[g]).from(), b) || 0 < b.xRel) && (0 < B(g.to(), b) || 0 > b.xRel) ? uh(a, c, b, e) : vh(a, c, b, e);
+    }
+    function uh(a, b, d2, c) {
+      var e = a.display, f = false, g = ba(a, function(l) {
+        fa && (e.scroller.draggable = false);
+        a.state.draggingText = false;
+        a.state.delayingBlurEvent && (a.hasFocus() ? a.state.delayingBlurEvent = false : Sd(a));
+        ta(e.wrapper.ownerDocument, "mouseup", g);
+        ta(
           e.wrapper.ownerDocument,
           "mousemove",
           h2
         );
-        z(e.scroller, "dragstart", k);
-        z(e.scroller, "drop", g);
-        a.state.delayingBlurEvent = true;
-        setTimeout(function() {
-          return e.input.focus();
-        }, 20);
-        e.scroller.dragDrop && e.scroller.dragDrop();
-      }
-      function jg(a, b, d2) {
-        if ("char" == d2)
-          return new I(b, b);
-        if ("word" == d2)
-          return a.findWordAt(b);
-        if ("line" == d2)
-          return new I(t(b.line, 0), C(a.doc, t(b.line + 1, 0)));
-        a = d2(a, b);
-        return new I(a.from, a.to);
-      }
-      function vh(a, b, d2, c) {
-        function e(x) {
-          if (0 != B(q, x))
-            if (q = x, "rectangle" == c.unit) {
-              var P = [], K = a.options.tabSize, Q = wa(
-                w(k, d2.line).text,
-                d2.ch,
-                K
-              ), S = wa(w(k, x.line).text, x.ch, K), F = Math.min(Q, S);
-              Q = Math.max(Q, S);
-              S = Math.min(d2.line, x.line);
-              for (var R2 = Math.min(a.lastLine(), Math.max(d2.line, x.line)); S <= R2; S++) {
-                var H = w(k, S).text, L = hd(H, F, K);
-                F == Q ? P.push(new I(t(S, L), t(S, L))) : H.length > L && P.push(new I(t(S, L), t(S, hd(H, Q, K))));
-              }
-              P.length || P.push(new I(d2, d2));
-              da(k, Da(a, l.ranges.slice(0, n).concat(P), n), { origin: "*mouse", scroll: false });
-              a.scrollIntoView(x);
-            } else
-              P = p, F = jg(a, x, c.unit), x = P.anchor, 0 < B(F.anchor, x) ? (K = F.head, x = Bc(P.from(), F.anchor)) : (K = F.anchor, x = Ac(
-                P.to(),
-                F.head
-              )), P = l.ranges.slice(0), P[n] = wh(a, new I(C(k, x), K)), da(k, Da(a, P, n), ke);
-        }
-        function f(x) {
-          var P = ++u, K = gb(a, x, true, "rectangle" == c.unit);
-          if (K)
-            if (0 != B(K, q)) {
-              a.curOp.focus = ka(qa(a));
-              e(K);
-              var Q = Mc(h2, k);
-              (K.line >= Q.to || K.line < Q.from) && setTimeout(ba(a, function() {
-                u == P && f(x);
-              }), 150);
-            } else {
-              var S = x.clientY < r.top ? -20 : x.clientY > r.bottom ? 20 : 0;
-              S && setTimeout(ba(a, function() {
-                u == P && (h2.scroller.scrollTop += S, f(x));
-              }), 50);
+        ta(e.scroller, "dragstart", k);
+        ta(e.scroller, "drop", g);
+        f || (la(l), c.addNew || Tc(a.doc, d2, null, null, c.extend), fa && !ad || G && 9 == T ? setTimeout(function() {
+          e.wrapper.ownerDocument.body.focus({ preventScroll: true });
+          e.input.focus();
+        }, 20) : e.input.focus());
+      }), h2 = function(l) {
+        f = f || 10 <= Math.abs(b.clientX - l.clientX) + Math.abs(b.clientY - l.clientY);
+      }, k = function() {
+        return f = true;
+      };
+      fa && (e.scroller.draggable = true);
+      a.state.draggingText = g;
+      g.copy = !c.moveOnDrag;
+      z(e.wrapper.ownerDocument, "mouseup", g);
+      z(
+        e.wrapper.ownerDocument,
+        "mousemove",
+        h2
+      );
+      z(e.scroller, "dragstart", k);
+      z(e.scroller, "drop", g);
+      a.state.delayingBlurEvent = true;
+      setTimeout(function() {
+        return e.input.focus();
+      }, 20);
+      e.scroller.dragDrop && e.scroller.dragDrop();
+    }
+    function jg(a, b, d2) {
+      if ("char" == d2)
+        return new I(b, b);
+      if ("word" == d2)
+        return a.findWordAt(b);
+      if ("line" == d2)
+        return new I(t(b.line, 0), C(a.doc, t(b.line + 1, 0)));
+      a = d2(a, b);
+      return new I(a.from, a.to);
+    }
+    function vh(a, b, d2, c) {
+      function e(x) {
+        if (0 != B(q, x))
+          if (q = x, "rectangle" == c.unit) {
+            var P = [], K = a.options.tabSize, Q = wa(
+              w(k, d2.line).text,
+              d2.ch,
+              K
+            ), S = wa(w(k, x.line).text, x.ch, K), F = Math.min(Q, S);
+            Q = Math.max(Q, S);
+            S = Math.min(d2.line, x.line);
+            for (var R2 = Math.min(a.lastLine(), Math.max(d2.line, x.line)); S <= R2; S++) {
+              var H = w(k, S).text, L = hd(H, F, K);
+              F == Q ? P.push(new I(t(S, L), t(S, L))) : H.length > L && P.push(new I(t(S, L), t(S, hd(H, Q, K))));
             }
-        }
-        function g(x) {
-          a.state.selectingText = false;
-          u = Infinity;
-          x && (la(x), h2.input.focus());
-          ta(
-            h2.wrapper.ownerDocument,
-            "mousemove",
-            A
-          );
-          ta(h2.wrapper.ownerDocument, "mouseup", Y);
-          k.history.lastSelOrigin = null;
-        }
-        G && Sd(a);
-        var h2 = a.display, k = a.doc;
-        la(b);
-        var l = k.sel, m2 = l.ranges;
-        if (c.addNew && !c.extend) {
-          var n = k.sel.contains(d2);
-          var p = -1 < n ? m2[n] : new I(d2, d2);
-        } else
-          p = k.sel.primary(), n = k.sel.primIndex;
-        "rectangle" == c.unit ? (c.addNew || (p = new I(d2, d2)), d2 = gb(a, b, true, true), n = -1) : (b = jg(a, d2, c.unit), p = c.extend ? ce(p, b.anchor, b.head, c.extend) : b);
-        c.addNew ? -1 == n ? (n = m2.length, da(k, Da(a, m2.concat([p]), n), { scroll: false, origin: "*mouse" })) : 1 < m2.length && m2[n].empty() && "char" == c.unit && !c.extend ? (da(k, Da(a, m2.slice(0, n).concat(m2.slice(n + 1)), 0), { scroll: false, origin: "*mouse" }), l = k.sel) : de(k, n, p, ke) : (n = 0, da(k, new va([p], 0), ke), l = k.sel);
-        var q = d2, r = h2.wrapper.getBoundingClientRect(), u = 0, A = ba(a, function(x) {
-          0 !== x.buttons && ve(x) ? f(x) : g(x);
-        }), Y = ba(a, g);
-        a.state.selectingText = Y;
-        z(h2.wrapper.ownerDocument, "mousemove", A);
-        z(h2.wrapper.ownerDocument, "mouseup", Y);
+            P.length || P.push(new I(d2, d2));
+            da(k, Da(a, l.ranges.slice(0, n).concat(P), n), { origin: "*mouse", scroll: false });
+            a.scrollIntoView(x);
+          } else
+            P = p, F = jg(a, x, c.unit), x = P.anchor, 0 < B(F.anchor, x) ? (K = F.head, x = Bc(P.from(), F.anchor)) : (K = F.anchor, x = Ac(
+              P.to(),
+              F.head
+            )), P = l.ranges.slice(0), P[n] = wh(a, new I(C(k, x), K)), da(k, Da(a, P, n), ke);
       }
-      function wh(a, b) {
-        var d2 = b.anchor, c = b.head, e = w(a.doc, d2.line);
-        if (0 == B(d2, c) && d2.sticky == c.sticky)
-          return b;
-        e = Ja(e);
-        if (!e)
-          return b;
-        var f = Kb(e, d2.ch, d2.sticky), g = e[f];
-        if (g.from != d2.ch && g.to != d2.ch)
-          return b;
-        var h2 = f + (g.from == d2.ch == (1 != g.level) ? 0 : 1);
-        if (0 == h2 || h2 == e.length)
-          return b;
-        c.line != d2.line ? a = 0 < (c.line - d2.line) * ("ltr" == a.doc.direction ? 1 : -1) : (a = Kb(e, c.ch, c.sticky), f = a - f || (c.ch - d2.ch) * (1 == g.level ? -1 : 1), a = a == h2 - 1 || a == h2 ? 0 > f : 0 < f);
-        e = e[h2 + (a ? -1 : 0)];
-        e = (h2 = a == (1 == e.level)) ? e.from : e.to;
-        h2 = h2 ? "after" : "before";
-        return d2.ch == e && d2.sticky == h2 ? b : new I(new t(d2.line, e, h2), c);
-      }
-      function $c(a, b, d2, c) {
-        if (b.touches) {
-          var e = b.touches[0].clientX;
-          var f = b.touches[0].clientY;
-        } else
-          try {
-            e = b.clientX, f = b.clientY;
-          } catch (k) {
-            return false;
+      function f(x) {
+        var P = ++u, K = gb(a, x, true, "rectangle" == c.unit);
+        if (K)
+          if (0 != B(K, q)) {
+            a.curOp.focus = ka(qa(a));
+            e(K);
+            var Q = Mc(h2, k);
+            (K.line >= Q.to || K.line < Q.from) && setTimeout(ba(a, function() {
+              u == P && f(x);
+            }), 150);
+          } else {
+            var S = x.clientY < r.top ? -20 : x.clientY > r.bottom ? 20 : 0;
+            S && setTimeout(ba(a, function() {
+              u == P && (h2.scroller.scrollTop += S, f(x));
+            }), 50);
           }
-        if (e >= Math.floor(a.display.gutters.getBoundingClientRect().right))
+      }
+      function g(x) {
+        a.state.selectingText = false;
+        u = Infinity;
+        x && (la(x), h2.input.focus());
+        ta(
+          h2.wrapper.ownerDocument,
+          "mousemove",
+          A
+        );
+        ta(h2.wrapper.ownerDocument, "mouseup", Y);
+        k.history.lastSelOrigin = null;
+      }
+      G && Sd(a);
+      var h2 = a.display, k = a.doc;
+      la(b);
+      var l = k.sel, m2 = l.ranges;
+      if (c.addNew && !c.extend) {
+        var n = k.sel.contains(d2);
+        var p = -1 < n ? m2[n] : new I(d2, d2);
+      } else
+        p = k.sel.primary(), n = k.sel.primIndex;
+      "rectangle" == c.unit ? (c.addNew || (p = new I(d2, d2)), d2 = gb(a, b, true, true), n = -1) : (b = jg(a, d2, c.unit), p = c.extend ? ce(p, b.anchor, b.head, c.extend) : b);
+      c.addNew ? -1 == n ? (n = m2.length, da(k, Da(a, m2.concat([p]), n), { scroll: false, origin: "*mouse" })) : 1 < m2.length && m2[n].empty() && "char" == c.unit && !c.extend ? (da(k, Da(a, m2.slice(0, n).concat(m2.slice(n + 1)), 0), { scroll: false, origin: "*mouse" }), l = k.sel) : de(k, n, p, ke) : (n = 0, da(k, new va([p], 0), ke), l = k.sel);
+      var q = d2, r = h2.wrapper.getBoundingClientRect(), u = 0, A = ba(a, function(x) {
+        0 !== x.buttons && ve(x) ? f(x) : g(x);
+      }), Y = ba(a, g);
+      a.state.selectingText = Y;
+      z(h2.wrapper.ownerDocument, "mousemove", A);
+      z(h2.wrapper.ownerDocument, "mouseup", Y);
+    }
+    function wh(a, b) {
+      var d2 = b.anchor, c = b.head, e = w(a.doc, d2.line);
+      if (0 == B(d2, c) && d2.sticky == c.sticky)
+        return b;
+      e = Ja(e);
+      if (!e)
+        return b;
+      var f = Kb(e, d2.ch, d2.sticky), g = e[f];
+      if (g.from != d2.ch && g.to != d2.ch)
+        return b;
+      var h2 = f + (g.from == d2.ch == (1 != g.level) ? 0 : 1);
+      if (0 == h2 || h2 == e.length)
+        return b;
+      c.line != d2.line ? a = 0 < (c.line - d2.line) * ("ltr" == a.doc.direction ? 1 : -1) : (a = Kb(e, c.ch, c.sticky), f = a - f || (c.ch - d2.ch) * (1 == g.level ? -1 : 1), a = a == h2 - 1 || a == h2 ? 0 > f : 0 < f);
+      e = e[h2 + (a ? -1 : 0)];
+      e = (h2 = a == (1 == e.level)) ? e.from : e.to;
+      h2 = h2 ? "after" : "before";
+      return d2.ch == e && d2.sticky == h2 ? b : new I(new t(d2.line, e, h2), c);
+    }
+    function $c(a, b, d2, c) {
+      if (b.touches) {
+        var e = b.touches[0].clientX;
+        var f = b.touches[0].clientY;
+      } else
+        try {
+          e = b.clientX, f = b.clientY;
+        } catch (k) {
           return false;
-        c && la(b);
-        c = a.display;
-        var g = c.lineDiv.getBoundingClientRect();
-        if (f > g.bottom || !xa(a, d2))
-          return ld(b);
-        f -= g.top - c.viewOffset;
-        for (g = 0; g < a.display.gutterSpecs.length; ++g) {
-          var h2 = c.gutters.childNodes[g];
-          if (h2 && h2.getBoundingClientRect().right >= e)
-            return e = bb(a.doc, f), W(a, d2, a, e, a.display.gutterSpecs[g].className, b), ld(b);
         }
-      }
-      function kg(a, b) {
-        var d2;
-        (d2 = La(a.display, b)) || (d2 = xa(a, "gutterContextMenu") ? $c(
-          a,
-          b,
-          "gutterContextMenu",
-          false
-        ) : false);
-        if (!d2 && !Z(a, b, "contextmenu") && !je)
-          a.display.input.onContextMenu(b);
-      }
-      function lg(a) {
-        a.display.wrapper.className = a.display.wrapper.className.replace(/\s*cm-s-\S+/g, "") + a.options.theme.replace(/(^|\s)\s*/g, " cm-s-");
-        Ub(a);
-      }
-      function xh(a, b, d2) {
-        !b != !(d2 && d2 != Hb) && (d2 = a.display.dragFunctions, b = b ? z : ta, b(a.display.scroller, "dragstart", d2.start), b(a.display.scroller, "dragenter", d2.enter), b(a.display.scroller, "dragover", d2.over), b(a.display.scroller, "dragleave", d2.leave), b(
-          a.display.scroller,
-          "drop",
-          d2.drop
-        ));
-      }
-      function yh(a) {
-        a.options.lineWrapping ? (Ya(a.display.wrapper, "CodeMirror-wrap"), a.display.sizer.style.minWidth = "", a.display.sizerWidth = null) : (jb(a.display.wrapper, "CodeMirror-wrap"), zd(a));
-        Nd(a);
-        ma(a);
-        Ub(a);
-        setTimeout(function() {
-          return yb(a);
-        }, 100);
-      }
-      function U(a, b) {
-        var d2 = this;
-        if (!(this instanceof U))
-          return new U(a, b);
-        this.options = b = b ? Za(b) : {};
-        Za(mg, b, false);
-        var c = b.value;
-        "string" == typeof c ? c = new oa(c, b.mode, null, b.lineSeparator, b.direction) : b.mode && (c.modeOption = b.mode);
-        this.doc = c;
-        var e = new U.inputStyles[b.inputStyle](this);
-        a = this.display = new Yg(a, c, e, b);
-        a.wrapper.CodeMirror = this;
-        lg(this);
-        b.lineWrapping && (this.display.wrapper.className += " CodeMirror-wrap");
-        of(this);
-        this.state = { keyMaps: [], overlays: [], modeGen: 0, overwrite: false, delayingBlurEvent: false, focused: false, suppressEdits: false, pasteIncoming: -1, cutIncoming: -1, selectingText: false, draggingText: false, highlight: new Xa(), keySeq: null, specialChars: null };
-        b.autofocus && !ac && a.input.focus();
-        G && 11 > T && setTimeout(
-          function() {
-            return d2.display.input.reset(true);
-          },
-          20
-        );
-        zh(this);
-        ng || (gh(), ng = true);
-        lb(this);
-        this.curOp.forceUpdate = true;
-        zf(this, c);
-        b.autofocus && !ac || this.hasFocus() ? setTimeout(function() {
-          d2.hasFocus() && !d2.state.focused && Rd(d2);
-        }, 20) : wb(this);
-        for (var f in bd)
-          if (bd.hasOwnProperty(f))
-            bd[f](this, b[f], Hb);
-        rf(this);
-        b.finishInit && b.finishInit(this);
-        for (c = 0; c < le.length; ++c)
-          le[c](this);
-        mb(this);
-        fa && b.lineWrapping && "optimizelegibility" == getComputedStyle(a.lineDiv).textRendering && (a.lineDiv.style.textRendering = "auto");
-      }
-      function zh(a) {
-        function b() {
-          c.activeTouch && (e = setTimeout(function() {
-            return c.activeTouch = null;
-          }, 1e3), f = c.activeTouch, f.end = +/* @__PURE__ */ new Date());
-        }
-        function d2(h2, k) {
-          if (null == k.left)
-            return true;
-          var l = k.left - h2.left;
-          h2 = k.top - h2.top;
-          return 400 < l * l + h2 * h2;
-        }
-        var c = a.display;
-        z(c.scroller, "mousedown", ba(a, ig));
-        G && 11 > T ? z(c.scroller, "dblclick", ba(a, function(h2) {
-          if (!Z(a, h2)) {
-            var k = gb(a, h2);
-            !k || $c(a, h2, "gutterClick", true) || La(a.display, h2) || (la(h2), h2 = a.findWordAt(k), Tc(a.doc, h2.anchor, h2.head));
-          }
-        })) : z(c.scroller, "dblclick", function(h2) {
-          return Z(a, h2) || la(h2);
-        });
-        z(c.scroller, "contextmenu", function(h2) {
-          return kg(
-            a,
-            h2
-          );
-        });
-        z(c.input.getField(), "contextmenu", function(h2) {
-          c.scroller.contains(h2.target) || kg(a, h2);
-        });
-        var e, f = { end: 0 };
-        z(c.scroller, "touchstart", function(h2) {
-          var k;
-          if (k = !Z(a, h2))
-            1 != h2.touches.length ? k = false : (k = h2.touches[0], k = 1 >= k.radiusX && 1 >= k.radiusY), k = !k;
-          k && !$c(a, h2, "gutterClick", true) && (c.input.ensurePolled(), clearTimeout(e), k = +/* @__PURE__ */ new Date(), c.activeTouch = { start: k, moved: false, prev: 300 >= k - f.end ? f : null }, 1 == h2.touches.length && (c.activeTouch.left = h2.touches[0].pageX, c.activeTouch.top = h2.touches[0].pageY));
-        });
-        z(
-          c.scroller,
-          "touchmove",
-          function() {
-            c.activeTouch && (c.activeTouch.moved = true);
-          }
-        );
-        z(c.scroller, "touchend", function(h2) {
-          var k = c.activeTouch;
-          if (k && !La(c, h2) && null != k.left && !k.moved && 300 > /* @__PURE__ */ new Date() - k.start) {
-            var l = a.coordsChar(c.activeTouch, "page");
-            k = !k.prev || d2(k, k.prev) ? new I(l, l) : !k.prev.prev || d2(k, k.prev.prev) ? a.findWordAt(l) : new I(t(l.line, 0), C(a.doc, t(l.line + 1, 0)));
-            a.setSelection(k.anchor, k.head);
-            a.focus();
-            la(h2);
-          }
-          b();
-        });
-        z(c.scroller, "touchcancel", b);
-        z(c.scroller, "scroll", function() {
-          c.scroller.clientHeight && (Xb(a, c.scroller.scrollTop), kb(a, c.scroller.scrollLeft, true), W(a, "scroll", a));
-        });
-        z(c.scroller, "mousewheel", function(h2) {
-          return vf(a, h2);
-        });
-        z(c.scroller, "DOMMouseScroll", function(h2) {
-          return vf(a, h2);
-        });
-        z(c.wrapper, "scroll", function() {
-          return c.wrapper.scrollTop = c.wrapper.scrollLeft = 0;
-        });
-        c.dragFunctions = { enter: function(h2) {
-          Z(a, h2) || Mb(h2);
-        }, over: function(h2) {
-          if (!Z(a, h2)) {
-            var k = gb(a, h2);
-            if (k) {
-              var l = document.createDocumentFragment();
-              Od(a, k, l);
-              a.display.dragCursor || (a.display.dragCursor = v2("div", null, "CodeMirror-cursors CodeMirror-dragcursors"), a.display.lineSpace.insertBefore(
-                a.display.dragCursor,
-                a.display.cursorDiv
-              ));
-              D(a.display.dragCursor, l);
-            }
-            Mb(h2);
-          }
-        }, start: function(h2) {
-          if (G && (!a.state.draggingText || 100 > +/* @__PURE__ */ new Date() - Wf))
-            Mb(h2);
-          else if (!Z(a, h2) && !La(a.display, h2) && (h2.dataTransfer.setData("Text", a.getSelection()), h2.dataTransfer.effectAllowed = "copyMove", h2.dataTransfer.setDragImage && !ad)) {
-            var k = v2("img", null, null, "position: fixed; left: 0; top: 0;");
-            k.src = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==";
-            Ca && (k.width = k.height = 1, a.display.wrapper.appendChild(k), k._top = k.offsetTop);
-            h2.dataTransfer.setDragImage(k, 0, 0);
-            Ca && k.parentNode.removeChild(k);
-          }
-        }, drop: ba(a, fh), leave: function(h2) {
-          Z(a, h2) || Vf(a);
-        } };
-        var g = c.input.getField();
-        z(g, "keyup", function(h2) {
-          return gg.call(a, h2);
-        });
-        z(g, "keydown", ba(a, fg));
-        z(g, "keypress", ba(a, hg));
-        z(g, "focus", function(h2) {
-          return Rd(a, h2);
-        });
-        z(g, "blur", function(h2) {
-          return wb(a, h2);
-        });
-      }
-      function nc(a, b, d2, c) {
-        var e = a.doc, f;
-        null == d2 && (d2 = "add");
-        "smart" == d2 && (e.mode.indent ? f = Ob(a, b).state : d2 = "prev");
-        var g = a.options.tabSize, h2 = w(e, b), k = wa(h2.text, null, g);
-        h2.stateAfter && (h2.stateAfter = null);
-        var l = h2.text.match(/^\s*/)[0];
-        if (!c && !/\S/.test(h2.text)) {
-          var m2 = 0;
-          d2 = "not";
-        } else if ("smart" == d2 && (m2 = e.mode.indent(f, h2.text.slice(l.length), h2.text), m2 == Zc || 150 < m2)) {
-          if (!c)
-            return;
-          d2 = "prev";
-        }
-        "prev" == d2 ? m2 = b > e.first ? wa(w(e, b - 1).text, null, g) : 0 : "add" == d2 ? m2 = k + a.options.indentUnit : "subtract" == d2 ? m2 = k - a.options.indentUnit : "number" == typeof d2 && (m2 = k + d2);
-        m2 = Math.max(0, m2);
-        d2 = "";
-        c = 0;
-        if (a.options.indentWithTabs)
-          for (a = Math.floor(m2 / g); a; --a)
-            c += g, d2 += "	";
-        c < m2 && (d2 += id(m2 - c));
-        if (d2 != l)
-          return Db(e, d2, t(b, 0), t(b, l.length), "+input"), h2.stateAfter = null, true;
-        for (g = 0; g < e.sel.ranges.length; g++)
-          if (h2 = e.sel.ranges[g], h2.head.line == b && h2.head.ch < l.length) {
-            b = t(b, l.length);
-            de(e, g, new I(b, b));
-            break;
-          }
-      }
-      function me(a, b, d2, c, e) {
-        var f = a.doc;
-        a.display.shift = false;
-        c || (c = f.sel);
-        var g = +/* @__PURE__ */ new Date() - 200, h2 = "paste" == e || a.state.pasteIncoming > g, k = ne(b), l = null;
-        if (h2 && 1 < c.ranges.length)
-          if (sa && sa.text.join("\n") == b) {
-            if (0 == c.ranges.length % sa.text.length) {
-              l = [];
-              for (var m2 = 0; m2 < sa.text.length; m2++)
-                l.push(f.splitLines(sa.text[m2]));
-            }
-          } else
-            k.length == c.ranges.length && a.options.pasteLinesPerSelection && (l = wc(k, function(u) {
-              return [u];
-            }));
-        m2 = a.curOp.updateInput;
-        for (var n = c.ranges.length - 1; 0 <= n; n--) {
-          var p = c.ranges[n], q = p.from(), r = p.to();
-          p.empty() && (d2 && 0 < d2 ? q = t(q.line, q.ch - d2) : a.state.overwrite && !h2 ? r = t(r.line, Math.min(w(f, r.line).text.length, r.ch + J(k).length)) : h2 && sa && sa.lineWise && sa.text.join("\n") == k.join("\n") && (q = r = t(q.line, 0)));
-          p = { from: q, to: r, text: l ? l[n % l.length] : k, origin: e || (h2 ? "paste" : a.state.cutIncoming > g ? "cut" : "+input") };
-          Cb(a.doc, p);
-          aa(a, "inputRead", a, p);
-        }
-        b && !h2 && og(a, b);
-        xb(a);
-        2 > a.curOp.updateInput && (a.curOp.updateInput = m2);
-        a.curOp.typing = true;
-        a.state.pasteIncoming = a.state.cutIncoming = -1;
-      }
-      function pg(a, b) {
-        var d2 = a.clipboardData && a.clipboardData.getData("Text");
-        if (d2)
-          return a.preventDefault(), b.isReadOnly() || b.options.disableInput || !b.hasFocus() || ra(b, function() {
-            return me(b, d2, 0, null, "paste");
-          }), true;
-      }
-      function og(a, b) {
-        if (a.options.electricChars && a.options.smartIndent)
-          for (var d2 = a.doc.sel, c = d2.ranges.length - 1; 0 <= c; c--) {
-            var e = d2.ranges[c];
-            if (!(100 < e.head.ch || c && d2.ranges[c - 1].head.line == e.head.line)) {
-              var f = a.getModeAt(e.head), g = false;
-              if (f.electricChars)
-                for (var h2 = 0; h2 < f.electricChars.length; h2++) {
-                  if (-1 < b.indexOf(f.electricChars.charAt(h2))) {
-                    g = nc(a, e.head.line, "smart");
-                    break;
-                  }
-                }
-              else
-                f.electricInput && f.electricInput.test(w(a.doc, e.head.line).text.slice(0, e.head.ch)) && (g = nc(a, e.head.line, "smart"));
-              g && aa(a, "electricInput", a, e.head.line);
-            }
-          }
-      }
-      function qg(a) {
-        for (var b = [], d2 = [], c = 0; c < a.doc.sel.ranges.length; c++) {
-          var e = a.doc.sel.ranges[c].head.line;
-          e = { anchor: t(e, 0), head: t(e + 1, 0) };
-          d2.push(e);
-          b.push(a.getRange(e.anchor, e.head));
-        }
-        return {
-          text: b,
-          ranges: d2
-        };
-      }
-      function rg(a, b, d2, c) {
-        a.setAttribute("autocorrect", d2 ? "" : "off");
-        a.setAttribute("autocapitalize", c ? "" : "off");
-        a.setAttribute("spellcheck", !!b);
-      }
-      function sg() {
-        var a = v2("textarea", null, null, "position: absolute; bottom: -1em; padding: 0; width: 1px; height: 1em; min-height: 1em; outline: none"), b = v2("div", [a], null, "overflow: hidden; position: relative; width: 3px; height: 0px;");
-        fa ? a.style.width = "1000px" : a.setAttribute("wrap", "off");
-        oc && (a.style.border = "1px solid black");
-        rg(a);
-        return b;
-      }
-      function oe(a, b, d2, c, e) {
-        function f(u) {
-          if ("codepoint" == c) {
-            var A = k.text.charCodeAt(b.ch + (0 < d2 ? 0 : -1));
-            A = isNaN(A) ? null : new t(b.line, Math.max(0, Math.min(k.text.length, b.ch + d2 * ((0 < d2 ? 55296 <= A && 56320 > A : 56320 <= A && 57343 > A) ? 2 : 1))), -d2);
-          } else
-            A = e ? kh(a.cm, k, b, d2) : fe(k, b, d2);
-          if (null == A) {
-            if (u = !u)
-              u = b.line + l, u < a.first || u >= a.first + a.size ? u = false : (b = new t(u, b.ch, b.sticky), u = k = w(a, u));
-            if (u)
-              b = ge(e, a.cm, k, b.line, l);
-            else
-              return false;
-          } else
-            b = A;
-          return true;
-        }
-        var g = b, h2 = d2, k = w(a, b.line), l = e && "rtl" == a.direction ? -d2 : d2;
-        if ("char" == c || "codepoint" == c)
-          f();
-        else if ("column" == c)
-          f(true);
-        else if ("word" == c || "group" == c)
-          for (var m2 = null, n = "group" == c, p = a.cm && a.cm.getHelper(b, "wordChars"), q = true; !(0 > d2) || f(!q); q = false) {
-            var r = k.text.charAt(b.ch) || "\n";
-            r = xc(r, p) ? "w" : n && "\n" == r ? "n" : !n || /\s/.test(r) ? null : "p";
-            !n || q || r || (r = "s");
-            if (m2 && m2 != r) {
-              0 > d2 && (d2 = 1, f(), b.sticky = "after");
-              break;
-            }
-            r && (m2 = r);
-            if (0 < d2 && !f(!q))
-              break;
-          }
-        h2 = Vc(a, b, g, h2, true);
-        rd(g, h2) && (h2.hitSide = true);
-        return h2;
-      }
-      function tg(a, b, d2, c) {
-        var e = a.doc, f = b.left;
-        if ("page" == c) {
-          var g = Math.min(a.display.wrapper.clientHeight, qa(a).defaultView.innerHeight || e(a).documentElement.clientHeight);
-          g = Math.max(g - 0.5 * vb(a.display), 3);
-          g = (0 < d2 ? b.bottom : b.top) + d2 * g;
-        } else
-          "line" == c && (g = 0 < d2 ? b.bottom + 3 : b.top - 3);
-        for (; ; ) {
-          b = Kd(a, f, g);
-          if (!b.outside)
-            break;
-          if (0 > d2 ? 0 >= g : g >= e.height) {
-            b.hitSide = true;
-            break;
-          }
-          g += 5 * d2;
-        }
-        return b;
-      }
-      function ug(a, b) {
-        var d2 = Fd(a, b.line);
-        if (!d2 || d2.hidden)
-          return null;
-        var c = w(a.doc, b.line);
-        d2 = Ue(d2, c, b.line);
-        a = Ja(c, a.doc.direction);
-        c = "left";
-        a && (c = Kb(a, b.ch) % 2 ? "right" : "left");
-        b = Ve(d2.map, b.ch, c);
-        b.offset = "right" == b.collapse ? b.end : b.start;
-        return b;
-      }
-      function Ah(a) {
-        for (; a; a = a.parentNode)
-          if (/CodeMirror-gutter-wrapper/.test(a.className))
-            return true;
+      if (e >= Math.floor(a.display.gutters.getBoundingClientRect().right))
         return false;
+      c && la(b);
+      c = a.display;
+      var g = c.lineDiv.getBoundingClientRect();
+      if (f > g.bottom || !xa(a, d2))
+        return ld(b);
+      f -= g.top - c.viewOffset;
+      for (g = 0; g < a.display.gutterSpecs.length; ++g) {
+        var h2 = c.gutters.childNodes[g];
+        if (h2 && h2.getBoundingClientRect().right >= e)
+          return e = bb(a.doc, f), W(a, d2, a, e, a.display.gutterSpecs[g].className, b), ld(b);
       }
-      function Ib(a, b) {
-        b && (a.bad = true);
-        return a;
+    }
+    function kg(a, b) {
+      var d2;
+      (d2 = La(a.display, b)) || (d2 = xa(a, "gutterContextMenu") ? $c(
+        a,
+        b,
+        "gutterContextMenu",
+        false
+      ) : false);
+      if (!d2 && !Z(a, b, "contextmenu") && !je)
+        a.display.input.onContextMenu(b);
+    }
+    function lg(a) {
+      a.display.wrapper.className = a.display.wrapper.className.replace(/\s*cm-s-\S+/g, "") + a.options.theme.replace(/(^|\s)\s*/g, " cm-s-");
+      Ub(a);
+    }
+    function xh(a, b, d2) {
+      !b != !(d2 && d2 != Hb) && (d2 = a.display.dragFunctions, b = b ? z : ta, b(a.display.scroller, "dragstart", d2.start), b(a.display.scroller, "dragenter", d2.enter), b(a.display.scroller, "dragover", d2.over), b(a.display.scroller, "dragleave", d2.leave), b(
+        a.display.scroller,
+        "drop",
+        d2.drop
+      ));
+    }
+    function yh(a) {
+      a.options.lineWrapping ? (Ya(a.display.wrapper, "CodeMirror-wrap"), a.display.sizer.style.minWidth = "", a.display.sizerWidth = null) : (jb(a.display.wrapper, "CodeMirror-wrap"), zd(a));
+      Nd(a);
+      ma(a);
+      Ub(a);
+      setTimeout(function() {
+        return yb(a);
+      }, 100);
+    }
+    function U(a, b) {
+      var d2 = this;
+      if (!(this instanceof U))
+        return new U(a, b);
+      this.options = b = b ? Za(b) : {};
+      Za(mg, b, false);
+      var c = b.value;
+      "string" == typeof c ? c = new oa(c, b.mode, null, b.lineSeparator, b.direction) : b.mode && (c.modeOption = b.mode);
+      this.doc = c;
+      var e = new U.inputStyles[b.inputStyle](this);
+      a = this.display = new Yg(a, c, e, b);
+      a.wrapper.CodeMirror = this;
+      lg(this);
+      b.lineWrapping && (this.display.wrapper.className += " CodeMirror-wrap");
+      of(this);
+      this.state = { keyMaps: [], overlays: [], modeGen: 0, overwrite: false, delayingBlurEvent: false, focused: false, suppressEdits: false, pasteIncoming: -1, cutIncoming: -1, selectingText: false, draggingText: false, highlight: new Xa(), keySeq: null, specialChars: null };
+      b.autofocus && !ac && a.input.focus();
+      G && 11 > T && setTimeout(
+        function() {
+          return d2.display.input.reset(true);
+        },
+        20
+      );
+      zh(this);
+      ng || (gh(), ng = true);
+      lb(this);
+      this.curOp.forceUpdate = true;
+      zf(this, c);
+      b.autofocus && !ac || this.hasFocus() ? setTimeout(function() {
+        d2.hasFocus() && !d2.state.focused && Rd(d2);
+      }, 20) : wb(this);
+      for (var f in bd)
+        if (bd.hasOwnProperty(f))
+          bd[f](this, b[f], Hb);
+      rf(this);
+      b.finishInit && b.finishInit(this);
+      for (c = 0; c < le.length; ++c)
+        le[c](this);
+      mb(this);
+      fa && b.lineWrapping && "optimizelegibility" == getComputedStyle(a.lineDiv).textRendering && (a.lineDiv.style.textRendering = "auto");
+    }
+    function zh(a) {
+      function b() {
+        c.activeTouch && (e = setTimeout(function() {
+          return c.activeTouch = null;
+        }, 1e3), f = c.activeTouch, f.end = +/* @__PURE__ */ new Date());
       }
-      function Bh(a, b, d2, c, e) {
-        function f(q) {
-          return function(r) {
-            return r.id == q;
-          };
-        }
-        function g() {
-          m2 && (l += n, p && (l += n), m2 = p = false);
-        }
-        function h2(q) {
-          q && (g(), l += q);
-        }
-        function k(q) {
-          if (1 == q.nodeType) {
-            var r = q.getAttribute("cm-text");
-            if (r)
-              h2(r);
-            else {
-              r = q.getAttribute("cm-marker");
-              var u;
-              if (r)
-                q = a.findMarks(t(c, 0), t(e + 1, 0), f(+r)), q.length && (u = q[0].find(0)) && h2(ab(a.doc, u.from, u.to).join(n));
-              else if ("false" != q.getAttribute("contenteditable") && (u = /^(pre|div|p|li|table|br)$/i.test(q.nodeName), /^br$/i.test(q.nodeName) || 0 != q.textContent.length)) {
-                u && g();
-                for (r = 0; r < q.childNodes.length; r++)
-                  k(q.childNodes[r]);
-                /^(pre|p)$/i.test(q.nodeName) && (p = true);
-                u && (m2 = true);
-              }
-            }
-          } else
-            3 == q.nodeType && h2(q.nodeValue.replace(/\u200b/g, "").replace(/\u00a0/g, " "));
-        }
-        for (var l = "", m2 = false, n = a.doc.lineSeparator(), p = false; ; ) {
-          k(b);
-          if (b == d2)
-            break;
-          b = b.nextSibling;
-          p = false;
-        }
-        return l;
+      function d2(h2, k) {
+        if (null == k.left)
+          return true;
+        var l = k.left - h2.left;
+        h2 = k.top - h2.top;
+        return 400 < l * l + h2 * h2;
       }
-      function cd(a, b, d2) {
-        if (b == a.display.lineDiv) {
-          var c = a.display.lineDiv.childNodes[d2];
-          if (!c)
-            return Ib(a.clipPos(t(a.display.viewTo - 1)), true);
-          b = null;
-          d2 = 0;
-        } else
-          for (c = b; ; c = c.parentNode) {
-            if (!c || c == a.display.lineDiv)
-              return null;
-            if (c.parentNode && c.parentNode == a.display.lineDiv)
-              break;
-          }
-        for (var e = 0; e < a.display.view.length; e++) {
-          var f = a.display.view[e];
-          if (f.node == c)
-            return Ch(f, b, d2);
+      var c = a.display;
+      z(c.scroller, "mousedown", ba(a, ig));
+      G && 11 > T ? z(c.scroller, "dblclick", ba(a, function(h2) {
+        if (!Z(a, h2)) {
+          var k = gb(a, h2);
+          !k || $c(a, h2, "gutterClick", true) || La(a.display, h2) || (la(h2), h2 = a.findWordAt(k), Tc(a.doc, h2.anchor, h2.head));
         }
-      }
-      function Ch(a, b, d2) {
-        function c(m2, n, p) {
-          for (var q = -1; q < (l ? l.length : 0); q++)
-            for (var r = 0 > q ? k.map : l[q], u = 0; u < r.length; u += 3) {
-              var A = r[u + 2];
-              if (A == m2 || A == n) {
-                n = N(0 > q ? a.line : a.rest[q]);
-                q = r[u] + p;
-                if (0 > p || A != m2)
-                  q = r[u + (p ? 1 : 0)];
-                return t(n, q);
-              }
-            }
-        }
-        var e = a.text.firstChild, f = false;
-        if (!b || !ja(e, b))
-          return Ib(t(N(a.line), 0), true);
-        if (b == e && (f = true, b = e.childNodes[d2], d2 = 0, !b))
-          return d2 = a.rest ? J(a.rest) : a.line, Ib(t(N(d2), d2.text.length), f);
-        var g = 3 == b.nodeType ? b : null, h2 = b;
-        g || 1 != b.childNodes.length || 3 != b.firstChild.nodeType || (g = b.firstChild, d2 && (d2 = g.nodeValue.length));
-        for (; h2.parentNode != e; )
-          h2 = h2.parentNode;
-        var k = a.measure, l = k.maps;
-        if (b = c(g, h2, d2))
-          return Ib(b, f);
-        e = h2.nextSibling;
-        for (g = g ? g.nodeValue.length - d2 : 0; e; e = e.nextSibling) {
-          if (b = c(e, e.firstChild, 0))
-            return Ib(t(b.line, b.ch - g), f);
-          g += e.textContent.length;
-        }
-        for (h2 = h2.previousSibling; h2; h2 = h2.previousSibling) {
-          if (b = c(h2, h2.firstChild, -1))
-            return Ib(t(b.line, b.ch + d2), f);
-          d2 += h2.textContent.length;
-        }
-      }
-      var pa = navigator.userAgent, vg = navigator.platform, Ma = /gecko\/\d/i.test(pa), wg = /MSIE \d/.test(pa), xg = /Trident\/(?:[7-9]|\d{2,})\..*rv:(\d+)/.exec(pa), dd = /Edge\/(\d+)/.exec(pa), G = wg || xg || dd, T = G && (wg ? document.documentMode || 6 : +(dd || xg)[1]), fa = !dd && /WebKit\//.test(pa), Dh = fa && /Qt\/\d+\.\d+/.test(pa), Qa = !dd && /Chrome\/(\d+)/.exec(pa), tf = Qa && +Qa[1], Ca = /Opera\//.test(pa), ad = /Apple Computer/.test(navigator.vendor), Eh = /Mac OS X 1\d\D([8-9]|\d\d)\D/.test(pa), Vg = /PhantomJS/.test(pa), oc = ad && (/Mobile\/\w+/.test(pa) || 2 < navigator.maxTouchPoints), Gc = /Android/.test(pa), ac = oc || Gc || /webOS|BlackBerry|Opera Mini|Opera Mobi|IEMobile/i.test(pa), ya = oc || /Mac/.test(vg), sh = /\bCrOS\b/.test(pa), Fh = /win/i.test(vg), nb = Ca && pa.match(/Version\/(\d*\.\d*)/);
-      nb && (nb = Number(nb[1]));
-      nb && 15 <= nb && (Ca = false, fa = true);
-      var $f = ya && (Dh || Ca && (null == nb || 12.11 > nb)), je = Ma || G && 9 <= T, jb = function(a, b) {
-        var d2 = a.className;
-        if (b = y2(b).exec(d2)) {
-          var c = d2.slice(b.index + b[0].length);
-          a.className = d2.slice(0, b.index) + (c ? b[1] + c : "");
-        }
-      };
-      var Qb = document.createRange ? function(a, b, d2, c) {
-        var e = document.createRange();
-        e.setEnd(c || a, d2);
-        e.setStart(a, b);
-        return e;
-      } : function(a, b, d2) {
-        var c = document.body.createTextRange();
-        try {
-          c.moveToElementText(a.parentNode);
-        } catch (e) {
-          return c;
-        }
-        c.collapse(true);
-        c.moveEnd("character", d2);
-        c.moveStart("character", b);
-        return c;
-      };
-      var pc = function(a) {
-        a.select();
-      };
-      oc ? pc = function(a) {
-        a.selectionStart = 0;
-        a.selectionEnd = a.value.length;
-      } : G && (pc = function(a) {
-        try {
-          a.select();
-        } catch (b) {
-        }
+      })) : z(c.scroller, "dblclick", function(h2) {
+        return Z(a, h2) || la(h2);
       });
-      var Xa = function() {
-        this.f = this.id = null;
-        this.time = 0;
-        this.handler = gd(this.onTimeout, this);
-      };
-      Xa.prototype.onTimeout = function(a) {
-        a.id = 0;
-        a.time <= +/* @__PURE__ */ new Date() ? a.f() : setTimeout(a.handler, a.time - +/* @__PURE__ */ new Date());
-      };
-      Xa.prototype.set = function(a, b) {
-        this.f = b;
-        b = +/* @__PURE__ */ new Date() + a;
-        if (!this.id || b < this.time)
-          clearTimeout(this.id), this.id = setTimeout(this.handler, a), this.time = b;
-      };
-      var Zc = { toString: function() {
-        return "CodeMirror.Pass";
-      } }, Ia = { scroll: false }, ke = { origin: "*mouse" }, qc = { origin: "+move" }, vc = [""], zg = /[\u00df\u0587\u0590-\u05f4\u0600-\u06ff\u3040-\u309f\u30a0-\u30ff\u3400-\u4db5\u4e00-\u9fcc\uac00-\ud7af]/, Ag = /[\u0300-\u036f\u0483-\u0489\u0591-\u05bd\u05bf\u05c1\u05c2\u05c4\u05c5\u05c7\u0610-\u061a\u064b-\u065e\u0670\u06d6-\u06dc\u06de-\u06e4\u06e7\u06e8\u06ea-\u06ed\u0711\u0730-\u074a\u07a6-\u07b0\u07eb-\u07f3\u0816-\u0819\u081b-\u0823\u0825-\u0827\u0829-\u082d\u0900-\u0902\u093c\u0941-\u0948\u094d\u0951-\u0955\u0962\u0963\u0981\u09bc\u09be\u09c1-\u09c4\u09cd\u09d7\u09e2\u09e3\u0a01\u0a02\u0a3c\u0a41\u0a42\u0a47\u0a48\u0a4b-\u0a4d\u0a51\u0a70\u0a71\u0a75\u0a81\u0a82\u0abc\u0ac1-\u0ac5\u0ac7\u0ac8\u0acd\u0ae2\u0ae3\u0b01\u0b3c\u0b3e\u0b3f\u0b41-\u0b44\u0b4d\u0b56\u0b57\u0b62\u0b63\u0b82\u0bbe\u0bc0\u0bcd\u0bd7\u0c3e-\u0c40\u0c46-\u0c48\u0c4a-\u0c4d\u0c55\u0c56\u0c62\u0c63\u0cbc\u0cbf\u0cc2\u0cc6\u0ccc\u0ccd\u0cd5\u0cd6\u0ce2\u0ce3\u0d3e\u0d41-\u0d44\u0d4d\u0d57\u0d62\u0d63\u0dca\u0dcf\u0dd2-\u0dd4\u0dd6\u0ddf\u0e31\u0e34-\u0e3a\u0e47-\u0e4e\u0eb1\u0eb4-\u0eb9\u0ebb\u0ebc\u0ec8-\u0ecd\u0f18\u0f19\u0f35\u0f37\u0f39\u0f71-\u0f7e\u0f80-\u0f84\u0f86\u0f87\u0f90-\u0f97\u0f99-\u0fbc\u0fc6\u102d-\u1030\u1032-\u1037\u1039\u103a\u103d\u103e\u1058\u1059\u105e-\u1060\u1071-\u1074\u1082\u1085\u1086\u108d\u109d\u135f\u1712-\u1714\u1732-\u1734\u1752\u1753\u1772\u1773\u17b7-\u17bd\u17c6\u17c9-\u17d3\u17dd\u180b-\u180d\u18a9\u1920-\u1922\u1927\u1928\u1932\u1939-\u193b\u1a17\u1a18\u1a56\u1a58-\u1a5e\u1a60\u1a62\u1a65-\u1a6c\u1a73-\u1a7c\u1a7f\u1b00-\u1b03\u1b34\u1b36-\u1b3a\u1b3c\u1b42\u1b6b-\u1b73\u1b80\u1b81\u1ba2-\u1ba5\u1ba8\u1ba9\u1c2c-\u1c33\u1c36\u1c37\u1cd0-\u1cd2\u1cd4-\u1ce0\u1ce2-\u1ce8\u1ced\u1dc0-\u1de6\u1dfd-\u1dff\u200c\u200d\u20d0-\u20f0\u2cef-\u2cf1\u2de0-\u2dff\u302a-\u302f\u3099\u309a\ua66f-\ua672\ua67c\ua67d\ua6f0\ua6f1\ua802\ua806\ua80b\ua825\ua826\ua8c4\ua8e0-\ua8f1\ua926-\ua92d\ua947-\ua951\ua980-\ua982\ua9b3\ua9b6-\ua9b9\ua9bc\uaa29-\uaa2e\uaa31\uaa32\uaa35\uaa36\uaa43\uaa4c\uaab0\uaab2-\uaab4\uaab7\uaab8\uaabe\uaabf\uaac1\uabe5\uabe8\uabed\udc00-\udfff\ufb1e\ufe00-\ufe0f\ufe20-\ufe26\uff9e\uff9f]/, Lb = null, Cg = function() {
-        function a(g, h2, k) {
-          this.level = g;
-          this.from = h2;
-          this.to = k;
-        }
-        var b = /[\u0590-\u05f4\u0600-\u06ff\u0700-\u08ac]/, d2 = /[stwN]/, c = /[LRr]/, e = /[Lb1n]/, f = /[1n]/;
-        return function(g, h2) {
-          var k = "ltr" == h2 ? "L" : "R";
-          if (0 == g.length || "ltr" == h2 && !b.test(g))
-            return false;
-          for (var l = g.length, m2 = [], n = 0; n < l; ++n) {
-            var p = m2, q = p.push;
-            var r = g.charCodeAt(n);
-            r = 247 >= r ? "bbbbbbbbbtstwsbbbbbbbbbbbbbbssstwNN%%%NNNNNN,N,N1111111111NNNNNNNLLLLLLLLLLLLLLLLLLLLLLLLLLNNNNNNLLLLLLLLLLLLLLLLLLLLLLLLLLNNNNbbbbbbsbbbbbbbbbbbbbbbbbbbbbbbbbb,N%%%%NNNNLNNNNN%%11NLNNN1LNNNNNLLLLLLLLLLLLLLLLLLLLLLLNLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLN".charAt(r) : 1424 <= r && 1524 >= r ? "R" : 1536 <= r && 1785 >= r ? "nnnnnnNNr%%r,rNNmmmmmmmmmmmrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrmmmmmmmmmmmmmmmmmmmmmnnnnnnnnnn%nnrrrmrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrmmmmmmmnNmmmmmmrrmmNmmmmrr1111111111".charAt(r - 1536) : 1774 <= r && 2220 >= r ? "r" : 8192 <= r && 8203 >= r ? "w" : 8204 == r ? "b" : "L";
-            q.call(p, r);
-          }
-          n = 0;
-          for (p = k; n < l; ++n)
-            q = m2[n], "m" == q ? m2[n] = p : p = q;
-          n = 0;
-          for (p = k; n < l; ++n)
-            q = m2[n], "1" == q && "r" == p ? m2[n] = "n" : c.test(q) && (p = q, "r" == q && (m2[n] = "R"));
-          n = 1;
-          for (p = m2[0]; n < l - 1; ++n)
-            q = m2[n], "+" == q && "1" == p && "1" == m2[n + 1] ? m2[n] = "1" : "," != q || p != m2[n + 1] || "1" != p && "n" != p || (m2[n] = p), p = q;
-          for (n = 0; n < l; ++n)
-            if (p = m2[n], "," == p)
-              m2[n] = "N";
-            else if ("%" == p) {
-              for (p = n + 1; p < l && "%" == m2[p]; ++p)
-                ;
-              for (q = n && "!" == m2[n - 1] || p < l && "1" == m2[p] ? "1" : "N"; n < p; ++n)
-                m2[n] = q;
-              n = p - 1;
-            }
-          n = 0;
-          for (p = k; n < l; ++n)
-            q = m2[n], "L" == p && "1" == q ? m2[n] = "L" : c.test(q) && (p = q);
-          for (p = 0; p < l; ++p)
-            if (d2.test(m2[p])) {
-              for (n = p + 1; n < l && d2.test(m2[n]); ++n)
-                ;
-              q = "L" == (p ? m2[p - 1] : k);
-              for (q = q == ("L" == (n < l ? m2[n] : k)) ? q ? "L" : "R" : k; p < n; ++p)
-                m2[p] = q;
-              p = n - 1;
-            }
-          k = [];
-          var u;
-          for (n = 0; n < l; )
-            if (e.test(m2[n])) {
-              p = n;
-              for (++n; n < l && e.test(m2[n]); ++n)
-                ;
-              k.push(new a(0, p, n));
-            } else {
-              var A = n;
-              p = k.length;
-              q = "rtl" == h2 ? 1 : 0;
-              for (++n; n < l && "L" != m2[n]; ++n)
-                ;
-              for (r = A; r < n; )
-                if (f.test(m2[r])) {
-                  A < r && (k.splice(p, 0, new a(1, A, r)), p += q);
-                  A = r;
-                  for (++r; r < n && f.test(m2[r]); ++r)
-                    ;
-                  k.splice(p, 0, new a(2, A, r));
-                  p += q;
-                  A = r;
-                } else
-                  ++r;
-              A < n && k.splice(p, 0, new a(1, A, n));
-            }
-          "ltr" == h2 && (1 == k[0].level && (u = g.match(/^\s+/)) && (k[0].from = u[0].length, k.unshift(new a(0, 0, u[0].length))), 1 == J(k).level && (u = g.match(/\s+$/)) && (J(k).to -= u[0].length, k.push(new a(
-            0,
-            l - u[0].length,
-            l
-          ))));
-          return "rtl" == h2 ? k.reverse() : k;
-        };
-      }(), yc = [], z = function(a, b, d2) {
-        a.addEventListener ? a.addEventListener(b, d2, false) : a.attachEvent ? a.attachEvent("on" + b, d2) : (a = a._handlers || (a._handlers = {}), a[b] = (a[b] || yc).concat(d2));
-      }, th = function() {
-        if (G && 9 > T)
-          return false;
-        var a = v2("div");
-        return "draggable" in a || "dragDrop" in a;
-      }(), Bd, Ad, ne = 3 != "\n\nb".split(/\n/).length ? function(a) {
-        for (var b = 0, d2 = [], c = a.length; b <= c; ) {
-          var e = a.indexOf("\n", b);
-          -1 == e && (e = a.length);
-          var f = a.slice(b, "\r" == a.charAt(e - 1) ? e - 1 : e), g = f.indexOf("\r");
-          -1 != g ? (d2.push(f.slice(0, g)), b += g + 1) : (d2.push(f), b = e + 1);
-        }
-        return d2;
-      } : function(a) {
-        return a.split(/\r\n?|\n/);
-      }, Gh = window.getSelection ? function(a) {
-        try {
-          return a.selectionStart != a.selectionEnd;
-        } catch (b) {
-          return false;
-        }
-      } : function(a) {
-        try {
-          var b = a.ownerDocument.selection.createRange();
-        } catch (d2) {
-        }
-        return b && b.parentElement() == a ? 0 != b.compareEndPoints("StartToEnd", b) : false;
-      }, nh = function() {
-        var a = v2("div");
-        if ("oncopy" in a)
-          return true;
-        a.setAttribute("oncopy", "return;");
-        return "function" == typeof a.oncopy;
-      }(), Hd = null, md = {}, qb = {}, rb = {}, X = function(a, b, d2) {
-        this.pos = this.start = 0;
-        this.string = a;
-        this.tabSize = b || 8;
-        this.lineStart = this.lastColumnPos = this.lastColumnValue = 0;
-        this.lineOracle = d2;
-      };
-      X.prototype.eol = function() {
-        return this.pos >= this.string.length;
-      };
-      X.prototype.sol = function() {
-        return this.pos == this.lineStart;
-      };
-      X.prototype.peek = function() {
-        return this.string.charAt(this.pos) || void 0;
-      };
-      X.prototype.next = function() {
-        if (this.pos < this.string.length)
-          return this.string.charAt(this.pos++);
-      };
-      X.prototype.eat = function(a) {
-        var b = this.string.charAt(this.pos);
-        if ("string" == typeof a ? b == a : b && (a.test ? a.test(b) : a(b)))
-          return ++this.pos, b;
-      };
-      X.prototype.eatWhile = function(a) {
-        for (var b = this.pos; this.eat(a); )
-          ;
-        return this.pos > b;
-      };
-      X.prototype.eatSpace = function() {
-        for (var a = this.pos; /[\s\u00a0]/.test(this.string.charAt(this.pos)); )
-          ++this.pos;
-        return this.pos > a;
-      };
-      X.prototype.skipToEnd = function() {
-        this.pos = this.string.length;
-      };
-      X.prototype.skipTo = function(a) {
-        a = this.string.indexOf(a, this.pos);
-        if (-1 < a)
-          return this.pos = a, true;
-      };
-      X.prototype.backUp = function(a) {
-        this.pos -= a;
-      };
-      X.prototype.column = function() {
-        this.lastColumnPos < this.start && (this.lastColumnValue = wa(this.string, this.start, this.tabSize, this.lastColumnPos, this.lastColumnValue), this.lastColumnPos = this.start);
-        return this.lastColumnValue - (this.lineStart ? wa(this.string, this.lineStart, this.tabSize) : 0);
-      };
-      X.prototype.indentation = function() {
-        return wa(this.string, null, this.tabSize) - (this.lineStart ? wa(this.string, this.lineStart, this.tabSize) : 0);
-      };
-      X.prototype.match = function(a, b, d2) {
-        if ("string" == typeof a) {
-          var c = function(f) {
-            return d2 ? f.toLowerCase() : f;
-          }, e = this.string.substr(this.pos, a.length);
-          if (c(e) == c(a))
-            return false !== b && (this.pos += a.length), true;
-        } else {
-          if ((a = this.string.slice(this.pos).match(a)) && 0 < a.index)
-            return null;
-          a && false !== b && (this.pos += a[0].length);
-          return a;
-        }
-      };
-      X.prototype.current = function() {
-        return this.string.slice(this.start, this.pos);
-      };
-      X.prototype.hideFirstChars = function(a, b) {
-        this.lineStart += a;
-        try {
-          return b();
-        } finally {
-          this.lineStart -= a;
-        }
-      };
-      X.prototype.lookAhead = function(a) {
-        var b = this.lineOracle;
-        return b && b.lookAhead(a);
-      };
-      X.prototype.baseToken = function() {
-        var a = this.lineOracle;
-        return a && a.baseToken(this.pos);
-      };
-      var Cc = function(a, b) {
-        this.state = a;
-        this.lookAhead = b;
-      }, Fa = function(a, b, d2, c) {
-        this.state = b;
-        this.doc = a;
-        this.line = d2;
-        this.maxLookAhead = c || 0;
-        this.baseTokens = null;
-        this.baseTokenPos = 1;
-      };
-      Fa.prototype.lookAhead = function(a) {
-        var b = this.doc.getLine(this.line + a);
-        null != b && a > this.maxLookAhead && (this.maxLookAhead = a);
-        return b;
-      };
-      Fa.prototype.baseToken = function(a) {
-        if (!this.baseTokens)
-          return null;
-        for (; this.baseTokens[this.baseTokenPos] <= a; )
-          this.baseTokenPos += 2;
-        var b = this.baseTokens[this.baseTokenPos + 1];
-        return { type: b && b.replace(/( |^)overlay .*/, ""), size: this.baseTokens[this.baseTokenPos] - a };
-      };
-      Fa.prototype.nextLine = function() {
-        this.line++;
-        0 < this.maxLookAhead && this.maxLookAhead--;
-      };
-      Fa.fromSaved = function(a, b, d2) {
-        return b instanceof Cc ? new Fa(a, $a(a.mode, b.state), d2, b.lookAhead) : new Fa(a, $a(a.mode, b), d2);
-      };
-      Fa.prototype.save = function(a) {
-        a = false !== a ? $a(this.doc.mode, this.state) : this.state;
-        return 0 < this.maxLookAhead ? new Cc(a, this.maxLookAhead) : a;
-      };
-      var De = function(a, b, d2) {
-        this.start = a.start;
-        this.end = a.pos;
-        this.string = a.current();
-        this.type = b || null;
-        this.state = d2;
-      }, Nf = false, Ka = false, zb = function(a, b, d2) {
-        this.text = a;
-        He(this, b);
-        this.height = d2 ? d2(this) : 1;
-      };
-      zb.prototype.lineNo = function() {
-        return N(this);
-      };
-      pb(zb);
-      var Jg = {}, Ig = {}, tb = null, Rb = null, We = { left: 0, right: 0, top: 0, bottom: 0 }, fb, ob = function(a, b, d2) {
-        this.cm = d2;
-        var c = this.vert = v2("div", [v2("div", null, null, "min-width: 1px")], "CodeMirror-vscrollbar"), e = this.horiz = v2("div", [v2("div", null, null, "height: 100%; min-height: 1px")], "CodeMirror-hscrollbar");
-        c.tabIndex = e.tabIndex = -1;
-        a(c);
-        a(e);
-        z(
-          c,
-          "scroll",
-          function() {
-            c.clientHeight && b(c.scrollTop, "vertical");
-          }
-        );
-        z(e, "scroll", function() {
-          e.clientWidth && b(e.scrollLeft, "horizontal");
-        });
-        this.checkedZeroWidth = false;
-        G && 8 > T && (this.horiz.style.minHeight = this.vert.style.minWidth = "18px");
-      };
-      ob.prototype.update = function(a) {
-        var b = a.scrollWidth > a.clientWidth + 1, d2 = a.scrollHeight > a.clientHeight + 1, c = a.nativeBarWidth;
-        d2 ? (this.vert.style.display = "block", this.vert.style.bottom = b ? c + "px" : "0", this.vert.firstChild.style.height = Math.max(0, a.scrollHeight - a.clientHeight + (a.viewHeight - (b ? c : 0))) + "px") : (this.vert.scrollTop = 0, this.vert.style.display = "", this.vert.firstChild.style.height = "0");
-        b ? (this.horiz.style.display = "block", this.horiz.style.right = d2 ? c + "px" : "0", this.horiz.style.left = a.barLeft + "px", this.horiz.firstChild.style.width = Math.max(0, a.scrollWidth - a.clientWidth + (a.viewWidth - a.barLeft - (d2 ? c : 0))) + "px") : (this.horiz.style.display = "", this.horiz.firstChild.style.width = "0");
-        !this.checkedZeroWidth && 0 < a.clientHeight && (0 == c && this.zeroWidthHack(), this.checkedZeroWidth = true);
-        return { right: d2 ? c : 0, bottom: b ? c : 0 };
-      };
-      ob.prototype.setScrollLeft = function(a) {
-        this.horiz.scrollLeft != a && (this.horiz.scrollLeft = a);
-        this.disableHoriz && this.enableZeroWidthBar(this.horiz, this.disableHoriz, "horiz");
-      };
-      ob.prototype.setScrollTop = function(a) {
-        this.vert.scrollTop != a && (this.vert.scrollTop = a);
-        this.disableVert && this.enableZeroWidthBar(this.vert, this.disableVert, "vert");
-      };
-      ob.prototype.zeroWidthHack = function() {
-        this.horiz.style.height = this.vert.style.width = ya && !Eh ? "12px" : "18px";
-        this.horiz.style.visibility = this.vert.style.visibility = "hidden";
-        this.disableHoriz = new Xa();
-        this.disableVert = new Xa();
-      };
-      ob.prototype.enableZeroWidthBar = function(a, b, d2) {
-        function c() {
-          var e = a.getBoundingClientRect();
-          ("vert" == d2 ? document.elementFromPoint(e.right - 1, (e.top + e.bottom) / 2) : document.elementFromPoint((e.right + e.left) / 2, e.bottom - 1)) != a ? a.style.visibility = "hidden" : b.set(1e3, c);
-        }
-        a.style.visibility = "";
-        b.set(1e3, c);
-      };
-      ob.prototype.clear = function() {
-        var a = this.horiz.parentNode;
-        a.removeChild(this.horiz);
-        a.removeChild(this.vert);
-      };
-      var rc = function() {
-      };
-      rc.prototype.update = function() {
-        return { bottom: 0, right: 0 };
-      };
-      rc.prototype.setScrollLeft = function() {
-      };
-      rc.prototype.setScrollTop = function() {
-      };
-      rc.prototype.clear = function() {
-      };
-      var pf = { "native": ob, "null": rc }, Ug = 0, Pc = function(a, b, d2) {
-        var c = a.display;
-        this.viewport = b;
-        this.visible = Mc(c, a.doc, b);
-        this.editorIsHidden = !c.wrapper.offsetWidth;
-        this.wrapperHeight = c.wrapper.clientHeight;
-        this.wrapperWidth = c.wrapper.clientWidth;
-        this.oldDisplayWidth = cb(a);
-        this.force = d2;
-        this.dims = Gd(a);
-        this.events = [];
-      };
-      Pc.prototype.signal = function(a, b) {
-        xa(a, b) && this.events.push(arguments);
-      };
-      Pc.prototype.finish = function() {
-        for (var a = 0; a < this.events.length; a++)
-          W.apply(null, this.events[a]);
-      };
-      var Qc = 0, Na = null;
-      G ? Na = -0.53 : Ma ? Na = 15 : Qa ? Na = -0.7 : ad && (Na = -1 / 3);
-      var va = function(a, b) {
-        this.ranges = a;
-        this.primIndex = b;
-      };
-      va.prototype.primary = function() {
-        return this.ranges[this.primIndex];
-      };
-      va.prototype.equals = function(a) {
-        if (a == this)
-          return true;
-        if (a.primIndex != this.primIndex || a.ranges.length != this.ranges.length)
-          return false;
-        for (var b = 0; b < this.ranges.length; b++) {
-          var d2 = this.ranges[b], c = a.ranges[b];
-          if (!rd(d2.anchor, c.anchor) || !rd(d2.head, c.head))
-            return false;
-        }
-        return true;
-      };
-      va.prototype.deepCopy = function() {
-        for (var a = [], b = 0; b < this.ranges.length; b++)
-          a[b] = new I(sd(this.ranges[b].anchor), sd(this.ranges[b].head));
-        return new va(a, this.primIndex);
-      };
-      va.prototype.somethingSelected = function() {
-        for (var a = 0; a < this.ranges.length; a++)
-          if (!this.ranges[a].empty())
-            return true;
-        return false;
-      };
-      va.prototype.contains = function(a, b) {
-        b || (b = a);
-        for (var d2 = 0; d2 < this.ranges.length; d2++) {
-          var c = this.ranges[d2];
-          if (0 <= B(b, c.from()) && 0 >= B(a, c.to()))
-            return d2;
-        }
-        return -1;
-      };
-      var I = function(a, b) {
-        this.anchor = a;
-        this.head = b;
-      };
-      I.prototype.from = function() {
-        return Bc(this.anchor, this.head);
-      };
-      I.prototype.to = function() {
-        return Ac(this.anchor, this.head);
-      };
-      I.prototype.empty = function() {
-        return this.head.line == this.anchor.line && this.head.ch == this.anchor.ch;
-      };
-      ec.prototype = { chunkSize: function() {
-        return this.lines.length;
-      }, removeInner: function(a, b) {
-        for (var d2 = a, c = a + b; d2 < c; ++d2) {
-          var e = this.lines[d2];
-          this.height -= e.height;
-          var f = e;
-          f.parent = null;
-          Ge(f);
-          aa(e, "delete");
-        }
-        this.lines.splice(a, b);
-      }, collapse: function(a) {
-        a.push.apply(
+      z(c.scroller, "contextmenu", function(h2) {
+        return kg(
           a,
-          this.lines
+          h2
         );
-      }, insertInner: function(a, b, d2) {
-        this.height += d2;
-        this.lines = this.lines.slice(0, a).concat(b).concat(this.lines.slice(a));
-        for (a = 0; a < b.length; ++a)
-          b[a].parent = this;
-      }, iterN: function(a, b, d2) {
-        for (b = a + b; a < b; ++a)
-          if (d2(this.lines[a]))
-            return true;
+      });
+      z(c.input.getField(), "contextmenu", function(h2) {
+        c.scroller.contains(h2.target) || kg(a, h2);
+      });
+      var e, f = { end: 0 };
+      z(c.scroller, "touchstart", function(h2) {
+        var k;
+        if (k = !Z(a, h2))
+          1 != h2.touches.length ? k = false : (k = h2.touches[0], k = 1 >= k.radiusX && 1 >= k.radiusY), k = !k;
+        k && !$c(a, h2, "gutterClick", true) && (c.input.ensurePolled(), clearTimeout(e), k = +/* @__PURE__ */ new Date(), c.activeTouch = { start: k, moved: false, prev: 300 >= k - f.end ? f : null }, 1 == h2.touches.length && (c.activeTouch.left = h2.touches[0].pageX, c.activeTouch.top = h2.touches[0].pageY));
+      });
+      z(
+        c.scroller,
+        "touchmove",
+        function() {
+          c.activeTouch && (c.activeTouch.moved = true);
+        }
+      );
+      z(c.scroller, "touchend", function(h2) {
+        var k = c.activeTouch;
+        if (k && !La(c, h2) && null != k.left && !k.moved && 300 > /* @__PURE__ */ new Date() - k.start) {
+          var l = a.coordsChar(c.activeTouch, "page");
+          k = !k.prev || d2(k, k.prev) ? new I(l, l) : !k.prev.prev || d2(k, k.prev.prev) ? a.findWordAt(l) : new I(t(l.line, 0), C(a.doc, t(l.line + 1, 0)));
+          a.setSelection(k.anchor, k.head);
+          a.focus();
+          la(h2);
+        }
+        b();
+      });
+      z(c.scroller, "touchcancel", b);
+      z(c.scroller, "scroll", function() {
+        c.scroller.clientHeight && (Xb(a, c.scroller.scrollTop), kb(a, c.scroller.scrollLeft, true), W(a, "scroll", a));
+      });
+      z(c.scroller, "mousewheel", function(h2) {
+        return vf(a, h2);
+      });
+      z(c.scroller, "DOMMouseScroll", function(h2) {
+        return vf(a, h2);
+      });
+      z(c.wrapper, "scroll", function() {
+        return c.wrapper.scrollTop = c.wrapper.scrollLeft = 0;
+      });
+      c.dragFunctions = { enter: function(h2) {
+        Z(a, h2) || Mb(h2);
+      }, over: function(h2) {
+        if (!Z(a, h2)) {
+          var k = gb(a, h2);
+          if (k) {
+            var l = document.createDocumentFragment();
+            Od(a, k, l);
+            a.display.dragCursor || (a.display.dragCursor = v2("div", null, "CodeMirror-cursors CodeMirror-dragcursors"), a.display.lineSpace.insertBefore(
+              a.display.dragCursor,
+              a.display.cursorDiv
+            ));
+            D(a.display.dragCursor, l);
+          }
+          Mb(h2);
+        }
+      }, start: function(h2) {
+        if (G && (!a.state.draggingText || 100 > +/* @__PURE__ */ new Date() - Wf))
+          Mb(h2);
+        else if (!Z(a, h2) && !La(a.display, h2) && (h2.dataTransfer.setData("Text", a.getSelection()), h2.dataTransfer.effectAllowed = "copyMove", h2.dataTransfer.setDragImage && !ad)) {
+          var k = v2("img", null, null, "position: fixed; left: 0; top: 0;");
+          k.src = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==";
+          Ca && (k.width = k.height = 1, a.display.wrapper.appendChild(k), k._top = k.offsetTop);
+          h2.dataTransfer.setDragImage(k, 0, 0);
+          Ca && k.parentNode.removeChild(k);
+        }
+      }, drop: ba(a, fh), leave: function(h2) {
+        Z(a, h2) || Vf(a);
       } };
-      fc.prototype = { chunkSize: function() {
-        return this.size;
-      }, removeInner: function(a, b) {
-        this.size -= b;
-        for (var d2 = 0; d2 < this.children.length; ++d2) {
-          var c = this.children[d2], e = c.chunkSize();
-          if (a < e) {
-            var f = Math.min(b, e - a), g = c.height;
-            c.removeInner(a, f);
-            this.height -= g - c.height;
-            e == f && (this.children.splice(
-              d2--,
-              1
-            ), c.parent = null);
-            if (0 == (b -= f))
-              break;
-            a = 0;
-          } else
-            a -= e;
+      var g = c.input.getField();
+      z(g, "keyup", function(h2) {
+        return gg.call(a, h2);
+      });
+      z(g, "keydown", ba(a, fg));
+      z(g, "keypress", ba(a, hg));
+      z(g, "focus", function(h2) {
+        return Rd(a, h2);
+      });
+      z(g, "blur", function(h2) {
+        return wb(a, h2);
+      });
+    }
+    function nc(a, b, d2, c) {
+      var e = a.doc, f;
+      null == d2 && (d2 = "add");
+      "smart" == d2 && (e.mode.indent ? f = Ob(a, b).state : d2 = "prev");
+      var g = a.options.tabSize, h2 = w(e, b), k = wa(h2.text, null, g);
+      h2.stateAfter && (h2.stateAfter = null);
+      var l = h2.text.match(/^\s*/)[0];
+      if (!c && !/\S/.test(h2.text)) {
+        var m2 = 0;
+        d2 = "not";
+      } else if ("smart" == d2 && (m2 = e.mode.indent(f, h2.text.slice(l.length), h2.text), m2 == Zc || 150 < m2)) {
+        if (!c)
+          return;
+        d2 = "prev";
+      }
+      "prev" == d2 ? m2 = b > e.first ? wa(w(e, b - 1).text, null, g) : 0 : "add" == d2 ? m2 = k + a.options.indentUnit : "subtract" == d2 ? m2 = k - a.options.indentUnit : "number" == typeof d2 && (m2 = k + d2);
+      m2 = Math.max(0, m2);
+      d2 = "";
+      c = 0;
+      if (a.options.indentWithTabs)
+        for (a = Math.floor(m2 / g); a; --a)
+          c += g, d2 += "	";
+      c < m2 && (d2 += id(m2 - c));
+      if (d2 != l)
+        return Db(e, d2, t(b, 0), t(b, l.length), "+input"), h2.stateAfter = null, true;
+      for (g = 0; g < e.sel.ranges.length; g++)
+        if (h2 = e.sel.ranges[g], h2.head.line == b && h2.head.ch < l.length) {
+          b = t(b, l.length);
+          de(e, g, new I(b, b));
+          break;
         }
-        25 > this.size - b && (1 < this.children.length || !(this.children[0] instanceof ec)) && (a = [], this.collapse(a), this.children = [new ec(a)], this.children[0].parent = this);
-      }, collapse: function(a) {
-        for (var b = 0; b < this.children.length; ++b)
-          this.children[b].collapse(a);
-      }, insertInner: function(a, b, d2) {
-        this.size += b.length;
-        this.height += d2;
-        for (var c = 0; c < this.children.length; ++c) {
-          var e = this.children[c], f = e.chunkSize();
-          if (a <= f) {
-            e.insertInner(a, b, d2);
-            if (e.lines && 50 < e.lines.length) {
-              for (b = a = e.lines.length % 25 + 25; b < e.lines.length; )
-                d2 = new ec(e.lines.slice(b, b += 25)), e.height -= d2.height, this.children.splice(++c, 0, d2), d2.parent = this;
-              e.lines = e.lines.slice(0, a);
-              this.maybeSpill();
-            }
-            break;
+    }
+    function me(a, b, d2, c, e) {
+      var f = a.doc;
+      a.display.shift = false;
+      c || (c = f.sel);
+      var g = +/* @__PURE__ */ new Date() - 200, h2 = "paste" == e || a.state.pasteIncoming > g, k = ne(b), l = null;
+      if (h2 && 1 < c.ranges.length)
+        if (sa && sa.text.join("\n") == b) {
+          if (0 == c.ranges.length % sa.text.length) {
+            l = [];
+            for (var m2 = 0; m2 < sa.text.length; m2++)
+              l.push(f.splitLines(sa.text[m2]));
           }
-          a -= f;
-        }
-      }, maybeSpill: function() {
-        if (!(10 >= this.children.length)) {
-          var a = this;
-          do {
-            var b = a.children.splice(a.children.length - 5, 5);
-            b = new fc(b);
-            if (a.parent) {
-              a.size -= b.size;
-              a.height -= b.height;
-              var d2 = ea(a.parent.children, a);
-              a.parent.children.splice(d2 + 1, 0, b);
-            } else
-              d2 = new fc(a.children), d2.parent = a, a.children = [d2, b], a = d2;
-            b.parent = a.parent;
-          } while (10 < a.children.length);
-          a.parent.maybeSpill();
-        }
-      }, iterN: function(a, b, d2) {
-        for (var c = 0; c < this.children.length; ++c) {
-          var e = this.children[c], f = e.chunkSize();
-          if (a < f) {
-            f = Math.min(b, f - a);
-            if (e.iterN(a, f, d2))
-              return true;
-            if (0 == (b -= f))
-              break;
-            a = 0;
-          } else
-            a -= f;
-        }
-      } };
-      var gc = function(a, b, d2) {
-        if (d2)
-          for (var c in d2)
-            d2.hasOwnProperty(c) && (this[c] = d2[c]);
-        this.doc = a;
-        this.node = b;
-      };
-      gc.prototype.clear = function() {
-        var a = this.doc.cm, b = this.line.widgets, d2 = this.line, c = N(d2);
-        if (null != c && b) {
-          for (var e = 0; e < b.length; ++e)
-            b[e] == this && b.splice(e--, 1);
-          b.length || (d2.widgets = null);
-          var f = Tb(this);
-          Ea(d2, Math.max(0, d2.height - f));
-          a && (ra(a, function() {
-            var g = -f;
-            Ga(d2) < (a.curOp && a.curOp.scrollTop || a.doc.scrollTop) && Nc(a, g);
-            Sa(a, c, "widget");
-          }), aa(a, "lineWidgetCleared", a, this, c));
-        }
-      };
-      gc.prototype.changed = function() {
-        var a = this, b = this.height, d2 = this.doc.cm, c = this.line;
-        this.height = null;
-        var e = Tb(this) - b;
-        e && (Pa(this.doc, c) || Ea(c, c.height + e), d2 && ra(d2, function() {
-          d2.curOp.forceUpdate = true;
-          Ga(c) < (d2.curOp && d2.curOp.scrollTop || d2.doc.scrollTop) && Nc(d2, e);
-          aa(d2, "lineWidgetChanged", d2, a, N(c));
-        }));
-      };
-      pb(gc);
-      var Tf = 0, Va = function(a, b) {
-        this.lines = [];
-        this.type = b;
-        this.doc = a;
-        this.id = ++Tf;
-      };
-      Va.prototype.clear = function() {
-        if (!this.explicitlyCleared) {
-          var a = this.doc.cm, b = a && !a.curOp;
-          b && lb(a);
-          if (xa(this, "clear")) {
-            var d2 = this.find();
-            d2 && aa(this, "clear", d2.from, d2.to);
-          }
-          for (var c = d2 = null, e = 0; e < this.lines.length; ++e) {
-            var f = this.lines[e], g = Pb(f.markedSpans, this);
-            a && !this.collapsed ? Sa(a, N(f), "text") : a && (null != g.to && (c = N(f)), null != g.from && (d2 = N(f)));
-            for (var h2 = f, k = void 0, l = f.markedSpans, m2 = g, n = 0; n < l.length; ++n)
-              l[n] != m2 && (k || (k = [])).push(l[n]);
-            h2.markedSpans = k;
-            null == g.from && this.collapsed && !Pa(this.doc, f) && a && Ea(f, vb(a.display));
-          }
-          if (a && this.collapsed && !a.options.lineWrapping)
-            for (e = 0; e < this.lines.length; ++e)
-              f = za(this.lines[e]), g = Ec(f), g > a.display.maxLineLength && (a.display.maxLine = f, a.display.maxLineLength = g, a.display.maxLineChanged = true);
-          null != d2 && a && this.collapsed && ma(a, d2, c + 1);
-          this.lines.length = 0;
-          this.explicitlyCleared = true;
-          this.atomic && this.doc.cantEdit && (this.doc.cantEdit = false, a && Jf(a.doc));
-          a && aa(
-            a,
-            "markerCleared",
-            a,
-            this,
-            d2,
-            c
-          );
-          b && mb(a);
-          this.parent && this.parent.clear();
-        }
-      };
-      Va.prototype.find = function(a, b) {
-        null == a && "bookmark" == this.type && (a = 1);
-        for (var d2, c, e = 0; e < this.lines.length; ++e) {
-          var f = this.lines[e], g = Pb(f.markedSpans, this);
-          if (null != g.from && (d2 = t(b ? f : N(f), g.from), -1 == a))
-            return d2;
-          if (null != g.to && (c = t(b ? f : N(f), g.to), 1 == a))
-            return c;
-        }
-        return d2 && { from: d2, to: c };
-      };
-      Va.prototype.changed = function() {
-        var a = this, b = this.find(-1, true), d2 = this, c = this.doc.cm;
-        b && c && ra(c, function() {
-          var e = b.line, f = N(b.line);
-          if (f = Fd(c, f))
-            Xe(f), c.curOp.selectionChanged = c.curOp.forceUpdate = true;
-          c.curOp.updateMaxLine = true;
-          Pa(d2.doc, e) || null == d2.height || (f = d2.height, d2.height = null, (f = Tb(d2) - f) && Ea(e, e.height + f));
-          aa(c, "markerChanged", c, a);
-        });
-      };
-      Va.prototype.attachLine = function(a) {
-        if (!this.lines.length && this.doc.cm) {
-          var b = this.doc.cm.curOp;
-          b.maybeHiddenMarkers && -1 != ea(b.maybeHiddenMarkers, this) || (b.maybeUnhiddenMarkers || (b.maybeUnhiddenMarkers = [])).push(this);
-        }
-        this.lines.push(a);
-      };
-      Va.prototype.detachLine = function(a) {
-        this.lines.splice(ea(this.lines, a), 1);
-        !this.lines.length && this.doc.cm && (a = this.doc.cm.curOp, (a.maybeHiddenMarkers || (a.maybeHiddenMarkers = [])).push(this));
-      };
-      pb(Va);
-      var hc = function(a, b) {
-        this.markers = a;
-        this.primary = b;
-        for (b = 0; b < a.length; ++b)
-          a[b].parent = this;
-      };
-      hc.prototype.clear = function() {
-        if (!this.explicitlyCleared) {
-          this.explicitlyCleared = true;
-          for (var a = 0; a < this.markers.length; ++a)
-            this.markers[a].clear();
-          aa(this, "clear");
-        }
-      };
-      hc.prototype.find = function(a, b) {
-        return this.primary.find(a, b);
-      };
-      pb(hc);
-      var Hh = 0, oa = function(a, b, d2, c, e) {
-        if (!(this instanceof oa))
-          return new oa(a, b, d2, c, e);
-        null == d2 && (d2 = 0);
-        fc.call(this, [new ec([new zb("", null)])]);
-        this.first = d2;
-        this.scrollTop = this.scrollLeft = 0;
-        this.cantEdit = false;
-        this.cleanGeneration = 1;
-        this.modeFrontier = this.highlightFrontier = d2;
-        d2 = t(d2, 0);
-        this.sel = Oa(d2);
-        this.history = new Rc(null);
-        this.id = ++Hh;
-        this.modeOption = b;
-        this.lineSep = c;
-        this.direction = "rtl" == e ? "rtl" : "ltr";
-        this.extend = false;
-        "string" == typeof a && (a = this.splitLines(a));
-        ae(this, { from: d2, to: d2, text: a });
-        da(this, Oa(d2), Ia);
-      };
-      oa.prototype = qe(fc.prototype, {
-        constructor: oa,
-        iter: function(a, b, d2) {
-          d2 ? this.iterN(
-            a - this.first,
-            b - a,
-            d2
-          ) : this.iterN(this.first, this.first + this.size, a);
-        },
-        insert: function(a, b) {
-          for (var d2 = 0, c = 0; c < b.length; ++c)
-            d2 += b[c].height;
-          this.insertInner(a - this.first, b, d2);
-        },
-        remove: function(a, b) {
-          this.removeInner(a - this.first, b);
-        },
-        getValue: function(a) {
-          var b = pd(this, this.first, this.first + this.size);
-          return false === a ? b : b.join(a || this.lineSeparator());
-        },
-        setValue: ca(function(a) {
-          var b = t(this.first, 0), d2 = this.first + this.size - 1;
-          Cb(this, { from: b, to: t(d2, w(this, d2).text.length), text: this.splitLines(a), origin: "setValue", full: true }, true);
-          this.cm && Wb(this.cm, 0, 0);
-          da(this, Oa(b), Ia);
-        }),
-        replaceRange: function(a, b, d2, c) {
-          b = C(this, b);
-          d2 = d2 ? C(this, d2) : b;
-          Db(this, a, b, d2, c);
-        },
-        getRange: function(a, b, d2) {
-          a = ab(this, C(this, a), C(this, b));
-          return false === d2 ? a : "" === d2 ? a.join("") : a.join(d2 || this.lineSeparator());
-        },
-        getLine: function(a) {
-          return (a = this.getLineHandle(a)) && a.text;
-        },
-        getLineHandle: function(a) {
-          if (Nb(this, a))
-            return w(this, a);
-        },
-        getLineNumber: function(a) {
-          return N(a);
-        },
-        getLineHandleVisualStart: function(a) {
-          "number" == typeof a && (a = w(this, a));
-          return za(a);
-        },
-        lineCount: function() {
-          return this.size;
-        },
-        firstLine: function() {
-          return this.first;
-        },
-        lastLine: function() {
-          return this.first + this.size - 1;
-        },
-        clipPos: function(a) {
-          return C(this, a);
-        },
-        getCursor: function(a) {
-          var b = this.sel.primary();
-          return null == a || "head" == a ? b.head : "anchor" == a ? b.anchor : "end" == a || "to" == a || false === a ? b.to() : b.from();
-        },
-        listSelections: function() {
-          return this.sel.ranges;
-        },
-        somethingSelected: function() {
-          return this.sel.somethingSelected();
-        },
-        setCursor: ca(function(a, b, d2) {
-          a = C(this, "number" == typeof a ? t(a, b || 0) : a);
-          da(this, Oa(a, null), d2);
-        }),
-        setSelection: ca(function(a, b, d2) {
-          var c = C(this, a);
-          a = C(this, b || a);
-          da(this, Oa(c, a), d2);
-        }),
-        extendSelection: ca(function(a, b, d2) {
-          Tc(this, C(this, a), b && C(this, b), d2);
-        }),
-        extendSelections: ca(function(a, b) {
-          Ff(this, xe(this, a), b);
-        }),
-        extendSelectionsBy: ca(function(a, b) {
-          a = wc(this.sel.ranges, a);
-          Ff(this, xe(this, a), b);
-        }),
-        setSelections: ca(function(a, b, d2) {
-          if (a.length) {
-            for (var c = [], e = 0; e < a.length; e++)
-              c[e] = new I(C(this, a[e].anchor), C(this, a[e].head || a[e].anchor));
-            null == b && (b = Math.min(a.length - 1, this.sel.primIndex));
-            da(this, Da(this.cm, c, b), d2);
-          }
-        }),
-        addSelection: ca(function(a, b, d2) {
-          var c = this.sel.ranges.slice(0);
-          c.push(new I(C(this, a), C(this, b || a)));
-          da(this, Da(this.cm, c, c.length - 1), d2);
-        }),
-        getSelection: function(a) {
-          for (var b = this.sel.ranges, d2, c = 0; c < b.length; c++) {
-            var e = ab(this, b[c].from(), b[c].to());
-            d2 = d2 ? d2.concat(e) : e;
-          }
-          return false === a ? d2 : d2.join(a || this.lineSeparator());
-        },
-        getSelections: function(a) {
-          for (var b = [], d2 = this.sel.ranges, c = 0; c < d2.length; c++) {
-            var e = ab(this, d2[c].from(), d2[c].to());
-            false !== a && (e = e.join(a || this.lineSeparator()));
-            b[c] = e;
-          }
-          return b;
-        },
-        replaceSelection: function(a, b, d2) {
-          for (var c = [], e = 0; e < this.sel.ranges.length; e++)
-            c[e] = a;
-          this.replaceSelections(c, b, d2 || "+input");
-        },
-        replaceSelections: ca(function(a, b, d2) {
-          for (var c = [], e = this.sel, f = 0; f < e.ranges.length; f++) {
-            var g = e.ranges[f];
-            c[f] = { from: g.from(), to: g.to(), text: this.splitLines(a[f]), origin: d2 };
-          }
-          if (a = b && "end" != b) {
-            a = [];
-            e = d2 = t(this.first, 0);
-            for (f = 0; f < c.length; f++) {
-              var h2 = c[f];
-              g = xf(h2.from, d2, e);
-              var k = xf(Ta(h2), d2, e);
-              d2 = h2.to;
-              e = k;
-              "around" == b ? (h2 = this.sel.ranges[f], h2 = 0 > B(h2.head, h2.anchor), a[f] = new I(h2 ? k : g, h2 ? g : k)) : a[f] = new I(g, g);
-            }
-            a = new va(a, this.sel.primIndex);
-          }
-          b = a;
-          for (a = c.length - 1; 0 <= a; a--)
-            Cb(this, c[a]);
-          b ? Gf(this, b) : this.cm && xb(this.cm);
-        }),
-        undo: ca(function() {
-          Wc(this, "undo");
-        }),
-        redo: ca(function() {
-          Wc(this, "redo");
-        }),
-        undoSelection: ca(function() {
-          Wc(this, "undo", true);
-        }),
-        redoSelection: ca(function() {
-          Wc(this, "redo", true);
-        }),
-        setExtending: function(a) {
-          this.extend = a;
-        },
-        getExtending: function() {
-          return this.extend;
-        },
-        historySize: function() {
-          for (var a = this.history, b = 0, d2 = 0, c = 0; c < a.done.length; c++)
-            a.done[c].ranges || ++b;
-          for (c = 0; c < a.undone.length; c++)
-            a.undone[c].ranges || ++d2;
-          return {
-            undo: b,
-            redo: d2
-          };
-        },
-        clearHistory: function() {
-          var a = this;
-          this.history = new Rc(this.history);
-          Ua(this, function(b) {
-            return b.history = a.history;
-          }, true);
-        },
-        markClean: function() {
-          this.cleanGeneration = this.changeGeneration(true);
-        },
-        changeGeneration: function(a) {
-          a && (this.history.lastOp = this.history.lastSelOp = this.history.lastOrigin = null);
-          return this.history.generation;
-        },
-        isClean: function(a) {
-          return this.history.generation == (a || this.cleanGeneration);
-        },
-        getHistory: function() {
-          return { done: Ab(this.history.done), undone: Ab(this.history.undone) };
-        },
-        setHistory: function(a) {
-          var b = this.history = new Rc(this.history);
-          b.done = Ab(a.done.slice(0), null, true);
-          b.undone = Ab(a.undone.slice(0), null, true);
-        },
-        setGutterMarker: ca(function(a, b, d2) {
-          return dc(this, a, "gutter", function(c) {
-            var e = c.gutterMarkers || (c.gutterMarkers = {});
-            e[b] = d2;
-            !d2 && re2(e) && (c.gutterMarkers = null);
-            return true;
-          });
-        }),
-        clearGutter: ca(function(a) {
-          var b = this;
-          this.iter(function(d2) {
-            d2.gutterMarkers && d2.gutterMarkers[a] && dc(b, d2, "gutter", function() {
-              d2.gutterMarkers[a] = null;
-              re2(d2.gutterMarkers) && (d2.gutterMarkers = null);
-              return true;
-            });
-          });
-        }),
-        lineInfo: function(a) {
-          if ("number" == typeof a) {
-            if (!Nb(this, a))
-              return null;
-            var b = a;
-            a = w(this, a);
-            if (!a)
-              return null;
-          } else if (b = N(a), null == b)
-            return null;
-          return { line: b, handle: a, text: a.text, gutterMarkers: a.gutterMarkers, textClass: a.textClass, bgClass: a.bgClass, wrapClass: a.wrapClass, widgets: a.widgets };
-        },
-        addLineClass: ca(function(a, b, d2) {
-          return dc(this, a, "gutter" == b ? "gutter" : "class", function(c) {
-            var e = "text" == b ? "textClass" : "background" == b ? "bgClass" : "gutter" == b ? "gutterClass" : "wrapClass";
-            if (c[e]) {
-              if (y2(d2).test(c[e]))
-                return false;
-              c[e] += " " + d2;
-            } else
-              c[e] = d2;
-            return true;
-          });
-        }),
-        removeLineClass: ca(function(a, b, d2) {
-          return dc(this, a, "gutter" == b ? "gutter" : "class", function(c) {
-            var e = "text" == b ? "textClass" : "background" == b ? "bgClass" : "gutter" == b ? "gutterClass" : "wrapClass", f = c[e];
-            if (f)
-              if (null == d2)
-                c[e] = null;
-              else {
-                var g = f.match(y2(d2));
-                if (!g)
-                  return false;
-                var h2 = g.index + g[0].length;
-                c[e] = f.slice(0, g.index) + (g.index && h2 != f.length ? " " : "") + f.slice(h2) || null;
+        } else
+          k.length == c.ranges.length && a.options.pasteLinesPerSelection && (l = wc(k, function(u) {
+            return [u];
+          }));
+      m2 = a.curOp.updateInput;
+      for (var n = c.ranges.length - 1; 0 <= n; n--) {
+        var p = c.ranges[n], q = p.from(), r = p.to();
+        p.empty() && (d2 && 0 < d2 ? q = t(q.line, q.ch - d2) : a.state.overwrite && !h2 ? r = t(r.line, Math.min(w(f, r.line).text.length, r.ch + J(k).length)) : h2 && sa && sa.lineWise && sa.text.join("\n") == k.join("\n") && (q = r = t(q.line, 0)));
+        p = { from: q, to: r, text: l ? l[n % l.length] : k, origin: e || (h2 ? "paste" : a.state.cutIncoming > g ? "cut" : "+input") };
+        Cb(a.doc, p);
+        aa(a, "inputRead", a, p);
+      }
+      b && !h2 && og(a, b);
+      xb(a);
+      2 > a.curOp.updateInput && (a.curOp.updateInput = m2);
+      a.curOp.typing = true;
+      a.state.pasteIncoming = a.state.cutIncoming = -1;
+    }
+    function pg(a, b) {
+      var d2 = a.clipboardData && a.clipboardData.getData("Text");
+      if (d2)
+        return a.preventDefault(), b.isReadOnly() || b.options.disableInput || !b.hasFocus() || ra(b, function() {
+          return me(b, d2, 0, null, "paste");
+        }), true;
+    }
+    function og(a, b) {
+      if (a.options.electricChars && a.options.smartIndent)
+        for (var d2 = a.doc.sel, c = d2.ranges.length - 1; 0 <= c; c--) {
+          var e = d2.ranges[c];
+          if (!(100 < e.head.ch || c && d2.ranges[c - 1].head.line == e.head.line)) {
+            var f = a.getModeAt(e.head), g = false;
+            if (f.electricChars)
+              for (var h2 = 0; h2 < f.electricChars.length; h2++) {
+                if (-1 < b.indexOf(f.electricChars.charAt(h2))) {
+                  g = nc(a, e.head.line, "smart");
+                  break;
+                }
               }
             else
-              return false;
-            return true;
-          });
-        }),
-        addLineWidget: ca(function(a, b, d2) {
-          return ch(this, a, b, d2);
-        }),
-        removeLineWidget: function(a) {
-          a.clear();
-        },
-        markText: function(a, b, d2) {
-          return Eb(this, C(this, a), C(this, b), d2, d2 && d2.type || "range");
-        },
-        setBookmark: function(a, b) {
-          b = { replacedWith: b && (null == b.nodeType ? b.widget : b), insertLeft: b && b.insertLeft, clearWhenEmpty: false, shared: b && b.shared, handleMouseEvents: b && b.handleMouseEvents };
-          a = C(this, a);
-          return Eb(this, a, a, b, "bookmark");
-        },
-        findMarksAt: function(a) {
-          a = C(this, a);
-          var b = [], d2 = w(this, a.line).markedSpans;
-          if (d2)
-            for (var c = 0; c < d2.length; ++c) {
-              var e = d2[c];
-              (null == e.from || e.from <= a.ch) && (null == e.to || e.to >= a.ch) && b.push(e.marker.parent || e.marker);
-            }
-          return b;
-        },
-        findMarks: function(a, b, d2) {
-          a = C(this, a);
-          b = C(this, b);
-          var c = [], e = a.line;
-          this.iter(a.line, b.line + 1, function(f) {
-            if (f = f.markedSpans)
-              for (var g = 0; g < f.length; g++) {
-                var h2 = f[g];
-                null != h2.to && e == a.line && a.ch >= h2.to || null == h2.from && e != a.line || null != h2.from && e == b.line && h2.from >= b.ch || d2 && !d2(h2.marker) || c.push(h2.marker.parent || h2.marker);
-              }
-            ++e;
-          });
-          return c;
-        },
-        getAllMarks: function() {
-          var a = [];
-          this.iter(function(b) {
-            if (b = b.markedSpans)
-              for (var d2 = 0; d2 < b.length; ++d2)
-                null != b[d2].from && a.push(b[d2].marker);
-          });
-          return a;
-        },
-        posFromIndex: function(a) {
-          var b, d2 = this.first, c = this.lineSeparator().length;
-          this.iter(function(e) {
-            e = e.text.length + c;
-            if (e > a)
-              return b = a, true;
-            a -= e;
-            ++d2;
-          });
-          return C(this, t(d2, b));
-        },
-        indexFromPos: function(a) {
-          a = C(this, a);
-          var b = a.ch;
-          if (a.line < this.first || 0 > a.ch)
-            return 0;
-          var d2 = this.lineSeparator().length;
-          this.iter(this.first, a.line, function(c) {
-            b += c.text.length + d2;
-          });
-          return b;
-        },
-        copy: function(a) {
-          var b = new oa(pd(this, this.first, this.first + this.size), this.modeOption, this.first, this.lineSep, this.direction);
-          b.scrollTop = this.scrollTop;
-          b.scrollLeft = this.scrollLeft;
-          b.sel = this.sel;
-          b.extend = false;
-          a && (b.history.undoDepth = this.history.undoDepth, b.setHistory(this.getHistory()));
-          return b;
-        },
-        linkedDoc: function(a) {
-          a || (a = {});
-          var b = this.first, d2 = this.first + this.size;
-          null != a.from && a.from > b && (b = a.from);
-          null != a.to && a.to < d2 && (d2 = a.to);
-          b = new oa(pd(this, b, d2), a.mode || this.modeOption, b, this.lineSep, this.direction);
-          a.sharedHist && (b.history = this.history);
-          (this.linked || (this.linked = [])).push({ doc: b, sharedHist: a.sharedHist });
-          b.linked = [{ doc: this, isParent: true, sharedHist: a.sharedHist }];
-          a = Uf(this);
-          for (d2 = 0; d2 < a.length; d2++) {
-            var c = a[d2], e = c.find(), f = b.clipPos(e.from);
-            e = b.clipPos(e.to);
-            B(f, e) && (f = Eb(b, f, e, c.primary, c.primary.type), c.markers.push(f), f.parent = c);
-          }
-          return b;
-        },
-        unlinkDoc: function(a) {
-          a instanceof U && (a = a.doc);
-          if (this.linked) {
-            for (var b = 0; b < this.linked.length; ++b)
-              if (this.linked[b].doc == a) {
-                this.linked.splice(b, 1);
-                a.unlinkDoc(this);
-                eh(Uf(this));
-                break;
-              }
-          }
-          if (a.history == this.history) {
-            var d2 = [a.id];
-            Ua(a, function(c) {
-              return d2.push(c.id);
-            }, true);
-            a.history = new Rc(null);
-            a.history.done = Ab(this.history.done, d2);
-            a.history.undone = Ab(this.history.undone, d2);
-          }
-        },
-        iterLinkedDocs: function(a) {
-          Ua(this, a);
-        },
-        getMode: function() {
-          return this.mode;
-        },
-        getEditor: function() {
-          return this.cm;
-        },
-        splitLines: function(a) {
-          return this.lineSep ? a.split(this.lineSep) : ne(a);
-        },
-        lineSeparator: function() {
-          return this.lineSep || "\n";
-        },
-        setDirection: ca(function(a) {
-          "rtl" != a && (a = "ltr");
-          a != this.direction && (this.direction = a, this.iter(function(b) {
-            return b.order = null;
-          }), this.cm && $g(this.cm));
-        })
-      });
-      oa.prototype.eachLine = oa.prototype.iter;
-      for (var Wf = 0, ng = false, Wa = {
-        3: "Pause",
-        8: "Backspace",
-        9: "Tab",
-        13: "Enter",
-        16: "Shift",
-        17: "Ctrl",
-        18: "Alt",
-        19: "Pause",
-        20: "CapsLock",
-        27: "Esc",
-        32: "Space",
-        33: "PageUp",
-        34: "PageDown",
-        35: "End",
-        36: "Home",
-        37: "Left",
-        38: "Up",
-        39: "Right",
-        40: "Down",
-        44: "PrintScrn",
-        45: "Insert",
-        46: "Delete",
-        59: ";",
-        61: "=",
-        91: "Mod",
-        92: "Mod",
-        93: "Mod",
-        106: "*",
-        107: "=",
-        109: "-",
-        110: ".",
-        111: "/",
-        145: "ScrollLock",
-        173: "-",
-        186: ";",
-        187: "=",
-        188: ",",
-        189: "-",
-        190: ".",
-        191: "/",
-        192: "`",
-        219: "[",
-        220: "\\",
-        221: "]",
-        222: "'",
-        224: "Mod",
-        63232: "Up",
-        63233: "Down",
-        63234: "Left",
-        63235: "Right",
-        63272: "Delete",
-        63273: "Home",
-        63275: "End",
-        63276: "PageUp",
-        63277: "PageDown",
-        63302: "Insert"
-      }, sc = 0; 10 > sc; sc++)
-        Wa[sc + 48] = Wa[sc + 96] = String(sc);
-      for (var ed = 65; 90 >= ed; ed++)
-        Wa[ed] = String.fromCharCode(ed);
-      for (var tc = 1; 12 >= tc; tc++)
-        Wa[tc + 111] = Wa[tc + 63235] = "F" + tc;
-      var ic = { basic: {
-        Left: "goCharLeft",
-        Right: "goCharRight",
-        Up: "goLineUp",
-        Down: "goLineDown",
-        End: "goLineEnd",
-        Home: "goLineStartSmart",
-        PageUp: "goPageUp",
-        PageDown: "goPageDown",
-        Delete: "delCharAfter",
-        Backspace: "delCharBefore",
-        "Shift-Backspace": "delCharBefore",
-        Tab: "defaultTab",
-        "Shift-Tab": "indentAuto",
-        Enter: "newlineAndIndent",
-        Insert: "toggleOverwrite",
-        Esc: "singleSelection"
-      }, pcDefault: {
-        "Ctrl-A": "selectAll",
-        "Ctrl-D": "deleteLine",
-        "Ctrl-Z": "undo",
-        "Shift-Ctrl-Z": "redo",
-        "Ctrl-Y": "redo",
-        "Ctrl-Home": "goDocStart",
-        "Ctrl-End": "goDocEnd",
-        "Ctrl-Up": "goLineUp",
-        "Ctrl-Down": "goLineDown",
-        "Ctrl-Left": "goGroupLeft",
-        "Ctrl-Right": "goGroupRight",
-        "Alt-Left": "goLineStart",
-        "Alt-Right": "goLineEnd",
-        "Ctrl-Backspace": "delGroupBefore",
-        "Ctrl-Delete": "delGroupAfter",
-        "Ctrl-S": "save",
-        "Ctrl-F": "find",
-        "Ctrl-G": "findNext",
-        "Shift-Ctrl-G": "findPrev",
-        "Shift-Ctrl-F": "replace",
-        "Shift-Ctrl-R": "replaceAll",
-        "Ctrl-[": "indentLess",
-        "Ctrl-]": "indentMore",
-        "Ctrl-U": "undoSelection",
-        "Shift-Ctrl-U": "redoSelection",
-        "Alt-U": "redoSelection",
-        fallthrough: "basic"
-      }, emacsy: {
-        "Ctrl-F": "goCharRight",
-        "Ctrl-B": "goCharLeft",
-        "Ctrl-P": "goLineUp",
-        "Ctrl-N": "goLineDown",
-        "Ctrl-A": "goLineStart",
-        "Ctrl-E": "goLineEnd",
-        "Ctrl-V": "goPageDown",
-        "Shift-Ctrl-V": "goPageUp",
-        "Ctrl-D": "delCharAfter",
-        "Ctrl-H": "delCharBefore",
-        "Alt-Backspace": "delWordBefore",
-        "Ctrl-K": "killLine",
-        "Ctrl-T": "transposeChars",
-        "Ctrl-O": "openLine"
-      }, macDefault: {
-        "Cmd-A": "selectAll",
-        "Cmd-D": "deleteLine",
-        "Cmd-Z": "undo",
-        "Shift-Cmd-Z": "redo",
-        "Cmd-Y": "redo",
-        "Cmd-Home": "goDocStart",
-        "Cmd-Up": "goDocStart",
-        "Cmd-End": "goDocEnd",
-        "Cmd-Down": "goDocEnd",
-        "Alt-Left": "goGroupLeft",
-        "Alt-Right": "goGroupRight",
-        "Cmd-Left": "goLineLeft",
-        "Cmd-Right": "goLineRight",
-        "Alt-Backspace": "delGroupBefore",
-        "Ctrl-Alt-Backspace": "delGroupAfter",
-        "Alt-Delete": "delGroupAfter",
-        "Cmd-S": "save",
-        "Cmd-F": "find",
-        "Cmd-G": "findNext",
-        "Shift-Cmd-G": "findPrev",
-        "Cmd-Alt-F": "replace",
-        "Shift-Cmd-Alt-F": "replaceAll",
-        "Cmd-[": "indentLess",
-        "Cmd-]": "indentMore",
-        "Cmd-Backspace": "delWrappedLineLeft",
-        "Cmd-Delete": "delWrappedLineRight",
-        "Cmd-U": "undoSelection",
-        "Shift-Cmd-U": "redoSelection",
-        "Ctrl-Up": "goDocStart",
-        "Ctrl-Down": "goDocEnd",
-        fallthrough: ["basic", "emacsy"]
-      } };
-      ic["default"] = ya ? ic.macDefault : ic.pcDefault;
-      var jc = {
-        selectAll: Lf,
-        singleSelection: function(a) {
-          return a.setSelection(a.getCursor("anchor"), a.getCursor("head"), Ia);
-        },
-        killLine: function(a) {
-          return Gb(a, function(b) {
-            if (b.empty()) {
-              var d2 = w(a.doc, b.head.line).text.length;
-              return b.head.ch == d2 && b.head.line < a.lastLine() ? { from: b.head, to: t(b.head.line + 1, 0) } : { from: b.head, to: t(b.head.line, d2) };
-            }
-            return { from: b.from(), to: b.to() };
-          });
-        },
-        deleteLine: function(a) {
-          return Gb(a, function(b) {
-            return { from: t(b.from().line, 0), to: C(a.doc, t(b.to().line + 1, 0)) };
-          });
-        },
-        delLineLeft: function(a) {
-          return Gb(a, function(b) {
-            return { from: t(b.from().line, 0), to: b.from() };
-          });
-        },
-        delWrappedLineLeft: function(a) {
-          return Gb(a, function(b) {
-            var d2 = a.charCoords(b.head, "div").top + 5;
-            return { from: a.coordsChar({
-              left: 0,
-              top: d2
-            }, "div"), to: b.from() };
-          });
-        },
-        delWrappedLineRight: function(a) {
-          return Gb(a, function(b) {
-            var d2 = a.charCoords(b.head, "div").top + 5;
-            d2 = a.coordsChar({ left: a.display.lineDiv.offsetWidth + 100, top: d2 }, "div");
-            return { from: b.from(), to: d2 };
-          });
-        },
-        undo: function(a) {
-          return a.undo();
-        },
-        redo: function(a) {
-          return a.redo();
-        },
-        undoSelection: function(a) {
-          return a.undoSelection();
-        },
-        redoSelection: function(a) {
-          return a.redoSelection();
-        },
-        goDocStart: function(a) {
-          return a.extendSelection(t(a.firstLine(), 0));
-        },
-        goDocEnd: function(a) {
-          return a.extendSelection(t(a.lastLine()));
-        },
-        goLineStart: function(a) {
-          return a.extendSelectionsBy(function(b) {
-            return bg(a, b.head.line);
-          }, { origin: "+move", bias: 1 });
-        },
-        goLineStartSmart: function(a) {
-          return a.extendSelectionsBy(function(b) {
-            return cg(a, b.head);
-          }, { origin: "+move", bias: 1 });
-        },
-        goLineEnd: function(a) {
-          return a.extendSelectionsBy(function(b) {
-            b = b.head.line;
-            var d2 = w(a.doc, b);
-            var c = d2;
-            for (var e; e = sb(c, false); )
-              c = e.find(1, true).line;
-            c != d2 && (b = N(c));
-            return ge(true, a, d2, b, -1);
-          }, { origin: "+move", bias: -1 });
-        },
-        goLineRight: function(a) {
-          return a.extendSelectionsBy(function(b) {
-            b = a.cursorCoords(b.head, "div").top + 5;
-            return a.coordsChar({ left: a.display.lineDiv.offsetWidth + 100, top: b }, "div");
-          }, qc);
-        },
-        goLineLeft: function(a) {
-          return a.extendSelectionsBy(function(b) {
-            b = a.cursorCoords(b.head, "div").top + 5;
-            return a.coordsChar({ left: 0, top: b }, "div");
-          }, qc);
-        },
-        goLineLeftSmart: function(a) {
-          return a.extendSelectionsBy(function(b) {
-            var d2 = a.cursorCoords(b.head, "div").top + 5;
-            d2 = a.coordsChar({ left: 0, top: d2 }, "div");
-            return d2.ch < a.getLine(d2.line).search(/\S/) ? cg(a, b.head) : d2;
-          }, qc);
-        },
-        goLineUp: function(a) {
-          return a.moveV(
-            -1,
-            "line"
-          );
-        },
-        goLineDown: function(a) {
-          return a.moveV(1, "line");
-        },
-        goPageUp: function(a) {
-          return a.moveV(-1, "page");
-        },
-        goPageDown: function(a) {
-          return a.moveV(1, "page");
-        },
-        goCharLeft: function(a) {
-          return a.moveH(-1, "char");
-        },
-        goCharRight: function(a) {
-          return a.moveH(1, "char");
-        },
-        goColumnLeft: function(a) {
-          return a.moveH(-1, "column");
-        },
-        goColumnRight: function(a) {
-          return a.moveH(1, "column");
-        },
-        goWordLeft: function(a) {
-          return a.moveH(-1, "word");
-        },
-        goGroupRight: function(a) {
-          return a.moveH(1, "group");
-        },
-        goGroupLeft: function(a) {
-          return a.moveH(
-            -1,
-            "group"
-          );
-        },
-        goWordRight: function(a) {
-          return a.moveH(1, "word");
-        },
-        delCharBefore: function(a) {
-          return a.deleteH(-1, "codepoint");
-        },
-        delCharAfter: function(a) {
-          return a.deleteH(1, "char");
-        },
-        delWordBefore: function(a) {
-          return a.deleteH(-1, "word");
-        },
-        delWordAfter: function(a) {
-          return a.deleteH(1, "word");
-        },
-        delGroupBefore: function(a) {
-          return a.deleteH(-1, "group");
-        },
-        delGroupAfter: function(a) {
-          return a.deleteH(1, "group");
-        },
-        indentAuto: function(a) {
-          return a.indentSelection("smart");
-        },
-        indentMore: function(a) {
-          return a.indentSelection("add");
-        },
-        indentLess: function(a) {
-          return a.indentSelection("subtract");
-        },
-        insertTab: function(a) {
-          return a.replaceSelection("	");
-        },
-        insertSoftTab: function(a) {
-          for (var b = [], d2 = a.listSelections(), c = a.options.tabSize, e = 0; e < d2.length; e++) {
-            var f = d2[e].from();
-            f = wa(a.getLine(f.line), f.ch, c);
-            b.push(id(c - f % c));
-          }
-          a.replaceSelections(b);
-        },
-        defaultTab: function(a) {
-          a.somethingSelected() ? a.indentSelection("add") : a.execCommand("insertTab");
-        },
-        transposeChars: function(a) {
-          return ra(a, function() {
-            for (var b = a.listSelections(), d2 = [], c = 0; c < b.length; c++)
-              if (b[c].empty()) {
-                var e = b[c].head, f = w(a.doc, e.line).text;
-                if (f) {
-                  if (e.ch == f.length && (e = new t(e.line, e.ch - 1)), 0 < e.ch)
-                    e = new t(e.line, e.ch + 1), a.replaceRange(f.charAt(e.ch - 1) + f.charAt(e.ch - 2), t(e.line, e.ch - 2), e, "+transpose");
-                  else if (e.line > a.doc.first) {
-                    var g = w(a.doc, e.line - 1).text;
-                    g && (e = new t(e.line, 1), a.replaceRange(f.charAt(0) + a.doc.lineSeparator() + g.charAt(g.length - 1), t(e.line - 1, g.length - 1), e, "+transpose"));
-                  }
-                }
-                d2.push(new I(e, e));
-              }
-            a.setSelections(d2);
-          });
-        },
-        newlineAndIndent: function(a) {
-          return ra(a, function() {
-            for (var b = a.listSelections(), d2 = b.length - 1; 0 <= d2; d2--)
-              a.replaceRange(a.doc.lineSeparator(), b[d2].anchor, b[d2].head, "+input");
-            b = a.listSelections();
-            for (d2 = 0; d2 < b.length; d2++)
-              a.indentLine(b[d2].from().line, null, true);
-            xb(a);
-          });
-        },
-        openLine: function(a) {
-          return a.replaceSelection("\n", "start");
-        },
-        toggleOverwrite: function(a) {
-          return a.toggleOverwrite();
-        }
-      }, lh = new Xa(), he = null, ie = function(a, b, d2) {
-        this.time = a;
-        this.pos = b;
-        this.button = d2;
-      };
-      ie.prototype.compare = function(a, b, d2) {
-        return this.time + 400 > a && 0 == B(b, this.pos) && d2 == this.button;
-      };
-      var mc, lc, Hb = { toString: function() {
-        return "CodeMirror.Init";
-      } }, mg = {}, bd = {};
-      U.defaults = mg;
-      U.optionHandlers = bd;
-      var le = [];
-      U.defineInitHook = function(a) {
-        return le.push(a);
-      };
-      var sa = null, O = function(a) {
-        this.cm = a;
-        this.lastAnchorNode = this.lastAnchorOffset = this.lastFocusNode = this.lastFocusOffset = null;
-        this.polling = new Xa();
-        this.composing = null;
-        this.gracePeriod = false;
-        this.readDOMTimeout = null;
-      };
-      O.prototype.init = function(a) {
-        function b(h2) {
-          for (h2 = h2.target; h2; h2 = h2.parentNode) {
-            if (h2 == g)
-              return true;
-            if (/\bCodeMirror-(?:line)?widget\b/.test(h2.className))
-              break;
-          }
-          return false;
-        }
-        function d2(h2) {
-          if (b(h2) && !Z(
-            f,
-            h2
-          )) {
-            if (f.somethingSelected())
-              sa = { lineWise: false, text: f.getSelections() }, "cut" == h2.type && f.replaceSelection("", null, "cut");
-            else if (f.options.lineWiseCopyCut) {
-              var k = qg(f);
-              sa = { lineWise: true, text: k.text };
-              "cut" == h2.type && f.operation(function() {
-                f.setSelections(k.ranges, 0, Ia);
-                f.replaceSelection("", null, "cut");
-              });
-            } else
-              return;
-            if (h2.clipboardData) {
-              h2.clipboardData.clearData();
-              var l = sa.text.join("\n");
-              h2.clipboardData.setData("Text", l);
-              if (h2.clipboardData.getData("Text") == l) {
-                h2.preventDefault();
-                return;
-              }
-            }
-            var m2 = sg();
-            h2 = m2.firstChild;
-            f.display.lineSpace.insertBefore(m2, f.display.lineSpace.firstChild);
-            h2.value = sa.text.join("\n");
-            var n = ka(g.ownerDocument);
-            pc(h2);
-            setTimeout(function() {
-              f.display.lineSpace.removeChild(m2);
-              n.focus();
-              n == g && e.showPrimarySelection();
-            }, 50);
+              f.electricInput && f.electricInput.test(w(a.doc, e.head.line).text.slice(0, e.head.ch)) && (g = nc(a, e.head.line, "smart"));
+            g && aa(a, "electricInput", a, e.head.line);
           }
         }
-        var c = this, e = this, f = e.cm, g = e.div = a.lineDiv;
-        g.contentEditable = true;
-        rg(g, f.options.spellcheck, f.options.autocorrect, f.options.autocapitalize);
-        z(g, "paste", function(h2) {
-          !b(h2) || Z(f, h2) || pg(h2, f) || 11 >= T && setTimeout(ba(f, function() {
-            return c.updateFromDOM();
-          }), 20);
-        });
-        z(
-          g,
-          "compositionstart",
-          function(h2) {
-            c.composing = { data: h2.data, done: false };
-          }
-        );
-        z(g, "compositionupdate", function(h2) {
-          c.composing || (c.composing = { data: h2.data, done: false });
-        });
-        z(g, "compositionend", function(h2) {
-          c.composing && (h2.data != c.composing.data && c.readFromDOMSoon(), c.composing.done = true);
-        });
-        z(g, "touchstart", function() {
-          return e.forceCompositionEnd();
-        });
-        z(g, "input", function() {
-          c.composing || c.readFromDOMSoon();
-        });
-        z(g, "copy", d2);
-        z(g, "cut", d2);
+    }
+    function qg(a) {
+      for (var b = [], d2 = [], c = 0; c < a.doc.sel.ranges.length; c++) {
+        var e = a.doc.sel.ranges[c].head.line;
+        e = { anchor: t(e, 0), head: t(e + 1, 0) };
+        d2.push(e);
+        b.push(a.getRange(e.anchor, e.head));
+      }
+      return {
+        text: b,
+        ranges: d2
       };
-      O.prototype.screenReaderLabelChanged = function(a) {
-        a ? this.div.setAttribute("aria-label", a) : this.div.removeAttribute("aria-label");
-      };
-      O.prototype.prepareSelection = function() {
-        var a = gf(this.cm, false);
-        a.focus = ka(this.div.ownerDocument) == this.div;
-        return a;
-      };
-      O.prototype.showSelection = function(a, b) {
-        a && this.cm.display.view.length && ((a.focus || b) && this.showPrimarySelection(), this.showMultipleSelections(a));
-      };
-      O.prototype.getSelection = function() {
-        return this.cm.display.wrapper.ownerDocument.getSelection();
-      };
-      O.prototype.showPrimarySelection = function() {
-        var a = this.getSelection(), b = this.cm, d2 = b.doc.sel.primary(), c = d2.from();
-        d2 = d2.to();
-        if (b.display.viewTo == b.display.viewFrom || c.line >= b.display.viewTo || d2.line < b.display.viewFrom)
-          a.removeAllRanges();
-        else {
-          var e = cd(b, a.anchorNode, a.anchorOffset), f = cd(b, a.focusNode, a.focusOffset);
-          if (!e || e.bad || !f || f.bad || 0 != B(Bc(e, f), c) || 0 != B(Ac(e, f), d2))
-            if (e = b.display.view, c = c.line >= b.display.viewFrom && ug(b, c) || { node: e[0].measure.map[2], offset: 0 }, d2 = d2.line < b.display.viewTo && ug(b, d2), d2 || (d2 = e[e.length - 1].measure, d2 = d2.maps ? d2.maps[d2.maps.length - 1] : d2.map, d2 = { node: d2[d2.length - 1], offset: d2[d2.length - 2] - d2[d2.length - 3] }), c && d2) {
-              e = a.rangeCount && a.getRangeAt(0);
-              try {
-                var g = Qb(c.node, c.offset, d2.offset, d2.node);
-              } catch (h2) {
-              }
-              g && (!Ma && b.state.focused ? (a.collapse(c.node, c.offset), g.collapsed || (a.removeAllRanges(), a.addRange(g))) : (a.removeAllRanges(), a.addRange(g)), e && null == a.anchorNode ? a.addRange(e) : Ma && this.startGracePeriod());
-              this.rememberSelection();
-            } else
-              a.removeAllRanges();
-        }
-      };
-      O.prototype.startGracePeriod = function() {
-        var a = this;
-        clearTimeout(this.gracePeriod);
-        this.gracePeriod = setTimeout(function() {
-          a.gracePeriod = false;
-          a.selectionChanged() && a.cm.operation(function() {
-            return a.cm.curOp.selectionChanged = true;
-          });
-        }, 20);
-      };
-      O.prototype.showMultipleSelections = function(a) {
-        D(this.cm.display.cursorDiv, a.cursors);
-        D(this.cm.display.selectionDiv, a.selection);
-      };
-      O.prototype.rememberSelection = function() {
-        var a = this.getSelection();
-        this.lastAnchorNode = a.anchorNode;
-        this.lastAnchorOffset = a.anchorOffset;
-        this.lastFocusNode = a.focusNode;
-        this.lastFocusOffset = a.focusOffset;
-      };
-      O.prototype.selectionInEditor = function() {
-        var a = this.getSelection();
-        if (!a.rangeCount)
-          return false;
-        a = a.getRangeAt(0).commonAncestorContainer;
-        return ja(this.div, a);
-      };
-      O.prototype.focus = function() {
-        "nocursor" != this.cm.options.readOnly && (this.selectionInEditor() && ka(this.div.ownerDocument) == this.div || this.showSelection(this.prepareSelection(), true), this.div.focus());
-      };
-      O.prototype.blur = function() {
-        this.div.blur();
-      };
-      O.prototype.getField = function() {
-        return this.div;
-      };
-      O.prototype.supportsTouch = function() {
-        return true;
-      };
-      O.prototype.receivedFocus = function() {
-        function a() {
-          d2.cm.state.focused && (d2.pollSelection(), d2.polling.set(d2.cm.options.pollInterval, a));
-        }
-        var b = this, d2 = this;
-        this.selectionInEditor() ? setTimeout(function() {
-          return b.pollSelection();
-        }, 20) : ra(this.cm, function() {
-          return d2.cm.curOp.selectionChanged = true;
-        });
-        this.polling.set(this.cm.options.pollInterval, a);
-      };
-      O.prototype.selectionChanged = function() {
-        var a = this.getSelection();
-        return a.anchorNode != this.lastAnchorNode || a.anchorOffset != this.lastAnchorOffset || a.focusNode != this.lastFocusNode || a.focusOffset != this.lastFocusOffset;
-      };
-      O.prototype.pollSelection = function() {
-        if (null == this.readDOMTimeout && !this.gracePeriod && this.selectionChanged()) {
-          var a = this.getSelection(), b = this.cm;
-          if (Gc && Qa && this.cm.display.gutterSpecs.length && Ah(a.anchorNode))
-            this.cm.triggerOnKeyDown({ type: "keydown", keyCode: 8, preventDefault: Math.abs }), this.blur(), this.focus();
-          else if (!this.composing) {
-            this.rememberSelection();
-            var d2 = cd(b, a.anchorNode, a.anchorOffset), c = cd(b, a.focusNode, a.focusOffset);
-            d2 && c && ra(b, function() {
-              da(b.doc, Oa(d2, c), Ia);
-              if (d2.bad || c.bad)
-                b.curOp.selectionChanged = true;
-            });
-          }
-        }
-      };
-      O.prototype.pollContent = function() {
-        null != this.readDOMTimeout && (clearTimeout(this.readDOMTimeout), this.readDOMTimeout = null);
-        var a = this.cm, b = a.display, d2 = a.doc.sel.primary(), c = d2.from(), e = d2.to();
-        0 == c.ch && c.line > a.firstLine() && (c = t(c.line - 1, w(a.doc, c.line - 1).length));
-        e.ch == w(a.doc, e.line).text.length && e.line < a.lastLine() && (e = t(e.line + 1, 0));
-        if (c.line < b.viewFrom || e.line > b.viewTo - 1)
-          return false;
-        var f;
-        c.line == b.viewFrom || 0 == (f = db(a, c.line)) ? (d2 = N(b.view[0].line), f = b.view[0].node) : (d2 = N(b.view[f].line), f = b.view[f - 1].node.nextSibling);
-        var g = db(a, e.line);
-        g == b.view.length - 1 ? (e = b.viewTo - 1, b = b.lineDiv.lastChild) : (e = N(b.view[g + 1].line) - 1, b = b.view[g + 1].node.previousSibling);
-        if (!f)
-          return false;
-        b = a.doc.splitLines(Bh(a, f, b, d2, e));
-        for (f = ab(a.doc, t(d2, 0), t(e, w(a.doc, e).text.length)); 1 < b.length && 1 < f.length; )
-          if (J(b) == J(f))
-            b.pop(), f.pop(), e--;
-          else if (b[0] == f[0])
-            b.shift(), f.shift(), d2++;
+    }
+    function rg(a, b, d2, c) {
+      a.setAttribute("autocorrect", d2 ? "" : "off");
+      a.setAttribute("autocapitalize", c ? "" : "off");
+      a.setAttribute("spellcheck", !!b);
+    }
+    function sg() {
+      var a = v2("textarea", null, null, "position: absolute; bottom: -1em; padding: 0; width: 1px; height: 1em; min-height: 1em; outline: none"), b = v2("div", [a], null, "overflow: hidden; position: relative; width: 3px; height: 0px;");
+      fa ? a.style.width = "1000px" : a.setAttribute("wrap", "off");
+      oc && (a.style.border = "1px solid black");
+      rg(a);
+      return b;
+    }
+    function oe(a, b, d2, c, e) {
+      function f(u) {
+        if ("codepoint" == c) {
+          var A = k.text.charCodeAt(b.ch + (0 < d2 ? 0 : -1));
+          A = isNaN(A) ? null : new t(b.line, Math.max(0, Math.min(k.text.length, b.ch + d2 * ((0 < d2 ? 55296 <= A && 56320 > A : 56320 <= A && 57343 > A) ? 2 : 1))), -d2);
+        } else
+          A = e ? kh(a.cm, k, b, d2) : fe(k, b, d2);
+        if (null == A) {
+          if (u = !u)
+            u = b.line + l, u < a.first || u >= a.first + a.size ? u = false : (b = new t(u, b.ch, b.sticky), u = k = w(a, u));
+          if (u)
+            b = ge(e, a.cm, k, b.line, l);
           else
-            break;
-        var h2 = 0;
-        g = 0;
-        for (var k = b[0], l = f[0], m2 = Math.min(k.length, l.length); h2 < m2 && k.charCodeAt(h2) == l.charCodeAt(h2); )
-          ++h2;
-        k = J(b);
-        l = J(f);
-        for (m2 = Math.min(k.length - (1 == b.length ? h2 : 0), l.length - (1 == f.length ? h2 : 0)); g < m2 && k.charCodeAt(k.length - g - 1) == l.charCodeAt(l.length - g - 1); )
-          ++g;
-        if (1 == b.length && 1 == f.length && d2 == c.line)
-          for (; h2 && h2 > c.ch && k.charCodeAt(k.length - g - 1) == l.charCodeAt(l.length - g - 1); )
-            h2--, g++;
-        b[b.length - 1] = k.slice(0, k.length - g).replace(/^\u200b+/, "");
-        b[0] = b[0].slice(h2).replace(/\u200b+$/, "");
-        c = t(d2, h2);
-        d2 = t(e, f.length ? J(f).length - g : 0);
-        if (1 < b.length || b[0] || B(c, d2))
-          return Db(a.doc, b, c, d2, "+input"), true;
-      };
-      O.prototype.ensurePolled = function() {
-        this.forceCompositionEnd();
-      };
-      O.prototype.reset = function() {
-        this.forceCompositionEnd();
-      };
-      O.prototype.forceCompositionEnd = function() {
-        this.composing && (clearTimeout(this.readDOMTimeout), this.composing = null, this.updateFromDOM(), this.div.blur(), this.div.focus());
-      };
-      O.prototype.readFromDOMSoon = function() {
-        var a = this;
-        null == this.readDOMTimeout && (this.readDOMTimeout = setTimeout(function() {
-          a.readDOMTimeout = null;
-          if (a.composing)
-            if (a.composing.done)
-              a.composing = null;
-            else
-              return;
-          a.updateFromDOM();
-        }, 80));
-      };
-      O.prototype.updateFromDOM = function() {
-        var a = this;
-        !this.cm.isReadOnly() && this.pollContent() || ra(this.cm, function() {
-          return ma(a.cm);
-        });
-      };
-      O.prototype.setUneditable = function(a) {
-        a.contentEditable = "false";
-      };
-      O.prototype.onKeyPress = function(a) {
-        0 == a.charCode || this.composing || (a.preventDefault(), this.cm.isReadOnly() || ba(this.cm, me)(this.cm, String.fromCharCode(null == a.charCode ? a.keyCode : a.charCode), 0));
-      };
-      O.prototype.readOnlyChanged = function(a) {
-        this.div.contentEditable = String("nocursor" != a);
-      };
-      O.prototype.onContextMenu = function() {
-      };
-      O.prototype.resetPosition = function() {
-      };
-      O.prototype.needsContentAttribute = true;
-      var V = function(a) {
-        this.cm = a;
-        this.prevInput = "";
-        this.pollingFast = false;
-        this.polling = new Xa();
-        this.hasSelection = false;
-        this.composing = null;
-        this.resetting = false;
-      };
-      V.prototype.init = function(a) {
-        function b(g) {
-          if (!Z(e, g)) {
-            if (e.somethingSelected())
-              sa = { lineWise: false, text: e.getSelections() };
-            else if (e.options.lineWiseCopyCut) {
-              var h2 = qg(e);
-              sa = { lineWise: true, text: h2.text };
-              "cut" == g.type ? e.setSelections(h2.ranges, null, Ia) : (c.prevInput = "", f.value = h2.text.join("\n"), pc(f));
-            } else
-              return;
-            "cut" == g.type && (e.state.cutIncoming = +/* @__PURE__ */ new Date());
-          }
-        }
-        var d2 = this, c = this, e = this.cm;
-        this.createField(a);
-        var f = this.textarea;
-        a.wrapper.insertBefore(this.wrapper, a.wrapper.firstChild);
-        oc && (f.style.width = "0px");
-        z(f, "input", function() {
-          G && 9 <= T && d2.hasSelection && (d2.hasSelection = null);
-          c.poll();
-        });
-        z(f, "paste", function(g) {
-          Z(e, g) || pg(g, e) || (e.state.pasteIncoming = +/* @__PURE__ */ new Date(), c.fastPoll());
-        });
-        z(f, "cut", b);
-        z(f, "copy", b);
-        z(a.scroller, "paste", function(g) {
-          if (!La(a, g) && !Z(e, g))
-            if (f.dispatchEvent) {
-              var h2 = new Event("paste");
-              h2.clipboardData = g.clipboardData;
-              f.dispatchEvent(h2);
-            } else
-              e.state.pasteIncoming = +/* @__PURE__ */ new Date(), c.focus();
-        });
-        z(a.lineSpace, "selectstart", function(g) {
-          La(a, g) || la(g);
-        });
-        z(
-          f,
-          "compositionstart",
-          function() {
-            var g = e.getCursor("from");
-            c.composing && c.composing.range.clear();
-            c.composing = { start: g, range: e.markText(g, e.getCursor("to"), { className: "CodeMirror-composing" }) };
-          }
-        );
-        z(f, "compositionend", function() {
-          c.composing && (c.poll(), c.composing.range.clear(), c.composing = null);
-        });
-      };
-      V.prototype.createField = function(a) {
-        this.wrapper = sg();
-        this.textarea = this.wrapper.firstChild;
-      };
-      V.prototype.screenReaderLabelChanged = function(a) {
-        a ? this.textarea.setAttribute("aria-label", a) : this.textarea.removeAttribute("aria-label");
-      };
-      V.prototype.prepareSelection = function() {
-        var a = this.cm, b = a.display, d2 = a.doc, c = gf(a);
-        if (a.options.moveInputWithCursor) {
-          a = Ba(a, d2.sel.primary().head, "div");
-          d2 = b.wrapper.getBoundingClientRect();
-          var e = b.lineDiv.getBoundingClientRect();
-          c.teTop = Math.max(0, Math.min(b.wrapper.clientHeight - 10, a.top + e.top - d2.top));
-          c.teLeft = Math.max(0, Math.min(b.wrapper.clientWidth - 10, a.left + e.left - d2.left));
-        }
-        return c;
-      };
-      V.prototype.showSelection = function(a) {
-        var b = this.cm.display;
-        D(b.cursorDiv, a.cursors);
-        D(b.selectionDiv, a.selection);
-        null != a.teTop && (this.wrapper.style.top = a.teTop + "px", this.wrapper.style.left = a.teLeft + "px");
-      };
-      V.prototype.reset = function(a) {
-        if (!(this.contextMenuPending || this.composing && a)) {
-          var b = this.cm;
-          this.resetting = true;
-          b.somethingSelected() ? (this.prevInput = "", a = b.getSelection(), this.textarea.value = a, b.state.focused && pc(this.textarea), G && 9 <= T && (this.hasSelection = a)) : a || (this.prevInput = this.textarea.value = "", G && 9 <= T && (this.hasSelection = null));
-          this.resetting = false;
-        }
-      };
-      V.prototype.getField = function() {
-        return this.textarea;
-      };
-      V.prototype.supportsTouch = function() {
-        return false;
-      };
-      V.prototype.focus = function() {
-        if ("nocursor" != this.cm.options.readOnly && (!ac || ka(this.textarea.ownerDocument) != this.textarea))
-          try {
-            this.textarea.focus();
-          } catch (a) {
-          }
-      };
-      V.prototype.blur = function() {
-        this.textarea.blur();
-      };
-      V.prototype.resetPosition = function() {
-        this.wrapper.style.top = this.wrapper.style.left = 0;
-      };
-      V.prototype.receivedFocus = function() {
-        this.slowPoll();
-      };
-      V.prototype.slowPoll = function() {
-        var a = this;
-        this.pollingFast || this.polling.set(
-          this.cm.options.pollInterval,
-          function() {
-            a.poll();
-            a.cm.state.focused && a.slowPoll();
-          }
-        );
-      };
-      V.prototype.fastPoll = function() {
-        function a() {
-          d2.poll() || b ? (d2.pollingFast = false, d2.slowPoll()) : (b = true, d2.polling.set(60, a));
-        }
-        var b = false, d2 = this;
-        d2.pollingFast = true;
-        d2.polling.set(20, a);
-      };
-      V.prototype.poll = function() {
-        var a = this, b = this.cm, d2 = this.textarea, c = this.prevInput;
-        if (this.contextMenuPending || this.resetting || !b.state.focused || Gh(d2) && !c && !this.composing || b.isReadOnly() || b.options.disableInput || b.state.keySeq)
-          return false;
-        var e = d2.value;
-        if (e == c && !b.somethingSelected())
-          return false;
-        if (G && 9 <= T && this.hasSelection === e || ya && /[\uf700-\uf7ff]/.test(e))
-          return b.display.input.reset(), false;
-        if (b.doc.sel == b.display.selForContextMenu) {
-          var f = e.charCodeAt(0);
-          8203 != f || c || (c = "​");
-          if (8666 == f)
-            return this.reset(), this.cm.execCommand("undo");
-        }
-        var g = 0;
-        for (f = Math.min(c.length, e.length); g < f && c.charCodeAt(g) == e.charCodeAt(g); )
-          ++g;
-        ra(b, function() {
-          me(b, e.slice(g), c.length - g, null, a.composing ? "*compose" : null);
-          1e3 < e.length || -1 < e.indexOf("\n") ? d2.value = a.prevInput = "" : a.prevInput = e;
-          a.composing && (a.composing.range.clear(), a.composing.range = b.markText(a.composing.start, b.getCursor("to"), { className: "CodeMirror-composing" }));
-        });
+            return false;
+        } else
+          b = A;
         return true;
-      };
-      V.prototype.ensurePolled = function() {
-        this.pollingFast && this.poll() && (this.pollingFast = false);
-      };
-      V.prototype.onKeyPress = function() {
-        G && 9 <= T && (this.hasSelection = null);
-        this.fastPoll();
-      };
-      V.prototype.onContextMenu = function(a) {
-        function b() {
-          if (null != g.selectionStart) {
-            var q = e.somethingSelected(), r = "​" + (q ? g.value : "");
-            g.value = "⇚";
-            g.value = r;
-            c.prevInput = q ? "" : "​";
-            g.selectionStart = 1;
-            g.selectionEnd = r.length;
-            f.selForContextMenu = e.doc.sel;
+      }
+      var g = b, h2 = d2, k = w(a, b.line), l = e && "rtl" == a.direction ? -d2 : d2;
+      if ("char" == c || "codepoint" == c)
+        f();
+      else if ("column" == c)
+        f(true);
+      else if ("word" == c || "group" == c)
+        for (var m2 = null, n = "group" == c, p = a.cm && a.cm.getHelper(b, "wordChars"), q = true; !(0 > d2) || f(!q); q = false) {
+          var r = k.text.charAt(b.ch) || "\n";
+          r = xc(r, p) ? "w" : n && "\n" == r ? "n" : !n || /\s/.test(r) ? null : "p";
+          !n || q || r || (r = "s");
+          if (m2 && m2 != r) {
+            0 > d2 && (d2 = 1, f(), b.sticky = "after");
+            break;
           }
+          r && (m2 = r);
+          if (0 < d2 && !f(!q))
+            break;
         }
-        function d2() {
-          if (c.contextMenuPending == d2 && (c.contextMenuPending = false, c.wrapper.style.cssText = m2, g.style.cssText = l, G && 9 > T && f.scrollbars.setScrollTop(f.scroller.scrollTop = k), null != g.selectionStart)) {
-            (!G || G && 9 > T) && b();
-            var q = 0, r = function() {
-              f.selForContextMenu == e.doc.sel && 0 == g.selectionStart && 0 < g.selectionEnd && "​" == c.prevInput ? ba(e, Lf)(e) : 10 > q++ ? f.detectingSelectAll = setTimeout(r, 500) : (f.selForContextMenu = null, f.input.reset());
-            };
-            f.detectingSelectAll = setTimeout(
-              r,
-              200
-            );
+      h2 = Vc(a, b, g, h2, true);
+      rd(g, h2) && (h2.hitSide = true);
+      return h2;
+    }
+    function tg(a, b, d2, c) {
+      var e = a.doc, f = b.left;
+      if ("page" == c) {
+        var g = Math.min(a.display.wrapper.clientHeight, qa(a).defaultView.innerHeight || e(a).documentElement.clientHeight);
+        g = Math.max(g - 0.5 * vb(a.display), 3);
+        g = (0 < d2 ? b.bottom : b.top) + d2 * g;
+      } else
+        "line" == c && (g = 0 < d2 ? b.bottom + 3 : b.top - 3);
+      for (; ; ) {
+        b = Kd(a, f, g);
+        if (!b.outside)
+          break;
+        if (0 > d2 ? 0 >= g : g >= e.height) {
+          b.hitSide = true;
+          break;
+        }
+        g += 5 * d2;
+      }
+      return b;
+    }
+    function ug(a, b) {
+      var d2 = Fd(a, b.line);
+      if (!d2 || d2.hidden)
+        return null;
+      var c = w(a.doc, b.line);
+      d2 = Ue(d2, c, b.line);
+      a = Ja(c, a.doc.direction);
+      c = "left";
+      a && (c = Kb(a, b.ch) % 2 ? "right" : "left");
+      b = Ve(d2.map, b.ch, c);
+      b.offset = "right" == b.collapse ? b.end : b.start;
+      return b;
+    }
+    function Ah(a) {
+      for (; a; a = a.parentNode)
+        if (/CodeMirror-gutter-wrapper/.test(a.className))
+          return true;
+      return false;
+    }
+    function Ib(a, b) {
+      b && (a.bad = true);
+      return a;
+    }
+    function Bh(a, b, d2, c, e) {
+      function f(q) {
+        return function(r) {
+          return r.id == q;
+        };
+      }
+      function g() {
+        m2 && (l += n, p && (l += n), m2 = p = false);
+      }
+      function h2(q) {
+        q && (g(), l += q);
+      }
+      function k(q) {
+        if (1 == q.nodeType) {
+          var r = q.getAttribute("cm-text");
+          if (r)
+            h2(r);
+          else {
+            r = q.getAttribute("cm-marker");
+            var u;
+            if (r)
+              q = a.findMarks(t(c, 0), t(e + 1, 0), f(+r)), q.length && (u = q[0].find(0)) && h2(ab(a.doc, u.from, u.to).join(n));
+            else if ("false" != q.getAttribute("contenteditable") && (u = /^(pre|div|p|li|table|br)$/i.test(q.nodeName), /^br$/i.test(q.nodeName) || 0 != q.textContent.length)) {
+              u && g();
+              for (r = 0; r < q.childNodes.length; r++)
+                k(q.childNodes[r]);
+              /^(pre|p)$/i.test(q.nodeName) && (p = true);
+              u && (m2 = true);
+            }
           }
+        } else
+          3 == q.nodeType && h2(q.nodeValue.replace(/\u200b/g, "").replace(/\u00a0/g, " "));
+      }
+      for (var l = "", m2 = false, n = a.doc.lineSeparator(), p = false; ; ) {
+        k(b);
+        if (b == d2)
+          break;
+        b = b.nextSibling;
+        p = false;
+      }
+      return l;
+    }
+    function cd(a, b, d2) {
+      if (b == a.display.lineDiv) {
+        var c = a.display.lineDiv.childNodes[d2];
+        if (!c)
+          return Ib(a.clipPos(t(a.display.viewTo - 1)), true);
+        b = null;
+        d2 = 0;
+      } else
+        for (c = b; ; c = c.parentNode) {
+          if (!c || c == a.display.lineDiv)
+            return null;
+          if (c.parentNode && c.parentNode == a.display.lineDiv)
+            break;
         }
-        var c = this, e = c.cm, f = e.display, g = c.textarea;
-        c.contextMenuPending && c.contextMenuPending();
-        var h2 = gb(e, a), k = f.scroller.scrollTop;
-        if (h2 && !Ca) {
-          e.options.resetSelectionOnContextMenu && -1 == e.doc.sel.contains(h2) && ba(e, da)(e.doc, Oa(h2), Ia);
-          var l = g.style.cssText, m2 = c.wrapper.style.cssText;
-          h2 = c.wrapper.offsetParent.getBoundingClientRect();
-          c.wrapper.style.cssText = "position: static";
-          g.style.cssText = "position: absolute; width: 30px; height: 30px;\n      top: " + (a.clientY - h2.top - 5) + "px; left: " + (a.clientX - h2.left - 5) + "px;\n      z-index: 1000; background: " + (G ? "rgba(255, 255, 255, .05)" : "transparent") + ";\n      outline: none; border-width: 0; outline: none; overflow: hidden; opacity: .05; filter: alpha(opacity=5);";
-          if (fa)
-            var n = g.ownerDocument.defaultView.scrollY;
-          f.input.focus();
-          fa && g.ownerDocument.defaultView.scrollTo(null, n);
-          f.input.reset();
-          e.somethingSelected() || (g.value = c.prevInput = " ");
-          c.contextMenuPending = d2;
-          f.selForContextMenu = e.doc.sel;
-          clearTimeout(f.detectingSelectAll);
-          G && 9 <= T && b();
-          if (je) {
-            Mb(a);
-            var p = function() {
-              ta(window, "mouseup", p);
-              setTimeout(d2, 20);
-            };
-            z(window, "mouseup", p);
+      for (var e = 0; e < a.display.view.length; e++) {
+        var f = a.display.view[e];
+        if (f.node == c)
+          return Ch(f, b, d2);
+      }
+    }
+    function Ch(a, b, d2) {
+      function c(m2, n, p) {
+        for (var q = -1; q < (l ? l.length : 0); q++)
+          for (var r = 0 > q ? k.map : l[q], u = 0; u < r.length; u += 3) {
+            var A = r[u + 2];
+            if (A == m2 || A == n) {
+              n = N(0 > q ? a.line : a.rest[q]);
+              q = r[u] + p;
+              if (0 > p || A != m2)
+                q = r[u + (p ? 1 : 0)];
+              return t(n, q);
+            }
+          }
+      }
+      var e = a.text.firstChild, f = false;
+      if (!b || !ja(e, b))
+        return Ib(t(N(a.line), 0), true);
+      if (b == e && (f = true, b = e.childNodes[d2], d2 = 0, !b))
+        return d2 = a.rest ? J(a.rest) : a.line, Ib(t(N(d2), d2.text.length), f);
+      var g = 3 == b.nodeType ? b : null, h2 = b;
+      g || 1 != b.childNodes.length || 3 != b.firstChild.nodeType || (g = b.firstChild, d2 && (d2 = g.nodeValue.length));
+      for (; h2.parentNode != e; )
+        h2 = h2.parentNode;
+      var k = a.measure, l = k.maps;
+      if (b = c(g, h2, d2))
+        return Ib(b, f);
+      e = h2.nextSibling;
+      for (g = g ? g.nodeValue.length - d2 : 0; e; e = e.nextSibling) {
+        if (b = c(e, e.firstChild, 0))
+          return Ib(t(b.line, b.ch - g), f);
+        g += e.textContent.length;
+      }
+      for (h2 = h2.previousSibling; h2; h2 = h2.previousSibling) {
+        if (b = c(h2, h2.firstChild, -1))
+          return Ib(t(b.line, b.ch + d2), f);
+        d2 += h2.textContent.length;
+      }
+    }
+    var pa = navigator.userAgent, vg = navigator.platform, Ma = /gecko\/\d/i.test(pa), wg = /MSIE \d/.test(pa), xg = /Trident\/(?:[7-9]|\d{2,})\..*rv:(\d+)/.exec(pa), dd = /Edge\/(\d+)/.exec(pa), G = wg || xg || dd, T = G && (wg ? document.documentMode || 6 : +(dd || xg)[1]), fa = !dd && /WebKit\//.test(pa), Dh = fa && /Qt\/\d+\.\d+/.test(pa), Qa = !dd && /Chrome\/(\d+)/.exec(pa), tf = Qa && +Qa[1], Ca = /Opera\//.test(pa), ad = /Apple Computer/.test(navigator.vendor), Eh = /Mac OS X 1\d\D([8-9]|\d\d)\D/.test(pa), Vg = /PhantomJS/.test(pa), oc = ad && (/Mobile\/\w+/.test(pa) || 2 < navigator.maxTouchPoints), Gc = /Android/.test(pa), ac = oc || Gc || /webOS|BlackBerry|Opera Mini|Opera Mobi|IEMobile/i.test(pa), ya = oc || /Mac/.test(vg), sh = /\bCrOS\b/.test(pa), Fh = /win/i.test(vg), nb = Ca && pa.match(/Version\/(\d*\.\d*)/);
+    nb && (nb = Number(nb[1]));
+    nb && 15 <= nb && (Ca = false, fa = true);
+    var $f = ya && (Dh || Ca && (null == nb || 12.11 > nb)), je = Ma || G && 9 <= T, jb = function(a, b) {
+      var d2 = a.className;
+      if (b = y2(b).exec(d2)) {
+        var c = d2.slice(b.index + b[0].length);
+        a.className = d2.slice(0, b.index) + (c ? b[1] + c : "");
+      }
+    };
+    var Qb = document.createRange ? function(a, b, d2, c) {
+      var e = document.createRange();
+      e.setEnd(c || a, d2);
+      e.setStart(a, b);
+      return e;
+    } : function(a, b, d2) {
+      var c = document.body.createTextRange();
+      try {
+        c.moveToElementText(a.parentNode);
+      } catch (e) {
+        return c;
+      }
+      c.collapse(true);
+      c.moveEnd("character", d2);
+      c.moveStart("character", b);
+      return c;
+    };
+    var pc = function(a) {
+      a.select();
+    };
+    oc ? pc = function(a) {
+      a.selectionStart = 0;
+      a.selectionEnd = a.value.length;
+    } : G && (pc = function(a) {
+      try {
+        a.select();
+      } catch (b) {
+      }
+    });
+    var Xa = function() {
+      this.f = this.id = null;
+      this.time = 0;
+      this.handler = gd(this.onTimeout, this);
+    };
+    Xa.prototype.onTimeout = function(a) {
+      a.id = 0;
+      a.time <= +/* @__PURE__ */ new Date() ? a.f() : setTimeout(a.handler, a.time - +/* @__PURE__ */ new Date());
+    };
+    Xa.prototype.set = function(a, b) {
+      this.f = b;
+      b = +/* @__PURE__ */ new Date() + a;
+      if (!this.id || b < this.time)
+        clearTimeout(this.id), this.id = setTimeout(this.handler, a), this.time = b;
+    };
+    var Zc = { toString: function() {
+      return "CodeMirror.Pass";
+    } }, Ia = { scroll: false }, ke = { origin: "*mouse" }, qc = { origin: "+move" }, vc = [""], zg = /[\u00df\u0587\u0590-\u05f4\u0600-\u06ff\u3040-\u309f\u30a0-\u30ff\u3400-\u4db5\u4e00-\u9fcc\uac00-\ud7af]/, Ag = /[\u0300-\u036f\u0483-\u0489\u0591-\u05bd\u05bf\u05c1\u05c2\u05c4\u05c5\u05c7\u0610-\u061a\u064b-\u065e\u0670\u06d6-\u06dc\u06de-\u06e4\u06e7\u06e8\u06ea-\u06ed\u0711\u0730-\u074a\u07a6-\u07b0\u07eb-\u07f3\u0816-\u0819\u081b-\u0823\u0825-\u0827\u0829-\u082d\u0900-\u0902\u093c\u0941-\u0948\u094d\u0951-\u0955\u0962\u0963\u0981\u09bc\u09be\u09c1-\u09c4\u09cd\u09d7\u09e2\u09e3\u0a01\u0a02\u0a3c\u0a41\u0a42\u0a47\u0a48\u0a4b-\u0a4d\u0a51\u0a70\u0a71\u0a75\u0a81\u0a82\u0abc\u0ac1-\u0ac5\u0ac7\u0ac8\u0acd\u0ae2\u0ae3\u0b01\u0b3c\u0b3e\u0b3f\u0b41-\u0b44\u0b4d\u0b56\u0b57\u0b62\u0b63\u0b82\u0bbe\u0bc0\u0bcd\u0bd7\u0c3e-\u0c40\u0c46-\u0c48\u0c4a-\u0c4d\u0c55\u0c56\u0c62\u0c63\u0cbc\u0cbf\u0cc2\u0cc6\u0ccc\u0ccd\u0cd5\u0cd6\u0ce2\u0ce3\u0d3e\u0d41-\u0d44\u0d4d\u0d57\u0d62\u0d63\u0dca\u0dcf\u0dd2-\u0dd4\u0dd6\u0ddf\u0e31\u0e34-\u0e3a\u0e47-\u0e4e\u0eb1\u0eb4-\u0eb9\u0ebb\u0ebc\u0ec8-\u0ecd\u0f18\u0f19\u0f35\u0f37\u0f39\u0f71-\u0f7e\u0f80-\u0f84\u0f86\u0f87\u0f90-\u0f97\u0f99-\u0fbc\u0fc6\u102d-\u1030\u1032-\u1037\u1039\u103a\u103d\u103e\u1058\u1059\u105e-\u1060\u1071-\u1074\u1082\u1085\u1086\u108d\u109d\u135f\u1712-\u1714\u1732-\u1734\u1752\u1753\u1772\u1773\u17b7-\u17bd\u17c6\u17c9-\u17d3\u17dd\u180b-\u180d\u18a9\u1920-\u1922\u1927\u1928\u1932\u1939-\u193b\u1a17\u1a18\u1a56\u1a58-\u1a5e\u1a60\u1a62\u1a65-\u1a6c\u1a73-\u1a7c\u1a7f\u1b00-\u1b03\u1b34\u1b36-\u1b3a\u1b3c\u1b42\u1b6b-\u1b73\u1b80\u1b81\u1ba2-\u1ba5\u1ba8\u1ba9\u1c2c-\u1c33\u1c36\u1c37\u1cd0-\u1cd2\u1cd4-\u1ce0\u1ce2-\u1ce8\u1ced\u1dc0-\u1de6\u1dfd-\u1dff\u200c\u200d\u20d0-\u20f0\u2cef-\u2cf1\u2de0-\u2dff\u302a-\u302f\u3099\u309a\ua66f-\ua672\ua67c\ua67d\ua6f0\ua6f1\ua802\ua806\ua80b\ua825\ua826\ua8c4\ua8e0-\ua8f1\ua926-\ua92d\ua947-\ua951\ua980-\ua982\ua9b3\ua9b6-\ua9b9\ua9bc\uaa29-\uaa2e\uaa31\uaa32\uaa35\uaa36\uaa43\uaa4c\uaab0\uaab2-\uaab4\uaab7\uaab8\uaabe\uaabf\uaac1\uabe5\uabe8\uabed\udc00-\udfff\ufb1e\ufe00-\ufe0f\ufe20-\ufe26\uff9e\uff9f]/, Lb = null, Cg = function() {
+      function a(g, h2, k) {
+        this.level = g;
+        this.from = h2;
+        this.to = k;
+      }
+      var b = /[\u0590-\u05f4\u0600-\u06ff\u0700-\u08ac]/, d2 = /[stwN]/, c = /[LRr]/, e = /[Lb1n]/, f = /[1n]/;
+      return function(g, h2) {
+        var k = "ltr" == h2 ? "L" : "R";
+        if (0 == g.length || "ltr" == h2 && !b.test(g))
+          return false;
+        for (var l = g.length, m2 = [], n = 0; n < l; ++n) {
+          var p = m2, q = p.push;
+          var r = g.charCodeAt(n);
+          r = 247 >= r ? "bbbbbbbbbtstwsbbbbbbbbbbbbbbssstwNN%%%NNNNNN,N,N1111111111NNNNNNNLLLLLLLLLLLLLLLLLLLLLLLLLLNNNNNNLLLLLLLLLLLLLLLLLLLLLLLLLLNNNNbbbbbbsbbbbbbbbbbbbbbbbbbbbbbbbbb,N%%%%NNNNLNNNNN%%11NLNNN1LNNNNNLLLLLLLLLLLLLLLLLLLLLLLNLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLN".charAt(r) : 1424 <= r && 1524 >= r ? "R" : 1536 <= r && 1785 >= r ? "nnnnnnNNr%%r,rNNmmmmmmmmmmmrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrmmmmmmmmmmmmmmmmmmmmmnnnnnnnnnn%nnrrrmrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrmmmmmmmnNmmmmmmrrmmNmmmmrr1111111111".charAt(r - 1536) : 1774 <= r && 2220 >= r ? "r" : 8192 <= r && 8203 >= r ? "w" : 8204 == r ? "b" : "L";
+          q.call(p, r);
+        }
+        n = 0;
+        for (p = k; n < l; ++n)
+          q = m2[n], "m" == q ? m2[n] = p : p = q;
+        n = 0;
+        for (p = k; n < l; ++n)
+          q = m2[n], "1" == q && "r" == p ? m2[n] = "n" : c.test(q) && (p = q, "r" == q && (m2[n] = "R"));
+        n = 1;
+        for (p = m2[0]; n < l - 1; ++n)
+          q = m2[n], "+" == q && "1" == p && "1" == m2[n + 1] ? m2[n] = "1" : "," != q || p != m2[n + 1] || "1" != p && "n" != p || (m2[n] = p), p = q;
+        for (n = 0; n < l; ++n)
+          if (p = m2[n], "," == p)
+            m2[n] = "N";
+          else if ("%" == p) {
+            for (p = n + 1; p < l && "%" == m2[p]; ++p)
+              ;
+            for (q = n && "!" == m2[n - 1] || p < l && "1" == m2[p] ? "1" : "N"; n < p; ++n)
+              m2[n] = q;
+            n = p - 1;
+          }
+        n = 0;
+        for (p = k; n < l; ++n)
+          q = m2[n], "L" == p && "1" == q ? m2[n] = "L" : c.test(q) && (p = q);
+        for (p = 0; p < l; ++p)
+          if (d2.test(m2[p])) {
+            for (n = p + 1; n < l && d2.test(m2[n]); ++n)
+              ;
+            q = "L" == (p ? m2[p - 1] : k);
+            for (q = q == ("L" == (n < l ? m2[n] : k)) ? q ? "L" : "R" : k; p < n; ++p)
+              m2[p] = q;
+            p = n - 1;
+          }
+        k = [];
+        var u;
+        for (n = 0; n < l; )
+          if (e.test(m2[n])) {
+            p = n;
+            for (++n; n < l && e.test(m2[n]); ++n)
+              ;
+            k.push(new a(0, p, n));
+          } else {
+            var A = n;
+            p = k.length;
+            q = "rtl" == h2 ? 1 : 0;
+            for (++n; n < l && "L" != m2[n]; ++n)
+              ;
+            for (r = A; r < n; )
+              if (f.test(m2[r])) {
+                A < r && (k.splice(p, 0, new a(1, A, r)), p += q);
+                A = r;
+                for (++r; r < n && f.test(m2[r]); ++r)
+                  ;
+                k.splice(p, 0, new a(2, A, r));
+                p += q;
+                A = r;
+              } else
+                ++r;
+            A < n && k.splice(p, 0, new a(1, A, n));
+          }
+        "ltr" == h2 && (1 == k[0].level && (u = g.match(/^\s+/)) && (k[0].from = u[0].length, k.unshift(new a(0, 0, u[0].length))), 1 == J(k).level && (u = g.match(/\s+$/)) && (J(k).to -= u[0].length, k.push(new a(
+          0,
+          l - u[0].length,
+          l
+        ))));
+        return "rtl" == h2 ? k.reverse() : k;
+      };
+    }(), yc = [], z = function(a, b, d2) {
+      a.addEventListener ? a.addEventListener(b, d2, false) : a.attachEvent ? a.attachEvent("on" + b, d2) : (a = a._handlers || (a._handlers = {}), a[b] = (a[b] || yc).concat(d2));
+    }, th = function() {
+      if (G && 9 > T)
+        return false;
+      var a = v2("div");
+      return "draggable" in a || "dragDrop" in a;
+    }(), Bd, Ad, ne = 3 != "\n\nb".split(/\n/).length ? function(a) {
+      for (var b = 0, d2 = [], c = a.length; b <= c; ) {
+        var e = a.indexOf("\n", b);
+        -1 == e && (e = a.length);
+        var f = a.slice(b, "\r" == a.charAt(e - 1) ? e - 1 : e), g = f.indexOf("\r");
+        -1 != g ? (d2.push(f.slice(0, g)), b += g + 1) : (d2.push(f), b = e + 1);
+      }
+      return d2;
+    } : function(a) {
+      return a.split(/\r\n?|\n/);
+    }, Gh = window.getSelection ? function(a) {
+      try {
+        return a.selectionStart != a.selectionEnd;
+      } catch (b) {
+        return false;
+      }
+    } : function(a) {
+      try {
+        var b = a.ownerDocument.selection.createRange();
+      } catch (d2) {
+      }
+      return b && b.parentElement() == a ? 0 != b.compareEndPoints("StartToEnd", b) : false;
+    }, nh = function() {
+      var a = v2("div");
+      if ("oncopy" in a)
+        return true;
+      a.setAttribute("oncopy", "return;");
+      return "function" == typeof a.oncopy;
+    }(), Hd = null, md = {}, qb = {}, rb = {}, X = function(a, b, d2) {
+      this.pos = this.start = 0;
+      this.string = a;
+      this.tabSize = b || 8;
+      this.lineStart = this.lastColumnPos = this.lastColumnValue = 0;
+      this.lineOracle = d2;
+    };
+    X.prototype.eol = function() {
+      return this.pos >= this.string.length;
+    };
+    X.prototype.sol = function() {
+      return this.pos == this.lineStart;
+    };
+    X.prototype.peek = function() {
+      return this.string.charAt(this.pos) || void 0;
+    };
+    X.prototype.next = function() {
+      if (this.pos < this.string.length)
+        return this.string.charAt(this.pos++);
+    };
+    X.prototype.eat = function(a) {
+      var b = this.string.charAt(this.pos);
+      if ("string" == typeof a ? b == a : b && (a.test ? a.test(b) : a(b)))
+        return ++this.pos, b;
+    };
+    X.prototype.eatWhile = function(a) {
+      for (var b = this.pos; this.eat(a); )
+        ;
+      return this.pos > b;
+    };
+    X.prototype.eatSpace = function() {
+      for (var a = this.pos; /[\s\u00a0]/.test(this.string.charAt(this.pos)); )
+        ++this.pos;
+      return this.pos > a;
+    };
+    X.prototype.skipToEnd = function() {
+      this.pos = this.string.length;
+    };
+    X.prototype.skipTo = function(a) {
+      a = this.string.indexOf(a, this.pos);
+      if (-1 < a)
+        return this.pos = a, true;
+    };
+    X.prototype.backUp = function(a) {
+      this.pos -= a;
+    };
+    X.prototype.column = function() {
+      this.lastColumnPos < this.start && (this.lastColumnValue = wa(this.string, this.start, this.tabSize, this.lastColumnPos, this.lastColumnValue), this.lastColumnPos = this.start);
+      return this.lastColumnValue - (this.lineStart ? wa(this.string, this.lineStart, this.tabSize) : 0);
+    };
+    X.prototype.indentation = function() {
+      return wa(this.string, null, this.tabSize) - (this.lineStart ? wa(this.string, this.lineStart, this.tabSize) : 0);
+    };
+    X.prototype.match = function(a, b, d2) {
+      if ("string" == typeof a) {
+        var c = function(f) {
+          return d2 ? f.toLowerCase() : f;
+        }, e = this.string.substr(this.pos, a.length);
+        if (c(e) == c(a))
+          return false !== b && (this.pos += a.length), true;
+      } else {
+        if ((a = this.string.slice(this.pos).match(a)) && 0 < a.index)
+          return null;
+        a && false !== b && (this.pos += a[0].length);
+        return a;
+      }
+    };
+    X.prototype.current = function() {
+      return this.string.slice(this.start, this.pos);
+    };
+    X.prototype.hideFirstChars = function(a, b) {
+      this.lineStart += a;
+      try {
+        return b();
+      } finally {
+        this.lineStart -= a;
+      }
+    };
+    X.prototype.lookAhead = function(a) {
+      var b = this.lineOracle;
+      return b && b.lookAhead(a);
+    };
+    X.prototype.baseToken = function() {
+      var a = this.lineOracle;
+      return a && a.baseToken(this.pos);
+    };
+    var Cc = function(a, b) {
+      this.state = a;
+      this.lookAhead = b;
+    }, Fa = function(a, b, d2, c) {
+      this.state = b;
+      this.doc = a;
+      this.line = d2;
+      this.maxLookAhead = c || 0;
+      this.baseTokens = null;
+      this.baseTokenPos = 1;
+    };
+    Fa.prototype.lookAhead = function(a) {
+      var b = this.doc.getLine(this.line + a);
+      null != b && a > this.maxLookAhead && (this.maxLookAhead = a);
+      return b;
+    };
+    Fa.prototype.baseToken = function(a) {
+      if (!this.baseTokens)
+        return null;
+      for (; this.baseTokens[this.baseTokenPos] <= a; )
+        this.baseTokenPos += 2;
+      var b = this.baseTokens[this.baseTokenPos + 1];
+      return { type: b && b.replace(/( |^)overlay .*/, ""), size: this.baseTokens[this.baseTokenPos] - a };
+    };
+    Fa.prototype.nextLine = function() {
+      this.line++;
+      0 < this.maxLookAhead && this.maxLookAhead--;
+    };
+    Fa.fromSaved = function(a, b, d2) {
+      return b instanceof Cc ? new Fa(a, $a(a.mode, b.state), d2, b.lookAhead) : new Fa(a, $a(a.mode, b), d2);
+    };
+    Fa.prototype.save = function(a) {
+      a = false !== a ? $a(this.doc.mode, this.state) : this.state;
+      return 0 < this.maxLookAhead ? new Cc(a, this.maxLookAhead) : a;
+    };
+    var De = function(a, b, d2) {
+      this.start = a.start;
+      this.end = a.pos;
+      this.string = a.current();
+      this.type = b || null;
+      this.state = d2;
+    }, Nf = false, Ka = false, zb = function(a, b, d2) {
+      this.text = a;
+      He(this, b);
+      this.height = d2 ? d2(this) : 1;
+    };
+    zb.prototype.lineNo = function() {
+      return N(this);
+    };
+    pb(zb);
+    var Jg = {}, Ig = {}, tb = null, Rb = null, We = { left: 0, right: 0, top: 0, bottom: 0 }, fb, ob = function(a, b, d2) {
+      this.cm = d2;
+      var c = this.vert = v2("div", [v2("div", null, null, "min-width: 1px")], "CodeMirror-vscrollbar"), e = this.horiz = v2("div", [v2("div", null, null, "height: 100%; min-height: 1px")], "CodeMirror-hscrollbar");
+      c.tabIndex = e.tabIndex = -1;
+      a(c);
+      a(e);
+      z(
+        c,
+        "scroll",
+        function() {
+          c.clientHeight && b(c.scrollTop, "vertical");
+        }
+      );
+      z(e, "scroll", function() {
+        e.clientWidth && b(e.scrollLeft, "horizontal");
+      });
+      this.checkedZeroWidth = false;
+      G && 8 > T && (this.horiz.style.minHeight = this.vert.style.minWidth = "18px");
+    };
+    ob.prototype.update = function(a) {
+      var b = a.scrollWidth > a.clientWidth + 1, d2 = a.scrollHeight > a.clientHeight + 1, c = a.nativeBarWidth;
+      d2 ? (this.vert.style.display = "block", this.vert.style.bottom = b ? c + "px" : "0", this.vert.firstChild.style.height = Math.max(0, a.scrollHeight - a.clientHeight + (a.viewHeight - (b ? c : 0))) + "px") : (this.vert.scrollTop = 0, this.vert.style.display = "", this.vert.firstChild.style.height = "0");
+      b ? (this.horiz.style.display = "block", this.horiz.style.right = d2 ? c + "px" : "0", this.horiz.style.left = a.barLeft + "px", this.horiz.firstChild.style.width = Math.max(0, a.scrollWidth - a.clientWidth + (a.viewWidth - a.barLeft - (d2 ? c : 0))) + "px") : (this.horiz.style.display = "", this.horiz.firstChild.style.width = "0");
+      !this.checkedZeroWidth && 0 < a.clientHeight && (0 == c && this.zeroWidthHack(), this.checkedZeroWidth = true);
+      return { right: d2 ? c : 0, bottom: b ? c : 0 };
+    };
+    ob.prototype.setScrollLeft = function(a) {
+      this.horiz.scrollLeft != a && (this.horiz.scrollLeft = a);
+      this.disableHoriz && this.enableZeroWidthBar(this.horiz, this.disableHoriz, "horiz");
+    };
+    ob.prototype.setScrollTop = function(a) {
+      this.vert.scrollTop != a && (this.vert.scrollTop = a);
+      this.disableVert && this.enableZeroWidthBar(this.vert, this.disableVert, "vert");
+    };
+    ob.prototype.zeroWidthHack = function() {
+      this.horiz.style.height = this.vert.style.width = ya && !Eh ? "12px" : "18px";
+      this.horiz.style.visibility = this.vert.style.visibility = "hidden";
+      this.disableHoriz = new Xa();
+      this.disableVert = new Xa();
+    };
+    ob.prototype.enableZeroWidthBar = function(a, b, d2) {
+      function c() {
+        var e = a.getBoundingClientRect();
+        ("vert" == d2 ? document.elementFromPoint(e.right - 1, (e.top + e.bottom) / 2) : document.elementFromPoint((e.right + e.left) / 2, e.bottom - 1)) != a ? a.style.visibility = "hidden" : b.set(1e3, c);
+      }
+      a.style.visibility = "";
+      b.set(1e3, c);
+    };
+    ob.prototype.clear = function() {
+      var a = this.horiz.parentNode;
+      a.removeChild(this.horiz);
+      a.removeChild(this.vert);
+    };
+    var rc = function() {
+    };
+    rc.prototype.update = function() {
+      return { bottom: 0, right: 0 };
+    };
+    rc.prototype.setScrollLeft = function() {
+    };
+    rc.prototype.setScrollTop = function() {
+    };
+    rc.prototype.clear = function() {
+    };
+    var pf = { "native": ob, "null": rc }, Ug = 0, Pc = function(a, b, d2) {
+      var c = a.display;
+      this.viewport = b;
+      this.visible = Mc(c, a.doc, b);
+      this.editorIsHidden = !c.wrapper.offsetWidth;
+      this.wrapperHeight = c.wrapper.clientHeight;
+      this.wrapperWidth = c.wrapper.clientWidth;
+      this.oldDisplayWidth = cb(a);
+      this.force = d2;
+      this.dims = Gd(a);
+      this.events = [];
+    };
+    Pc.prototype.signal = function(a, b) {
+      xa(a, b) && this.events.push(arguments);
+    };
+    Pc.prototype.finish = function() {
+      for (var a = 0; a < this.events.length; a++)
+        W.apply(null, this.events[a]);
+    };
+    var Qc = 0, Na = null;
+    G ? Na = -0.53 : Ma ? Na = 15 : Qa ? Na = -0.7 : ad && (Na = -1 / 3);
+    var va = function(a, b) {
+      this.ranges = a;
+      this.primIndex = b;
+    };
+    va.prototype.primary = function() {
+      return this.ranges[this.primIndex];
+    };
+    va.prototype.equals = function(a) {
+      if (a == this)
+        return true;
+      if (a.primIndex != this.primIndex || a.ranges.length != this.ranges.length)
+        return false;
+      for (var b = 0; b < this.ranges.length; b++) {
+        var d2 = this.ranges[b], c = a.ranges[b];
+        if (!rd(d2.anchor, c.anchor) || !rd(d2.head, c.head))
+          return false;
+      }
+      return true;
+    };
+    va.prototype.deepCopy = function() {
+      for (var a = [], b = 0; b < this.ranges.length; b++)
+        a[b] = new I(sd(this.ranges[b].anchor), sd(this.ranges[b].head));
+      return new va(a, this.primIndex);
+    };
+    va.prototype.somethingSelected = function() {
+      for (var a = 0; a < this.ranges.length; a++)
+        if (!this.ranges[a].empty())
+          return true;
+      return false;
+    };
+    va.prototype.contains = function(a, b) {
+      b || (b = a);
+      for (var d2 = 0; d2 < this.ranges.length; d2++) {
+        var c = this.ranges[d2];
+        if (0 <= B(b, c.from()) && 0 >= B(a, c.to()))
+          return d2;
+      }
+      return -1;
+    };
+    var I = function(a, b) {
+      this.anchor = a;
+      this.head = b;
+    };
+    I.prototype.from = function() {
+      return Bc(this.anchor, this.head);
+    };
+    I.prototype.to = function() {
+      return Ac(this.anchor, this.head);
+    };
+    I.prototype.empty = function() {
+      return this.head.line == this.anchor.line && this.head.ch == this.anchor.ch;
+    };
+    ec.prototype = { chunkSize: function() {
+      return this.lines.length;
+    }, removeInner: function(a, b) {
+      for (var d2 = a, c = a + b; d2 < c; ++d2) {
+        var e = this.lines[d2];
+        this.height -= e.height;
+        var f = e;
+        f.parent = null;
+        Ge(f);
+        aa(e, "delete");
+      }
+      this.lines.splice(a, b);
+    }, collapse: function(a) {
+      a.push.apply(
+        a,
+        this.lines
+      );
+    }, insertInner: function(a, b, d2) {
+      this.height += d2;
+      this.lines = this.lines.slice(0, a).concat(b).concat(this.lines.slice(a));
+      for (a = 0; a < b.length; ++a)
+        b[a].parent = this;
+    }, iterN: function(a, b, d2) {
+      for (b = a + b; a < b; ++a)
+        if (d2(this.lines[a]))
+          return true;
+    } };
+    fc.prototype = { chunkSize: function() {
+      return this.size;
+    }, removeInner: function(a, b) {
+      this.size -= b;
+      for (var d2 = 0; d2 < this.children.length; ++d2) {
+        var c = this.children[d2], e = c.chunkSize();
+        if (a < e) {
+          var f = Math.min(b, e - a), g = c.height;
+          c.removeInner(a, f);
+          this.height -= g - c.height;
+          e == f && (this.children.splice(
+            d2--,
+            1
+          ), c.parent = null);
+          if (0 == (b -= f))
+            break;
+          a = 0;
+        } else
+          a -= e;
+      }
+      25 > this.size - b && (1 < this.children.length || !(this.children[0] instanceof ec)) && (a = [], this.collapse(a), this.children = [new ec(a)], this.children[0].parent = this);
+    }, collapse: function(a) {
+      for (var b = 0; b < this.children.length; ++b)
+        this.children[b].collapse(a);
+    }, insertInner: function(a, b, d2) {
+      this.size += b.length;
+      this.height += d2;
+      for (var c = 0; c < this.children.length; ++c) {
+        var e = this.children[c], f = e.chunkSize();
+        if (a <= f) {
+          e.insertInner(a, b, d2);
+          if (e.lines && 50 < e.lines.length) {
+            for (b = a = e.lines.length % 25 + 25; b < e.lines.length; )
+              d2 = new ec(e.lines.slice(b, b += 25)), e.height -= d2.height, this.children.splice(++c, 0, d2), d2.parent = this;
+            e.lines = e.lines.slice(0, a);
+            this.maybeSpill();
+          }
+          break;
+        }
+        a -= f;
+      }
+    }, maybeSpill: function() {
+      if (!(10 >= this.children.length)) {
+        var a = this;
+        do {
+          var b = a.children.splice(a.children.length - 5, 5);
+          b = new fc(b);
+          if (a.parent) {
+            a.size -= b.size;
+            a.height -= b.height;
+            var d2 = ea(a.parent.children, a);
+            a.parent.children.splice(d2 + 1, 0, b);
           } else
-            setTimeout(d2, 50);
+            d2 = new fc(a.children), d2.parent = a, a.children = [d2, b], a = d2;
+          b.parent = a.parent;
+        } while (10 < a.children.length);
+        a.parent.maybeSpill();
+      }
+    }, iterN: function(a, b, d2) {
+      for (var c = 0; c < this.children.length; ++c) {
+        var e = this.children[c], f = e.chunkSize();
+        if (a < f) {
+          f = Math.min(b, f - a);
+          if (e.iterN(a, f, d2))
+            return true;
+          if (0 == (b -= f))
+            break;
+          a = 0;
+        } else
+          a -= f;
+      }
+    } };
+    var gc = function(a, b, d2) {
+      if (d2)
+        for (var c in d2)
+          d2.hasOwnProperty(c) && (this[c] = d2[c]);
+      this.doc = a;
+      this.node = b;
+    };
+    gc.prototype.clear = function() {
+      var a = this.doc.cm, b = this.line.widgets, d2 = this.line, c = N(d2);
+      if (null != c && b) {
+        for (var e = 0; e < b.length; ++e)
+          b[e] == this && b.splice(e--, 1);
+        b.length || (d2.widgets = null);
+        var f = Tb(this);
+        Ea(d2, Math.max(0, d2.height - f));
+        a && (ra(a, function() {
+          var g = -f;
+          Ga(d2) < (a.curOp && a.curOp.scrollTop || a.doc.scrollTop) && Nc(a, g);
+          Sa(a, c, "widget");
+        }), aa(a, "lineWidgetCleared", a, this, c));
+      }
+    };
+    gc.prototype.changed = function() {
+      var a = this, b = this.height, d2 = this.doc.cm, c = this.line;
+      this.height = null;
+      var e = Tb(this) - b;
+      e && (Pa(this.doc, c) || Ea(c, c.height + e), d2 && ra(d2, function() {
+        d2.curOp.forceUpdate = true;
+        Ga(c) < (d2.curOp && d2.curOp.scrollTop || d2.doc.scrollTop) && Nc(d2, e);
+        aa(d2, "lineWidgetChanged", d2, a, N(c));
+      }));
+    };
+    pb(gc);
+    var Tf = 0, Va = function(a, b) {
+      this.lines = [];
+      this.type = b;
+      this.doc = a;
+      this.id = ++Tf;
+    };
+    Va.prototype.clear = function() {
+      if (!this.explicitlyCleared) {
+        var a = this.doc.cm, b = a && !a.curOp;
+        b && lb(a);
+        if (xa(this, "clear")) {
+          var d2 = this.find();
+          d2 && aa(this, "clear", d2.from, d2.to);
         }
-      };
-      V.prototype.readOnlyChanged = function(a) {
-        a || this.reset();
-        this.textarea.disabled = "nocursor" == a;
-        this.textarea.readOnly = !!a;
-      };
-      V.prototype.setUneditable = function() {
-      };
-      V.prototype.needsContentAttribute = false;
-      (function(a) {
-        function b(c, e, f, g) {
-          a.defaults[c] = e;
-          f && (d2[c] = g ? function(h2, k, l) {
-            l != Hb && f(h2, k, l);
-          } : f);
+        for (var c = d2 = null, e = 0; e < this.lines.length; ++e) {
+          var f = this.lines[e], g = Pb(f.markedSpans, this);
+          a && !this.collapsed ? Sa(a, N(f), "text") : a && (null != g.to && (c = N(f)), null != g.from && (d2 = N(f)));
+          for (var h2 = f, k = void 0, l = f.markedSpans, m2 = g, n = 0; n < l.length; ++n)
+            l[n] != m2 && (k || (k = [])).push(l[n]);
+          h2.markedSpans = k;
+          null == g.from && this.collapsed && !Pa(this.doc, f) && a && Ea(f, vb(a.display));
         }
-        var d2 = a.optionHandlers;
-        a.defineOption = b;
-        a.Init = Hb;
-        b("value", "", function(c, e) {
-          return c.setValue(e);
-        }, true);
-        b(
-          "mode",
-          null,
-          function(c, e) {
-            c.doc.modeOption = e;
-            $d(c);
-          },
-          true
+        if (a && this.collapsed && !a.options.lineWrapping)
+          for (e = 0; e < this.lines.length; ++e)
+            f = za(this.lines[e]), g = Ec(f), g > a.display.maxLineLength && (a.display.maxLine = f, a.display.maxLineLength = g, a.display.maxLineChanged = true);
+        null != d2 && a && this.collapsed && ma(a, d2, c + 1);
+        this.lines.length = 0;
+        this.explicitlyCleared = true;
+        this.atomic && this.doc.cantEdit && (this.doc.cantEdit = false, a && Jf(a.doc));
+        a && aa(
+          a,
+          "markerCleared",
+          a,
+          this,
+          d2,
+          c
         );
-        b("indentUnit", 2, $d, true);
-        b("indentWithTabs", false);
-        b("smartIndent", true);
-        b("tabSize", 4, function(c) {
-          bc(c);
-          Ub(c);
-          ma(c);
-        }, true);
-        b("lineSeparator", null, function(c, e) {
-          if (c.doc.lineSep = e) {
-            var f = [], g = c.doc.first;
-            c.doc.iter(function(k) {
-              for (var l = 0; ; ) {
-                var m2 = k.text.indexOf(e, l);
-                if (-1 == m2)
-                  break;
-                l = m2 + e.length;
-                f.push(t(g, m2));
-              }
-              g++;
-            });
-            for (var h2 = f.length - 1; 0 <= h2; h2--)
-              Db(c.doc, e, f[h2], t(f[h2].line, f[h2].ch + e.length));
-          }
-        });
-        b(
-          "specialChars",
-          /[\u0000-\u001f\u007f-\u009f\u00ad\u061c\u200b\u200e\u200f\u2028\u2029\u202d\u202e\u2066\u2067\u2069\ufeff\ufff9-\ufffc]/g,
-          function(c, e, f) {
-            c.state.specialChars = new RegExp(e.source + (e.test("	") ? "" : "|	"), "g");
-            f != Hb && c.refresh();
-          }
-        );
-        b("specialCharPlaceholder", Mg, function(c) {
-          return c.refresh();
-        }, true);
-        b("electricChars", true);
-        b("inputStyle", ac ? "contenteditable" : "textarea", function() {
-          throw Error("inputStyle can not (yet) be changed in a running editor");
-        }, true);
-        b("spellcheck", false, function(c, e) {
-          return c.getInputField().spellcheck = e;
-        }, true);
-        b("autocorrect", false, function(c, e) {
-          return c.getInputField().autocorrect = e;
-        }, true);
-        b(
-          "autocapitalize",
-          false,
-          function(c, e) {
-            return c.getInputField().autocapitalize = e;
-          },
-          true
-        );
-        b("rtlMoveVisually", !Fh);
-        b("wholeLineUpdateBefore", true);
-        b("theme", "default", function(c) {
-          lg(c);
-          $b(c);
-        }, true);
-        b("keyMap", "default", function(c, e, f) {
-          e = Xc(e);
-          (f = f != Hb && Xc(f)) && f.detach && f.detach(c, e);
-          e.attach && e.attach(c, f || null);
-        });
-        b("extraKeys", null);
-        b("configureMouse", null);
-        b("lineWrapping", false, yh, true);
-        b("gutters", [], function(c, e) {
-          c.display.gutterSpecs = Yd(e, c.options.lineNumbers);
-          $b(c);
-        }, true);
-        b("fixedGutter", true, function(c, e) {
-          c.display.gutters.style.left = e ? Md(c.display) + "px" : "0";
-          c.refresh();
-        }, true);
-        b("coverGutterNextToScrollbar", false, function(c) {
-          return yb(c);
-        }, true);
-        b("scrollbarStyle", "native", function(c) {
-          of(c);
-          yb(c);
-          c.display.scrollbars.setScrollTop(c.doc.scrollTop);
-          c.display.scrollbars.setScrollLeft(c.doc.scrollLeft);
-        }, true);
-        b("lineNumbers", false, function(c, e) {
-          c.display.gutterSpecs = Yd(c.options.gutters, e);
-          $b(c);
-        }, true);
-        b("firstLineNumber", 1, $b, true);
-        b("lineNumberFormatter", function(c) {
+        b && mb(a);
+        this.parent && this.parent.clear();
+      }
+    };
+    Va.prototype.find = function(a, b) {
+      null == a && "bookmark" == this.type && (a = 1);
+      for (var d2, c, e = 0; e < this.lines.length; ++e) {
+        var f = this.lines[e], g = Pb(f.markedSpans, this);
+        if (null != g.from && (d2 = t(b ? f : N(f), g.from), -1 == a))
+          return d2;
+        if (null != g.to && (c = t(b ? f : N(f), g.to), 1 == a))
           return c;
-        }, $b, true);
-        b("showCursorWhenSelecting", false, Vb, true);
-        b(
-          "resetSelectionOnContextMenu",
-          true
-        );
-        b("lineWiseCopyCut", true);
-        b("pasteLinesPerSelection", true);
-        b("selectionsMayTouch", false);
-        b("readOnly", false, function(c, e) {
-          "nocursor" == e && (wb(c), c.display.input.blur());
-          c.display.input.readOnlyChanged(e);
-        });
-        b("screenReaderLabel", null, function(c, e) {
-          c.display.input.screenReaderLabelChanged("" === e ? null : e);
-        });
-        b("disableInput", false, function(c, e) {
-          e || c.display.input.reset();
+      }
+      return d2 && { from: d2, to: c };
+    };
+    Va.prototype.changed = function() {
+      var a = this, b = this.find(-1, true), d2 = this, c = this.doc.cm;
+      b && c && ra(c, function() {
+        var e = b.line, f = N(b.line);
+        if (f = Fd(c, f))
+          Xe(f), c.curOp.selectionChanged = c.curOp.forceUpdate = true;
+        c.curOp.updateMaxLine = true;
+        Pa(d2.doc, e) || null == d2.height || (f = d2.height, d2.height = null, (f = Tb(d2) - f) && Ea(e, e.height + f));
+        aa(c, "markerChanged", c, a);
+      });
+    };
+    Va.prototype.attachLine = function(a) {
+      if (!this.lines.length && this.doc.cm) {
+        var b = this.doc.cm.curOp;
+        b.maybeHiddenMarkers && -1 != ea(b.maybeHiddenMarkers, this) || (b.maybeUnhiddenMarkers || (b.maybeUnhiddenMarkers = [])).push(this);
+      }
+      this.lines.push(a);
+    };
+    Va.prototype.detachLine = function(a) {
+      this.lines.splice(ea(this.lines, a), 1);
+      !this.lines.length && this.doc.cm && (a = this.doc.cm.curOp, (a.maybeHiddenMarkers || (a.maybeHiddenMarkers = [])).push(this));
+    };
+    pb(Va);
+    var hc = function(a, b) {
+      this.markers = a;
+      this.primary = b;
+      for (b = 0; b < a.length; ++b)
+        a[b].parent = this;
+    };
+    hc.prototype.clear = function() {
+      if (!this.explicitlyCleared) {
+        this.explicitlyCleared = true;
+        for (var a = 0; a < this.markers.length; ++a)
+          this.markers[a].clear();
+        aa(this, "clear");
+      }
+    };
+    hc.prototype.find = function(a, b) {
+      return this.primary.find(a, b);
+    };
+    pb(hc);
+    var Hh = 0, oa = function(a, b, d2, c, e) {
+      if (!(this instanceof oa))
+        return new oa(a, b, d2, c, e);
+      null == d2 && (d2 = 0);
+      fc.call(this, [new ec([new zb("", null)])]);
+      this.first = d2;
+      this.scrollTop = this.scrollLeft = 0;
+      this.cantEdit = false;
+      this.cleanGeneration = 1;
+      this.modeFrontier = this.highlightFrontier = d2;
+      d2 = t(d2, 0);
+      this.sel = Oa(d2);
+      this.history = new Rc(null);
+      this.id = ++Hh;
+      this.modeOption = b;
+      this.lineSep = c;
+      this.direction = "rtl" == e ? "rtl" : "ltr";
+      this.extend = false;
+      "string" == typeof a && (a = this.splitLines(a));
+      ae(this, { from: d2, to: d2, text: a });
+      da(this, Oa(d2), Ia);
+    };
+    oa.prototype = qe(fc.prototype, {
+      constructor: oa,
+      iter: function(a, b, d2) {
+        d2 ? this.iterN(
+          a - this.first,
+          b - a,
+          d2
+        ) : this.iterN(this.first, this.first + this.size, a);
+      },
+      insert: function(a, b) {
+        for (var d2 = 0, c = 0; c < b.length; ++c)
+          d2 += b[c].height;
+        this.insertInner(a - this.first, b, d2);
+      },
+      remove: function(a, b) {
+        this.removeInner(a - this.first, b);
+      },
+      getValue: function(a) {
+        var b = pd(this, this.first, this.first + this.size);
+        return false === a ? b : b.join(a || this.lineSeparator());
+      },
+      setValue: ca(function(a) {
+        var b = t(this.first, 0), d2 = this.first + this.size - 1;
+        Cb(this, { from: b, to: t(d2, w(this, d2).text.length), text: this.splitLines(a), origin: "setValue", full: true }, true);
+        this.cm && Wb(this.cm, 0, 0);
+        da(this, Oa(b), Ia);
+      }),
+      replaceRange: function(a, b, d2, c) {
+        b = C(this, b);
+        d2 = d2 ? C(this, d2) : b;
+        Db(this, a, b, d2, c);
+      },
+      getRange: function(a, b, d2) {
+        a = ab(this, C(this, a), C(this, b));
+        return false === d2 ? a : "" === d2 ? a.join("") : a.join(d2 || this.lineSeparator());
+      },
+      getLine: function(a) {
+        return (a = this.getLineHandle(a)) && a.text;
+      },
+      getLineHandle: function(a) {
+        if (Nb(this, a))
+          return w(this, a);
+      },
+      getLineNumber: function(a) {
+        return N(a);
+      },
+      getLineHandleVisualStart: function(a) {
+        "number" == typeof a && (a = w(this, a));
+        return za(a);
+      },
+      lineCount: function() {
+        return this.size;
+      },
+      firstLine: function() {
+        return this.first;
+      },
+      lastLine: function() {
+        return this.first + this.size - 1;
+      },
+      clipPos: function(a) {
+        return C(this, a);
+      },
+      getCursor: function(a) {
+        var b = this.sel.primary();
+        return null == a || "head" == a ? b.head : "anchor" == a ? b.anchor : "end" == a || "to" == a || false === a ? b.to() : b.from();
+      },
+      listSelections: function() {
+        return this.sel.ranges;
+      },
+      somethingSelected: function() {
+        return this.sel.somethingSelected();
+      },
+      setCursor: ca(function(a, b, d2) {
+        a = C(this, "number" == typeof a ? t(a, b || 0) : a);
+        da(this, Oa(a, null), d2);
+      }),
+      setSelection: ca(function(a, b, d2) {
+        var c = C(this, a);
+        a = C(this, b || a);
+        da(this, Oa(c, a), d2);
+      }),
+      extendSelection: ca(function(a, b, d2) {
+        Tc(this, C(this, a), b && C(this, b), d2);
+      }),
+      extendSelections: ca(function(a, b) {
+        Ff(this, xe(this, a), b);
+      }),
+      extendSelectionsBy: ca(function(a, b) {
+        a = wc(this.sel.ranges, a);
+        Ff(this, xe(this, a), b);
+      }),
+      setSelections: ca(function(a, b, d2) {
+        if (a.length) {
+          for (var c = [], e = 0; e < a.length; e++)
+            c[e] = new I(C(this, a[e].anchor), C(this, a[e].head || a[e].anchor));
+          null == b && (b = Math.min(a.length - 1, this.sel.primIndex));
+          da(this, Da(this.cm, c, b), d2);
+        }
+      }),
+      addSelection: ca(function(a, b, d2) {
+        var c = this.sel.ranges.slice(0);
+        c.push(new I(C(this, a), C(this, b || a)));
+        da(this, Da(this.cm, c, c.length - 1), d2);
+      }),
+      getSelection: function(a) {
+        for (var b = this.sel.ranges, d2, c = 0; c < b.length; c++) {
+          var e = ab(this, b[c].from(), b[c].to());
+          d2 = d2 ? d2.concat(e) : e;
+        }
+        return false === a ? d2 : d2.join(a || this.lineSeparator());
+      },
+      getSelections: function(a) {
+        for (var b = [], d2 = this.sel.ranges, c = 0; c < d2.length; c++) {
+          var e = ab(this, d2[c].from(), d2[c].to());
+          false !== a && (e = e.join(a || this.lineSeparator()));
+          b[c] = e;
+        }
+        return b;
+      },
+      replaceSelection: function(a, b, d2) {
+        for (var c = [], e = 0; e < this.sel.ranges.length; e++)
+          c[e] = a;
+        this.replaceSelections(c, b, d2 || "+input");
+      },
+      replaceSelections: ca(function(a, b, d2) {
+        for (var c = [], e = this.sel, f = 0; f < e.ranges.length; f++) {
+          var g = e.ranges[f];
+          c[f] = { from: g.from(), to: g.to(), text: this.splitLines(a[f]), origin: d2 };
+        }
+        if (a = b && "end" != b) {
+          a = [];
+          e = d2 = t(this.first, 0);
+          for (f = 0; f < c.length; f++) {
+            var h2 = c[f];
+            g = xf(h2.from, d2, e);
+            var k = xf(Ta(h2), d2, e);
+            d2 = h2.to;
+            e = k;
+            "around" == b ? (h2 = this.sel.ranges[f], h2 = 0 > B(h2.head, h2.anchor), a[f] = new I(h2 ? k : g, h2 ? g : k)) : a[f] = new I(g, g);
+          }
+          a = new va(a, this.sel.primIndex);
+        }
+        b = a;
+        for (a = c.length - 1; 0 <= a; a--)
+          Cb(this, c[a]);
+        b ? Gf(this, b) : this.cm && xb(this.cm);
+      }),
+      undo: ca(function() {
+        Wc(this, "undo");
+      }),
+      redo: ca(function() {
+        Wc(this, "redo");
+      }),
+      undoSelection: ca(function() {
+        Wc(this, "undo", true);
+      }),
+      redoSelection: ca(function() {
+        Wc(this, "redo", true);
+      }),
+      setExtending: function(a) {
+        this.extend = a;
+      },
+      getExtending: function() {
+        return this.extend;
+      },
+      historySize: function() {
+        for (var a = this.history, b = 0, d2 = 0, c = 0; c < a.done.length; c++)
+          a.done[c].ranges || ++b;
+        for (c = 0; c < a.undone.length; c++)
+          a.undone[c].ranges || ++d2;
+        return {
+          undo: b,
+          redo: d2
+        };
+      },
+      clearHistory: function() {
+        var a = this;
+        this.history = new Rc(this.history);
+        Ua(this, function(b) {
+          return b.history = a.history;
         }, true);
-        b("dragDrop", true, xh);
-        b("allowDropFileTypes", null);
-        b("cursorBlinkRate", 530);
-        b("cursorScrollMargin", 0);
-        b("cursorHeight", 1, Vb, true);
-        b(
-          "singleCursorHeightPerLine",
-          true,
-          Vb,
-          true
+      },
+      markClean: function() {
+        this.cleanGeneration = this.changeGeneration(true);
+      },
+      changeGeneration: function(a) {
+        a && (this.history.lastOp = this.history.lastSelOp = this.history.lastOrigin = null);
+        return this.history.generation;
+      },
+      isClean: function(a) {
+        return this.history.generation == (a || this.cleanGeneration);
+      },
+      getHistory: function() {
+        return { done: Ab(this.history.done), undone: Ab(this.history.undone) };
+      },
+      setHistory: function(a) {
+        var b = this.history = new Rc(this.history);
+        b.done = Ab(a.done.slice(0), null, true);
+        b.undone = Ab(a.undone.slice(0), null, true);
+      },
+      setGutterMarker: ca(function(a, b, d2) {
+        return dc(this, a, "gutter", function(c) {
+          var e = c.gutterMarkers || (c.gutterMarkers = {});
+          e[b] = d2;
+          !d2 && re2(e) && (c.gutterMarkers = null);
+          return true;
+        });
+      }),
+      clearGutter: ca(function(a) {
+        var b = this;
+        this.iter(function(d2) {
+          d2.gutterMarkers && d2.gutterMarkers[a] && dc(b, d2, "gutter", function() {
+            d2.gutterMarkers[a] = null;
+            re2(d2.gutterMarkers) && (d2.gutterMarkers = null);
+            return true;
+          });
+        });
+      }),
+      lineInfo: function(a) {
+        if ("number" == typeof a) {
+          if (!Nb(this, a))
+            return null;
+          var b = a;
+          a = w(this, a);
+          if (!a)
+            return null;
+        } else if (b = N(a), null == b)
+          return null;
+        return { line: b, handle: a, text: a.text, gutterMarkers: a.gutterMarkers, textClass: a.textClass, bgClass: a.bgClass, wrapClass: a.wrapClass, widgets: a.widgets };
+      },
+      addLineClass: ca(function(a, b, d2) {
+        return dc(this, a, "gutter" == b ? "gutter" : "class", function(c) {
+          var e = "text" == b ? "textClass" : "background" == b ? "bgClass" : "gutter" == b ? "gutterClass" : "wrapClass";
+          if (c[e]) {
+            if (y2(d2).test(c[e]))
+              return false;
+            c[e] += " " + d2;
+          } else
+            c[e] = d2;
+          return true;
+        });
+      }),
+      removeLineClass: ca(function(a, b, d2) {
+        return dc(this, a, "gutter" == b ? "gutter" : "class", function(c) {
+          var e = "text" == b ? "textClass" : "background" == b ? "bgClass" : "gutter" == b ? "gutterClass" : "wrapClass", f = c[e];
+          if (f)
+            if (null == d2)
+              c[e] = null;
+            else {
+              var g = f.match(y2(d2));
+              if (!g)
+                return false;
+              var h2 = g.index + g[0].length;
+              c[e] = f.slice(0, g.index) + (g.index && h2 != f.length ? " " : "") + f.slice(h2) || null;
+            }
+          else
+            return false;
+          return true;
+        });
+      }),
+      addLineWidget: ca(function(a, b, d2) {
+        return ch(this, a, b, d2);
+      }),
+      removeLineWidget: function(a) {
+        a.clear();
+      },
+      markText: function(a, b, d2) {
+        return Eb(this, C(this, a), C(this, b), d2, d2 && d2.type || "range");
+      },
+      setBookmark: function(a, b) {
+        b = { replacedWith: b && (null == b.nodeType ? b.widget : b), insertLeft: b && b.insertLeft, clearWhenEmpty: false, shared: b && b.shared, handleMouseEvents: b && b.handleMouseEvents };
+        a = C(this, a);
+        return Eb(this, a, a, b, "bookmark");
+      },
+      findMarksAt: function(a) {
+        a = C(this, a);
+        var b = [], d2 = w(this, a.line).markedSpans;
+        if (d2)
+          for (var c = 0; c < d2.length; ++c) {
+            var e = d2[c];
+            (null == e.from || e.from <= a.ch) && (null == e.to || e.to >= a.ch) && b.push(e.marker.parent || e.marker);
+          }
+        return b;
+      },
+      findMarks: function(a, b, d2) {
+        a = C(this, a);
+        b = C(this, b);
+        var c = [], e = a.line;
+        this.iter(a.line, b.line + 1, function(f) {
+          if (f = f.markedSpans)
+            for (var g = 0; g < f.length; g++) {
+              var h2 = f[g];
+              null != h2.to && e == a.line && a.ch >= h2.to || null == h2.from && e != a.line || null != h2.from && e == b.line && h2.from >= b.ch || d2 && !d2(h2.marker) || c.push(h2.marker.parent || h2.marker);
+            }
+          ++e;
+        });
+        return c;
+      },
+      getAllMarks: function() {
+        var a = [];
+        this.iter(function(b) {
+          if (b = b.markedSpans)
+            for (var d2 = 0; d2 < b.length; ++d2)
+              null != b[d2].from && a.push(b[d2].marker);
+        });
+        return a;
+      },
+      posFromIndex: function(a) {
+        var b, d2 = this.first, c = this.lineSeparator().length;
+        this.iter(function(e) {
+          e = e.text.length + c;
+          if (e > a)
+            return b = a, true;
+          a -= e;
+          ++d2;
+        });
+        return C(this, t(d2, b));
+      },
+      indexFromPos: function(a) {
+        a = C(this, a);
+        var b = a.ch;
+        if (a.line < this.first || 0 > a.ch)
+          return 0;
+        var d2 = this.lineSeparator().length;
+        this.iter(this.first, a.line, function(c) {
+          b += c.text.length + d2;
+        });
+        return b;
+      },
+      copy: function(a) {
+        var b = new oa(pd(this, this.first, this.first + this.size), this.modeOption, this.first, this.lineSep, this.direction);
+        b.scrollTop = this.scrollTop;
+        b.scrollLeft = this.scrollLeft;
+        b.sel = this.sel;
+        b.extend = false;
+        a && (b.history.undoDepth = this.history.undoDepth, b.setHistory(this.getHistory()));
+        return b;
+      },
+      linkedDoc: function(a) {
+        a || (a = {});
+        var b = this.first, d2 = this.first + this.size;
+        null != a.from && a.from > b && (b = a.from);
+        null != a.to && a.to < d2 && (d2 = a.to);
+        b = new oa(pd(this, b, d2), a.mode || this.modeOption, b, this.lineSep, this.direction);
+        a.sharedHist && (b.history = this.history);
+        (this.linked || (this.linked = [])).push({ doc: b, sharedHist: a.sharedHist });
+        b.linked = [{ doc: this, isParent: true, sharedHist: a.sharedHist }];
+        a = Uf(this);
+        for (d2 = 0; d2 < a.length; d2++) {
+          var c = a[d2], e = c.find(), f = b.clipPos(e.from);
+          e = b.clipPos(e.to);
+          B(f, e) && (f = Eb(b, f, e, c.primary, c.primary.type), c.markers.push(f), f.parent = c);
+        }
+        return b;
+      },
+      unlinkDoc: function(a) {
+        a instanceof U && (a = a.doc);
+        if (this.linked) {
+          for (var b = 0; b < this.linked.length; ++b)
+            if (this.linked[b].doc == a) {
+              this.linked.splice(b, 1);
+              a.unlinkDoc(this);
+              eh(Uf(this));
+              break;
+            }
+        }
+        if (a.history == this.history) {
+          var d2 = [a.id];
+          Ua(a, function(c) {
+            return d2.push(c.id);
+          }, true);
+          a.history = new Rc(null);
+          a.history.done = Ab(this.history.done, d2);
+          a.history.undone = Ab(this.history.undone, d2);
+        }
+      },
+      iterLinkedDocs: function(a) {
+        Ua(this, a);
+      },
+      getMode: function() {
+        return this.mode;
+      },
+      getEditor: function() {
+        return this.cm;
+      },
+      splitLines: function(a) {
+        return this.lineSep ? a.split(this.lineSep) : ne(a);
+      },
+      lineSeparator: function() {
+        return this.lineSep || "\n";
+      },
+      setDirection: ca(function(a) {
+        "rtl" != a && (a = "ltr");
+        a != this.direction && (this.direction = a, this.iter(function(b) {
+          return b.order = null;
+        }), this.cm && $g(this.cm));
+      })
+    });
+    oa.prototype.eachLine = oa.prototype.iter;
+    for (var Wf = 0, ng = false, Wa = {
+      3: "Pause",
+      8: "Backspace",
+      9: "Tab",
+      13: "Enter",
+      16: "Shift",
+      17: "Ctrl",
+      18: "Alt",
+      19: "Pause",
+      20: "CapsLock",
+      27: "Esc",
+      32: "Space",
+      33: "PageUp",
+      34: "PageDown",
+      35: "End",
+      36: "Home",
+      37: "Left",
+      38: "Up",
+      39: "Right",
+      40: "Down",
+      44: "PrintScrn",
+      45: "Insert",
+      46: "Delete",
+      59: ";",
+      61: "=",
+      91: "Mod",
+      92: "Mod",
+      93: "Mod",
+      106: "*",
+      107: "=",
+      109: "-",
+      110: ".",
+      111: "/",
+      145: "ScrollLock",
+      173: "-",
+      186: ";",
+      187: "=",
+      188: ",",
+      189: "-",
+      190: ".",
+      191: "/",
+      192: "`",
+      219: "[",
+      220: "\\",
+      221: "]",
+      222: "'",
+      224: "Mod",
+      63232: "Up",
+      63233: "Down",
+      63234: "Left",
+      63235: "Right",
+      63272: "Delete",
+      63273: "Home",
+      63275: "End",
+      63276: "PageUp",
+      63277: "PageDown",
+      63302: "Insert"
+    }, sc = 0; 10 > sc; sc++)
+      Wa[sc + 48] = Wa[sc + 96] = String(sc);
+    for (var ed = 65; 90 >= ed; ed++)
+      Wa[ed] = String.fromCharCode(ed);
+    for (var tc = 1; 12 >= tc; tc++)
+      Wa[tc + 111] = Wa[tc + 63235] = "F" + tc;
+    var ic = { basic: {
+      Left: "goCharLeft",
+      Right: "goCharRight",
+      Up: "goLineUp",
+      Down: "goLineDown",
+      End: "goLineEnd",
+      Home: "goLineStartSmart",
+      PageUp: "goPageUp",
+      PageDown: "goPageDown",
+      Delete: "delCharAfter",
+      Backspace: "delCharBefore",
+      "Shift-Backspace": "delCharBefore",
+      Tab: "defaultTab",
+      "Shift-Tab": "indentAuto",
+      Enter: "newlineAndIndent",
+      Insert: "toggleOverwrite",
+      Esc: "singleSelection"
+    }, pcDefault: {
+      "Ctrl-A": "selectAll",
+      "Ctrl-D": "deleteLine",
+      "Ctrl-Z": "undo",
+      "Shift-Ctrl-Z": "redo",
+      "Ctrl-Y": "redo",
+      "Ctrl-Home": "goDocStart",
+      "Ctrl-End": "goDocEnd",
+      "Ctrl-Up": "goLineUp",
+      "Ctrl-Down": "goLineDown",
+      "Ctrl-Left": "goGroupLeft",
+      "Ctrl-Right": "goGroupRight",
+      "Alt-Left": "goLineStart",
+      "Alt-Right": "goLineEnd",
+      "Ctrl-Backspace": "delGroupBefore",
+      "Ctrl-Delete": "delGroupAfter",
+      "Ctrl-S": "save",
+      "Ctrl-F": "find",
+      "Ctrl-G": "findNext",
+      "Shift-Ctrl-G": "findPrev",
+      "Shift-Ctrl-F": "replace",
+      "Shift-Ctrl-R": "replaceAll",
+      "Ctrl-[": "indentLess",
+      "Ctrl-]": "indentMore",
+      "Ctrl-U": "undoSelection",
+      "Shift-Ctrl-U": "redoSelection",
+      "Alt-U": "redoSelection",
+      fallthrough: "basic"
+    }, emacsy: {
+      "Ctrl-F": "goCharRight",
+      "Ctrl-B": "goCharLeft",
+      "Ctrl-P": "goLineUp",
+      "Ctrl-N": "goLineDown",
+      "Ctrl-A": "goLineStart",
+      "Ctrl-E": "goLineEnd",
+      "Ctrl-V": "goPageDown",
+      "Shift-Ctrl-V": "goPageUp",
+      "Ctrl-D": "delCharAfter",
+      "Ctrl-H": "delCharBefore",
+      "Alt-Backspace": "delWordBefore",
+      "Ctrl-K": "killLine",
+      "Ctrl-T": "transposeChars",
+      "Ctrl-O": "openLine"
+    }, macDefault: {
+      "Cmd-A": "selectAll",
+      "Cmd-D": "deleteLine",
+      "Cmd-Z": "undo",
+      "Shift-Cmd-Z": "redo",
+      "Cmd-Y": "redo",
+      "Cmd-Home": "goDocStart",
+      "Cmd-Up": "goDocStart",
+      "Cmd-End": "goDocEnd",
+      "Cmd-Down": "goDocEnd",
+      "Alt-Left": "goGroupLeft",
+      "Alt-Right": "goGroupRight",
+      "Cmd-Left": "goLineLeft",
+      "Cmd-Right": "goLineRight",
+      "Alt-Backspace": "delGroupBefore",
+      "Ctrl-Alt-Backspace": "delGroupAfter",
+      "Alt-Delete": "delGroupAfter",
+      "Cmd-S": "save",
+      "Cmd-F": "find",
+      "Cmd-G": "findNext",
+      "Shift-Cmd-G": "findPrev",
+      "Cmd-Alt-F": "replace",
+      "Shift-Cmd-Alt-F": "replaceAll",
+      "Cmd-[": "indentLess",
+      "Cmd-]": "indentMore",
+      "Cmd-Backspace": "delWrappedLineLeft",
+      "Cmd-Delete": "delWrappedLineRight",
+      "Cmd-U": "undoSelection",
+      "Shift-Cmd-U": "redoSelection",
+      "Ctrl-Up": "goDocStart",
+      "Ctrl-Down": "goDocEnd",
+      fallthrough: ["basic", "emacsy"]
+    } };
+    ic["default"] = ya ? ic.macDefault : ic.pcDefault;
+    var jc = {
+      selectAll: Lf,
+      singleSelection: function(a) {
+        return a.setSelection(a.getCursor("anchor"), a.getCursor("head"), Ia);
+      },
+      killLine: function(a) {
+        return Gb(a, function(b) {
+          if (b.empty()) {
+            var d2 = w(a.doc, b.head.line).text.length;
+            return b.head.ch == d2 && b.head.line < a.lastLine() ? { from: b.head, to: t(b.head.line + 1, 0) } : { from: b.head, to: t(b.head.line, d2) };
+          }
+          return { from: b.from(), to: b.to() };
+        });
+      },
+      deleteLine: function(a) {
+        return Gb(a, function(b) {
+          return { from: t(b.from().line, 0), to: C(a.doc, t(b.to().line + 1, 0)) };
+        });
+      },
+      delLineLeft: function(a) {
+        return Gb(a, function(b) {
+          return { from: t(b.from().line, 0), to: b.from() };
+        });
+      },
+      delWrappedLineLeft: function(a) {
+        return Gb(a, function(b) {
+          var d2 = a.charCoords(b.head, "div").top + 5;
+          return { from: a.coordsChar({
+            left: 0,
+            top: d2
+          }, "div"), to: b.from() };
+        });
+      },
+      delWrappedLineRight: function(a) {
+        return Gb(a, function(b) {
+          var d2 = a.charCoords(b.head, "div").top + 5;
+          d2 = a.coordsChar({ left: a.display.lineDiv.offsetWidth + 100, top: d2 }, "div");
+          return { from: b.from(), to: d2 };
+        });
+      },
+      undo: function(a) {
+        return a.undo();
+      },
+      redo: function(a) {
+        return a.redo();
+      },
+      undoSelection: function(a) {
+        return a.undoSelection();
+      },
+      redoSelection: function(a) {
+        return a.redoSelection();
+      },
+      goDocStart: function(a) {
+        return a.extendSelection(t(a.firstLine(), 0));
+      },
+      goDocEnd: function(a) {
+        return a.extendSelection(t(a.lastLine()));
+      },
+      goLineStart: function(a) {
+        return a.extendSelectionsBy(function(b) {
+          return bg(a, b.head.line);
+        }, { origin: "+move", bias: 1 });
+      },
+      goLineStartSmart: function(a) {
+        return a.extendSelectionsBy(function(b) {
+          return cg(a, b.head);
+        }, { origin: "+move", bias: 1 });
+      },
+      goLineEnd: function(a) {
+        return a.extendSelectionsBy(function(b) {
+          b = b.head.line;
+          var d2 = w(a.doc, b);
+          var c = d2;
+          for (var e; e = sb(c, false); )
+            c = e.find(1, true).line;
+          c != d2 && (b = N(c));
+          return ge(true, a, d2, b, -1);
+        }, { origin: "+move", bias: -1 });
+      },
+      goLineRight: function(a) {
+        return a.extendSelectionsBy(function(b) {
+          b = a.cursorCoords(b.head, "div").top + 5;
+          return a.coordsChar({ left: a.display.lineDiv.offsetWidth + 100, top: b }, "div");
+        }, qc);
+      },
+      goLineLeft: function(a) {
+        return a.extendSelectionsBy(function(b) {
+          b = a.cursorCoords(b.head, "div").top + 5;
+          return a.coordsChar({ left: 0, top: b }, "div");
+        }, qc);
+      },
+      goLineLeftSmart: function(a) {
+        return a.extendSelectionsBy(function(b) {
+          var d2 = a.cursorCoords(b.head, "div").top + 5;
+          d2 = a.coordsChar({ left: 0, top: d2 }, "div");
+          return d2.ch < a.getLine(d2.line).search(/\S/) ? cg(a, b.head) : d2;
+        }, qc);
+      },
+      goLineUp: function(a) {
+        return a.moveV(
+          -1,
+          "line"
         );
-        b("workTime", 100);
-        b("workDelay", 100);
-        b("flattenSpans", true, bc, true);
-        b("addModeClass", false, bc, true);
-        b("pollInterval", 100);
-        b("undoDepth", 200, function(c, e) {
-          return c.doc.history.undoDepth = e;
-        });
-        b("historyEventDelay", 1250);
-        b("viewportMargin", 10, function(c) {
-          return c.refresh();
-        }, true);
-        b("maxHighlightLength", 1e4, bc, true);
-        b("moveInputWithCursor", true, function(c, e) {
-          e || c.display.input.resetPosition();
-        });
-        b("tabindex", null, function(c, e) {
-          return c.display.input.getField().tabIndex = e || "";
-        });
-        b("autofocus", null);
-        b(
-          "direction",
-          "ltr",
-          function(c, e) {
-            return c.doc.setDirection(e);
-          },
-          true
+      },
+      goLineDown: function(a) {
+        return a.moveV(1, "line");
+      },
+      goPageUp: function(a) {
+        return a.moveV(-1, "page");
+      },
+      goPageDown: function(a) {
+        return a.moveV(1, "page");
+      },
+      goCharLeft: function(a) {
+        return a.moveH(-1, "char");
+      },
+      goCharRight: function(a) {
+        return a.moveH(1, "char");
+      },
+      goColumnLeft: function(a) {
+        return a.moveH(-1, "column");
+      },
+      goColumnRight: function(a) {
+        return a.moveH(1, "column");
+      },
+      goWordLeft: function(a) {
+        return a.moveH(-1, "word");
+      },
+      goGroupRight: function(a) {
+        return a.moveH(1, "group");
+      },
+      goGroupLeft: function(a) {
+        return a.moveH(
+          -1,
+          "group"
         );
-        b("phrases", null);
-      })(U);
-      (function(a) {
-        var b = a.optionHandlers, d2 = a.helpers = {};
-        a.prototype = {
-          constructor: a,
-          focus: function() {
-            qa(this).defaultView.focus();
-            this.display.input.focus();
-          },
-          setOption: function(c, e) {
-            var f = this.options, g = f[c];
-            if (f[c] != e || "mode" == c)
-              f[c] = e, b.hasOwnProperty(c) && ba(this, b[c])(this, e, g), W(this, "optionChange", this, c);
-          },
-          getOption: function(c) {
-            return this.options[c];
-          },
-          getDoc: function() {
-            return this.doc;
-          },
-          addKeyMap: function(c, e) {
-            this.state.keyMaps[e ? "push" : "unshift"](Xc(c));
-          },
-          removeKeyMap: function(c) {
-            for (var e = this.state.keyMaps, f = 0; f < e.length; ++f)
-              if (e[f] == c || e[f].name == c)
-                return e.splice(f, 1), true;
-          },
-          addOverlay: ia(function(c, e) {
-            var f = c.token ? c : a.getMode(this.options, c);
-            if (f.startState)
-              throw Error("Overlays may not be stateful.");
-            yg(this.state.overlays, { mode: f, modeSpec: c, opaque: e && e.opaque, priority: e && e.priority || 0 }, function(g) {
-              return g.priority;
+      },
+      goWordRight: function(a) {
+        return a.moveH(1, "word");
+      },
+      delCharBefore: function(a) {
+        return a.deleteH(-1, "codepoint");
+      },
+      delCharAfter: function(a) {
+        return a.deleteH(1, "char");
+      },
+      delWordBefore: function(a) {
+        return a.deleteH(-1, "word");
+      },
+      delWordAfter: function(a) {
+        return a.deleteH(1, "word");
+      },
+      delGroupBefore: function(a) {
+        return a.deleteH(-1, "group");
+      },
+      delGroupAfter: function(a) {
+        return a.deleteH(1, "group");
+      },
+      indentAuto: function(a) {
+        return a.indentSelection("smart");
+      },
+      indentMore: function(a) {
+        return a.indentSelection("add");
+      },
+      indentLess: function(a) {
+        return a.indentSelection("subtract");
+      },
+      insertTab: function(a) {
+        return a.replaceSelection("	");
+      },
+      insertSoftTab: function(a) {
+        for (var b = [], d2 = a.listSelections(), c = a.options.tabSize, e = 0; e < d2.length; e++) {
+          var f = d2[e].from();
+          f = wa(a.getLine(f.line), f.ch, c);
+          b.push(id(c - f % c));
+        }
+        a.replaceSelections(b);
+      },
+      defaultTab: function(a) {
+        a.somethingSelected() ? a.indentSelection("add") : a.execCommand("insertTab");
+      },
+      transposeChars: function(a) {
+        return ra(a, function() {
+          for (var b = a.listSelections(), d2 = [], c = 0; c < b.length; c++)
+            if (b[c].empty()) {
+              var e = b[c].head, f = w(a.doc, e.line).text;
+              if (f) {
+                if (e.ch == f.length && (e = new t(e.line, e.ch - 1)), 0 < e.ch)
+                  e = new t(e.line, e.ch + 1), a.replaceRange(f.charAt(e.ch - 1) + f.charAt(e.ch - 2), t(e.line, e.ch - 2), e, "+transpose");
+                else if (e.line > a.doc.first) {
+                  var g = w(a.doc, e.line - 1).text;
+                  g && (e = new t(e.line, 1), a.replaceRange(f.charAt(0) + a.doc.lineSeparator() + g.charAt(g.length - 1), t(e.line - 1, g.length - 1), e, "+transpose"));
+                }
+              }
+              d2.push(new I(e, e));
+            }
+          a.setSelections(d2);
+        });
+      },
+      newlineAndIndent: function(a) {
+        return ra(a, function() {
+          for (var b = a.listSelections(), d2 = b.length - 1; 0 <= d2; d2--)
+            a.replaceRange(a.doc.lineSeparator(), b[d2].anchor, b[d2].head, "+input");
+          b = a.listSelections();
+          for (d2 = 0; d2 < b.length; d2++)
+            a.indentLine(b[d2].from().line, null, true);
+          xb(a);
+        });
+      },
+      openLine: function(a) {
+        return a.replaceSelection("\n", "start");
+      },
+      toggleOverwrite: function(a) {
+        return a.toggleOverwrite();
+      }
+    }, lh = new Xa(), he = null, ie = function(a, b, d2) {
+      this.time = a;
+      this.pos = b;
+      this.button = d2;
+    };
+    ie.prototype.compare = function(a, b, d2) {
+      return this.time + 400 > a && 0 == B(b, this.pos) && d2 == this.button;
+    };
+    var mc, lc, Hb = { toString: function() {
+      return "CodeMirror.Init";
+    } }, mg = {}, bd = {};
+    U.defaults = mg;
+    U.optionHandlers = bd;
+    var le = [];
+    U.defineInitHook = function(a) {
+      return le.push(a);
+    };
+    var sa = null, O = function(a) {
+      this.cm = a;
+      this.lastAnchorNode = this.lastAnchorOffset = this.lastFocusNode = this.lastFocusOffset = null;
+      this.polling = new Xa();
+      this.composing = null;
+      this.gracePeriod = false;
+      this.readDOMTimeout = null;
+    };
+    O.prototype.init = function(a) {
+      function b(h2) {
+        for (h2 = h2.target; h2; h2 = h2.parentNode) {
+          if (h2 == g)
+            return true;
+          if (/\bCodeMirror-(?:line)?widget\b/.test(h2.className))
+            break;
+        }
+        return false;
+      }
+      function d2(h2) {
+        if (b(h2) && !Z(
+          f,
+          h2
+        )) {
+          if (f.somethingSelected())
+            sa = { lineWise: false, text: f.getSelections() }, "cut" == h2.type && f.replaceSelection("", null, "cut");
+          else if (f.options.lineWiseCopyCut) {
+            var k = qg(f);
+            sa = { lineWise: true, text: k.text };
+            "cut" == h2.type && f.operation(function() {
+              f.setSelections(k.ranges, 0, Ia);
+              f.replaceSelection("", null, "cut");
             });
-            this.state.modeGen++;
-            ma(this);
-          }),
-          removeOverlay: ia(function(c) {
-            for (var e = this.state.overlays, f = 0; f < e.length; ++f) {
-              var g = e[f].modeSpec;
-              if (g == c || "string" == typeof c && g.name == c) {
-                e.splice(f, 1);
-                this.state.modeGen++;
-                ma(this);
+          } else
+            return;
+          if (h2.clipboardData) {
+            h2.clipboardData.clearData();
+            var l = sa.text.join("\n");
+            h2.clipboardData.setData("Text", l);
+            if (h2.clipboardData.getData("Text") == l) {
+              h2.preventDefault();
+              return;
+            }
+          }
+          var m2 = sg();
+          h2 = m2.firstChild;
+          f.display.lineSpace.insertBefore(m2, f.display.lineSpace.firstChild);
+          h2.value = sa.text.join("\n");
+          var n = ka(g.ownerDocument);
+          pc(h2);
+          setTimeout(function() {
+            f.display.lineSpace.removeChild(m2);
+            n.focus();
+            n == g && e.showPrimarySelection();
+          }, 50);
+        }
+      }
+      var c = this, e = this, f = e.cm, g = e.div = a.lineDiv;
+      g.contentEditable = true;
+      rg(g, f.options.spellcheck, f.options.autocorrect, f.options.autocapitalize);
+      z(g, "paste", function(h2) {
+        !b(h2) || Z(f, h2) || pg(h2, f) || 11 >= T && setTimeout(ba(f, function() {
+          return c.updateFromDOM();
+        }), 20);
+      });
+      z(
+        g,
+        "compositionstart",
+        function(h2) {
+          c.composing = { data: h2.data, done: false };
+        }
+      );
+      z(g, "compositionupdate", function(h2) {
+        c.composing || (c.composing = { data: h2.data, done: false });
+      });
+      z(g, "compositionend", function(h2) {
+        c.composing && (h2.data != c.composing.data && c.readFromDOMSoon(), c.composing.done = true);
+      });
+      z(g, "touchstart", function() {
+        return e.forceCompositionEnd();
+      });
+      z(g, "input", function() {
+        c.composing || c.readFromDOMSoon();
+      });
+      z(g, "copy", d2);
+      z(g, "cut", d2);
+    };
+    O.prototype.screenReaderLabelChanged = function(a) {
+      a ? this.div.setAttribute("aria-label", a) : this.div.removeAttribute("aria-label");
+    };
+    O.prototype.prepareSelection = function() {
+      var a = gf(this.cm, false);
+      a.focus = ka(this.div.ownerDocument) == this.div;
+      return a;
+    };
+    O.prototype.showSelection = function(a, b) {
+      a && this.cm.display.view.length && ((a.focus || b) && this.showPrimarySelection(), this.showMultipleSelections(a));
+    };
+    O.prototype.getSelection = function() {
+      return this.cm.display.wrapper.ownerDocument.getSelection();
+    };
+    O.prototype.showPrimarySelection = function() {
+      var a = this.getSelection(), b = this.cm, d2 = b.doc.sel.primary(), c = d2.from();
+      d2 = d2.to();
+      if (b.display.viewTo == b.display.viewFrom || c.line >= b.display.viewTo || d2.line < b.display.viewFrom)
+        a.removeAllRanges();
+      else {
+        var e = cd(b, a.anchorNode, a.anchorOffset), f = cd(b, a.focusNode, a.focusOffset);
+        if (!e || e.bad || !f || f.bad || 0 != B(Bc(e, f), c) || 0 != B(Ac(e, f), d2))
+          if (e = b.display.view, c = c.line >= b.display.viewFrom && ug(b, c) || { node: e[0].measure.map[2], offset: 0 }, d2 = d2.line < b.display.viewTo && ug(b, d2), d2 || (d2 = e[e.length - 1].measure, d2 = d2.maps ? d2.maps[d2.maps.length - 1] : d2.map, d2 = { node: d2[d2.length - 1], offset: d2[d2.length - 2] - d2[d2.length - 3] }), c && d2) {
+            e = a.rangeCount && a.getRangeAt(0);
+            try {
+              var g = Qb(c.node, c.offset, d2.offset, d2.node);
+            } catch (h2) {
+            }
+            g && (!Ma && b.state.focused ? (a.collapse(c.node, c.offset), g.collapsed || (a.removeAllRanges(), a.addRange(g))) : (a.removeAllRanges(), a.addRange(g)), e && null == a.anchorNode ? a.addRange(e) : Ma && this.startGracePeriod());
+            this.rememberSelection();
+          } else
+            a.removeAllRanges();
+      }
+    };
+    O.prototype.startGracePeriod = function() {
+      var a = this;
+      clearTimeout(this.gracePeriod);
+      this.gracePeriod = setTimeout(function() {
+        a.gracePeriod = false;
+        a.selectionChanged() && a.cm.operation(function() {
+          return a.cm.curOp.selectionChanged = true;
+        });
+      }, 20);
+    };
+    O.prototype.showMultipleSelections = function(a) {
+      D(this.cm.display.cursorDiv, a.cursors);
+      D(this.cm.display.selectionDiv, a.selection);
+    };
+    O.prototype.rememberSelection = function() {
+      var a = this.getSelection();
+      this.lastAnchorNode = a.anchorNode;
+      this.lastAnchorOffset = a.anchorOffset;
+      this.lastFocusNode = a.focusNode;
+      this.lastFocusOffset = a.focusOffset;
+    };
+    O.prototype.selectionInEditor = function() {
+      var a = this.getSelection();
+      if (!a.rangeCount)
+        return false;
+      a = a.getRangeAt(0).commonAncestorContainer;
+      return ja(this.div, a);
+    };
+    O.prototype.focus = function() {
+      "nocursor" != this.cm.options.readOnly && (this.selectionInEditor() && ka(this.div.ownerDocument) == this.div || this.showSelection(this.prepareSelection(), true), this.div.focus());
+    };
+    O.prototype.blur = function() {
+      this.div.blur();
+    };
+    O.prototype.getField = function() {
+      return this.div;
+    };
+    O.prototype.supportsTouch = function() {
+      return true;
+    };
+    O.prototype.receivedFocus = function() {
+      function a() {
+        d2.cm.state.focused && (d2.pollSelection(), d2.polling.set(d2.cm.options.pollInterval, a));
+      }
+      var b = this, d2 = this;
+      this.selectionInEditor() ? setTimeout(function() {
+        return b.pollSelection();
+      }, 20) : ra(this.cm, function() {
+        return d2.cm.curOp.selectionChanged = true;
+      });
+      this.polling.set(this.cm.options.pollInterval, a);
+    };
+    O.prototype.selectionChanged = function() {
+      var a = this.getSelection();
+      return a.anchorNode != this.lastAnchorNode || a.anchorOffset != this.lastAnchorOffset || a.focusNode != this.lastFocusNode || a.focusOffset != this.lastFocusOffset;
+    };
+    O.prototype.pollSelection = function() {
+      if (null == this.readDOMTimeout && !this.gracePeriod && this.selectionChanged()) {
+        var a = this.getSelection(), b = this.cm;
+        if (Gc && Qa && this.cm.display.gutterSpecs.length && Ah(a.anchorNode))
+          this.cm.triggerOnKeyDown({ type: "keydown", keyCode: 8, preventDefault: Math.abs }), this.blur(), this.focus();
+        else if (!this.composing) {
+          this.rememberSelection();
+          var d2 = cd(b, a.anchorNode, a.anchorOffset), c = cd(b, a.focusNode, a.focusOffset);
+          d2 && c && ra(b, function() {
+            da(b.doc, Oa(d2, c), Ia);
+            if (d2.bad || c.bad)
+              b.curOp.selectionChanged = true;
+          });
+        }
+      }
+    };
+    O.prototype.pollContent = function() {
+      null != this.readDOMTimeout && (clearTimeout(this.readDOMTimeout), this.readDOMTimeout = null);
+      var a = this.cm, b = a.display, d2 = a.doc.sel.primary(), c = d2.from(), e = d2.to();
+      0 == c.ch && c.line > a.firstLine() && (c = t(c.line - 1, w(a.doc, c.line - 1).length));
+      e.ch == w(a.doc, e.line).text.length && e.line < a.lastLine() && (e = t(e.line + 1, 0));
+      if (c.line < b.viewFrom || e.line > b.viewTo - 1)
+        return false;
+      var f;
+      c.line == b.viewFrom || 0 == (f = db(a, c.line)) ? (d2 = N(b.view[0].line), f = b.view[0].node) : (d2 = N(b.view[f].line), f = b.view[f - 1].node.nextSibling);
+      var g = db(a, e.line);
+      g == b.view.length - 1 ? (e = b.viewTo - 1, b = b.lineDiv.lastChild) : (e = N(b.view[g + 1].line) - 1, b = b.view[g + 1].node.previousSibling);
+      if (!f)
+        return false;
+      b = a.doc.splitLines(Bh(a, f, b, d2, e));
+      for (f = ab(a.doc, t(d2, 0), t(e, w(a.doc, e).text.length)); 1 < b.length && 1 < f.length; )
+        if (J(b) == J(f))
+          b.pop(), f.pop(), e--;
+        else if (b[0] == f[0])
+          b.shift(), f.shift(), d2++;
+        else
+          break;
+      var h2 = 0;
+      g = 0;
+      for (var k = b[0], l = f[0], m2 = Math.min(k.length, l.length); h2 < m2 && k.charCodeAt(h2) == l.charCodeAt(h2); )
+        ++h2;
+      k = J(b);
+      l = J(f);
+      for (m2 = Math.min(k.length - (1 == b.length ? h2 : 0), l.length - (1 == f.length ? h2 : 0)); g < m2 && k.charCodeAt(k.length - g - 1) == l.charCodeAt(l.length - g - 1); )
+        ++g;
+      if (1 == b.length && 1 == f.length && d2 == c.line)
+        for (; h2 && h2 > c.ch && k.charCodeAt(k.length - g - 1) == l.charCodeAt(l.length - g - 1); )
+          h2--, g++;
+      b[b.length - 1] = k.slice(0, k.length - g).replace(/^\u200b+/, "");
+      b[0] = b[0].slice(h2).replace(/\u200b+$/, "");
+      c = t(d2, h2);
+      d2 = t(e, f.length ? J(f).length - g : 0);
+      if (1 < b.length || b[0] || B(c, d2))
+        return Db(a.doc, b, c, d2, "+input"), true;
+    };
+    O.prototype.ensurePolled = function() {
+      this.forceCompositionEnd();
+    };
+    O.prototype.reset = function() {
+      this.forceCompositionEnd();
+    };
+    O.prototype.forceCompositionEnd = function() {
+      this.composing && (clearTimeout(this.readDOMTimeout), this.composing = null, this.updateFromDOM(), this.div.blur(), this.div.focus());
+    };
+    O.prototype.readFromDOMSoon = function() {
+      var a = this;
+      null == this.readDOMTimeout && (this.readDOMTimeout = setTimeout(function() {
+        a.readDOMTimeout = null;
+        if (a.composing)
+          if (a.composing.done)
+            a.composing = null;
+          else
+            return;
+        a.updateFromDOM();
+      }, 80));
+    };
+    O.prototype.updateFromDOM = function() {
+      var a = this;
+      !this.cm.isReadOnly() && this.pollContent() || ra(this.cm, function() {
+        return ma(a.cm);
+      });
+    };
+    O.prototype.setUneditable = function(a) {
+      a.contentEditable = "false";
+    };
+    O.prototype.onKeyPress = function(a) {
+      0 == a.charCode || this.composing || (a.preventDefault(), this.cm.isReadOnly() || ba(this.cm, me)(this.cm, String.fromCharCode(null == a.charCode ? a.keyCode : a.charCode), 0));
+    };
+    O.prototype.readOnlyChanged = function(a) {
+      this.div.contentEditable = String("nocursor" != a);
+    };
+    O.prototype.onContextMenu = function() {
+    };
+    O.prototype.resetPosition = function() {
+    };
+    O.prototype.needsContentAttribute = true;
+    var V = function(a) {
+      this.cm = a;
+      this.prevInput = "";
+      this.pollingFast = false;
+      this.polling = new Xa();
+      this.hasSelection = false;
+      this.composing = null;
+      this.resetting = false;
+    };
+    V.prototype.init = function(a) {
+      function b(g) {
+        if (!Z(e, g)) {
+          if (e.somethingSelected())
+            sa = { lineWise: false, text: e.getSelections() };
+          else if (e.options.lineWiseCopyCut) {
+            var h2 = qg(e);
+            sa = { lineWise: true, text: h2.text };
+            "cut" == g.type ? e.setSelections(h2.ranges, null, Ia) : (c.prevInput = "", f.value = h2.text.join("\n"), pc(f));
+          } else
+            return;
+          "cut" == g.type && (e.state.cutIncoming = +/* @__PURE__ */ new Date());
+        }
+      }
+      var d2 = this, c = this, e = this.cm;
+      this.createField(a);
+      var f = this.textarea;
+      a.wrapper.insertBefore(this.wrapper, a.wrapper.firstChild);
+      oc && (f.style.width = "0px");
+      z(f, "input", function() {
+        G && 9 <= T && d2.hasSelection && (d2.hasSelection = null);
+        c.poll();
+      });
+      z(f, "paste", function(g) {
+        Z(e, g) || pg(g, e) || (e.state.pasteIncoming = +/* @__PURE__ */ new Date(), c.fastPoll());
+      });
+      z(f, "cut", b);
+      z(f, "copy", b);
+      z(a.scroller, "paste", function(g) {
+        if (!La(a, g) && !Z(e, g))
+          if (f.dispatchEvent) {
+            var h2 = new Event("paste");
+            h2.clipboardData = g.clipboardData;
+            f.dispatchEvent(h2);
+          } else
+            e.state.pasteIncoming = +/* @__PURE__ */ new Date(), c.focus();
+      });
+      z(a.lineSpace, "selectstart", function(g) {
+        La(a, g) || la(g);
+      });
+      z(
+        f,
+        "compositionstart",
+        function() {
+          var g = e.getCursor("from");
+          c.composing && c.composing.range.clear();
+          c.composing = { start: g, range: e.markText(g, e.getCursor("to"), { className: "CodeMirror-composing" }) };
+        }
+      );
+      z(f, "compositionend", function() {
+        c.composing && (c.poll(), c.composing.range.clear(), c.composing = null);
+      });
+    };
+    V.prototype.createField = function(a) {
+      this.wrapper = sg();
+      this.textarea = this.wrapper.firstChild;
+    };
+    V.prototype.screenReaderLabelChanged = function(a) {
+      a ? this.textarea.setAttribute("aria-label", a) : this.textarea.removeAttribute("aria-label");
+    };
+    V.prototype.prepareSelection = function() {
+      var a = this.cm, b = a.display, d2 = a.doc, c = gf(a);
+      if (a.options.moveInputWithCursor) {
+        a = Ba(a, d2.sel.primary().head, "div");
+        d2 = b.wrapper.getBoundingClientRect();
+        var e = b.lineDiv.getBoundingClientRect();
+        c.teTop = Math.max(0, Math.min(b.wrapper.clientHeight - 10, a.top + e.top - d2.top));
+        c.teLeft = Math.max(0, Math.min(b.wrapper.clientWidth - 10, a.left + e.left - d2.left));
+      }
+      return c;
+    };
+    V.prototype.showSelection = function(a) {
+      var b = this.cm.display;
+      D(b.cursorDiv, a.cursors);
+      D(b.selectionDiv, a.selection);
+      null != a.teTop && (this.wrapper.style.top = a.teTop + "px", this.wrapper.style.left = a.teLeft + "px");
+    };
+    V.prototype.reset = function(a) {
+      if (!(this.contextMenuPending || this.composing && a)) {
+        var b = this.cm;
+        this.resetting = true;
+        b.somethingSelected() ? (this.prevInput = "", a = b.getSelection(), this.textarea.value = a, b.state.focused && pc(this.textarea), G && 9 <= T && (this.hasSelection = a)) : a || (this.prevInput = this.textarea.value = "", G && 9 <= T && (this.hasSelection = null));
+        this.resetting = false;
+      }
+    };
+    V.prototype.getField = function() {
+      return this.textarea;
+    };
+    V.prototype.supportsTouch = function() {
+      return false;
+    };
+    V.prototype.focus = function() {
+      if ("nocursor" != this.cm.options.readOnly && (!ac || ka(this.textarea.ownerDocument) != this.textarea))
+        try {
+          this.textarea.focus();
+        } catch (a) {
+        }
+    };
+    V.prototype.blur = function() {
+      this.textarea.blur();
+    };
+    V.prototype.resetPosition = function() {
+      this.wrapper.style.top = this.wrapper.style.left = 0;
+    };
+    V.prototype.receivedFocus = function() {
+      this.slowPoll();
+    };
+    V.prototype.slowPoll = function() {
+      var a = this;
+      this.pollingFast || this.polling.set(
+        this.cm.options.pollInterval,
+        function() {
+          a.poll();
+          a.cm.state.focused && a.slowPoll();
+        }
+      );
+    };
+    V.prototype.fastPoll = function() {
+      function a() {
+        d2.poll() || b ? (d2.pollingFast = false, d2.slowPoll()) : (b = true, d2.polling.set(60, a));
+      }
+      var b = false, d2 = this;
+      d2.pollingFast = true;
+      d2.polling.set(20, a);
+    };
+    V.prototype.poll = function() {
+      var a = this, b = this.cm, d2 = this.textarea, c = this.prevInput;
+      if (this.contextMenuPending || this.resetting || !b.state.focused || Gh(d2) && !c && !this.composing || b.isReadOnly() || b.options.disableInput || b.state.keySeq)
+        return false;
+      var e = d2.value;
+      if (e == c && !b.somethingSelected())
+        return false;
+      if (G && 9 <= T && this.hasSelection === e || ya && /[\uf700-\uf7ff]/.test(e))
+        return b.display.input.reset(), false;
+      if (b.doc.sel == b.display.selForContextMenu) {
+        var f = e.charCodeAt(0);
+        8203 != f || c || (c = "​");
+        if (8666 == f)
+          return this.reset(), this.cm.execCommand("undo");
+      }
+      var g = 0;
+      for (f = Math.min(c.length, e.length); g < f && c.charCodeAt(g) == e.charCodeAt(g); )
+        ++g;
+      ra(b, function() {
+        me(b, e.slice(g), c.length - g, null, a.composing ? "*compose" : null);
+        1e3 < e.length || -1 < e.indexOf("\n") ? d2.value = a.prevInput = "" : a.prevInput = e;
+        a.composing && (a.composing.range.clear(), a.composing.range = b.markText(a.composing.start, b.getCursor("to"), { className: "CodeMirror-composing" }));
+      });
+      return true;
+    };
+    V.prototype.ensurePolled = function() {
+      this.pollingFast && this.poll() && (this.pollingFast = false);
+    };
+    V.prototype.onKeyPress = function() {
+      G && 9 <= T && (this.hasSelection = null);
+      this.fastPoll();
+    };
+    V.prototype.onContextMenu = function(a) {
+      function b() {
+        if (null != g.selectionStart) {
+          var q = e.somethingSelected(), r = "​" + (q ? g.value : "");
+          g.value = "⇚";
+          g.value = r;
+          c.prevInput = q ? "" : "​";
+          g.selectionStart = 1;
+          g.selectionEnd = r.length;
+          f.selForContextMenu = e.doc.sel;
+        }
+      }
+      function d2() {
+        if (c.contextMenuPending == d2 && (c.contextMenuPending = false, c.wrapper.style.cssText = m2, g.style.cssText = l, G && 9 > T && f.scrollbars.setScrollTop(f.scroller.scrollTop = k), null != g.selectionStart)) {
+          (!G || G && 9 > T) && b();
+          var q = 0, r = function() {
+            f.selForContextMenu == e.doc.sel && 0 == g.selectionStart && 0 < g.selectionEnd && "​" == c.prevInput ? ba(e, Lf)(e) : 10 > q++ ? f.detectingSelectAll = setTimeout(r, 500) : (f.selForContextMenu = null, f.input.reset());
+          };
+          f.detectingSelectAll = setTimeout(
+            r,
+            200
+          );
+        }
+      }
+      var c = this, e = c.cm, f = e.display, g = c.textarea;
+      c.contextMenuPending && c.contextMenuPending();
+      var h2 = gb(e, a), k = f.scroller.scrollTop;
+      if (h2 && !Ca) {
+        e.options.resetSelectionOnContextMenu && -1 == e.doc.sel.contains(h2) && ba(e, da)(e.doc, Oa(h2), Ia);
+        var l = g.style.cssText, m2 = c.wrapper.style.cssText;
+        h2 = c.wrapper.offsetParent.getBoundingClientRect();
+        c.wrapper.style.cssText = "position: static";
+        g.style.cssText = "position: absolute; width: 30px; height: 30px;\n      top: " + (a.clientY - h2.top - 5) + "px; left: " + (a.clientX - h2.left - 5) + "px;\n      z-index: 1000; background: " + (G ? "rgba(255, 255, 255, .05)" : "transparent") + ";\n      outline: none; border-width: 0; outline: none; overflow: hidden; opacity: .05; filter: alpha(opacity=5);";
+        if (fa)
+          var n = g.ownerDocument.defaultView.scrollY;
+        f.input.focus();
+        fa && g.ownerDocument.defaultView.scrollTo(null, n);
+        f.input.reset();
+        e.somethingSelected() || (g.value = c.prevInput = " ");
+        c.contextMenuPending = d2;
+        f.selForContextMenu = e.doc.sel;
+        clearTimeout(f.detectingSelectAll);
+        G && 9 <= T && b();
+        if (je) {
+          Mb(a);
+          var p = function() {
+            ta(window, "mouseup", p);
+            setTimeout(d2, 20);
+          };
+          z(window, "mouseup", p);
+        } else
+          setTimeout(d2, 50);
+      }
+    };
+    V.prototype.readOnlyChanged = function(a) {
+      a || this.reset();
+      this.textarea.disabled = "nocursor" == a;
+      this.textarea.readOnly = !!a;
+    };
+    V.prototype.setUneditable = function() {
+    };
+    V.prototype.needsContentAttribute = false;
+    (function(a) {
+      function b(c, e, f, g) {
+        a.defaults[c] = e;
+        f && (d2[c] = g ? function(h2, k, l) {
+          l != Hb && f(h2, k, l);
+        } : f);
+      }
+      var d2 = a.optionHandlers;
+      a.defineOption = b;
+      a.Init = Hb;
+      b("value", "", function(c, e) {
+        return c.setValue(e);
+      }, true);
+      b(
+        "mode",
+        null,
+        function(c, e) {
+          c.doc.modeOption = e;
+          $d(c);
+        },
+        true
+      );
+      b("indentUnit", 2, $d, true);
+      b("indentWithTabs", false);
+      b("smartIndent", true);
+      b("tabSize", 4, function(c) {
+        bc(c);
+        Ub(c);
+        ma(c);
+      }, true);
+      b("lineSeparator", null, function(c, e) {
+        if (c.doc.lineSep = e) {
+          var f = [], g = c.doc.first;
+          c.doc.iter(function(k) {
+            for (var l = 0; ; ) {
+              var m2 = k.text.indexOf(e, l);
+              if (-1 == m2)
+                break;
+              l = m2 + e.length;
+              f.push(t(g, m2));
+            }
+            g++;
+          });
+          for (var h2 = f.length - 1; 0 <= h2; h2--)
+            Db(c.doc, e, f[h2], t(f[h2].line, f[h2].ch + e.length));
+        }
+      });
+      b(
+        "specialChars",
+        /[\u0000-\u001f\u007f-\u009f\u00ad\u061c\u200b\u200e\u200f\u2028\u2029\u202d\u202e\u2066\u2067\u2069\ufeff\ufff9-\ufffc]/g,
+        function(c, e, f) {
+          c.state.specialChars = new RegExp(e.source + (e.test("	") ? "" : "|	"), "g");
+          f != Hb && c.refresh();
+        }
+      );
+      b("specialCharPlaceholder", Mg, function(c) {
+        return c.refresh();
+      }, true);
+      b("electricChars", true);
+      b("inputStyle", ac ? "contenteditable" : "textarea", function() {
+        throw Error("inputStyle can not (yet) be changed in a running editor");
+      }, true);
+      b("spellcheck", false, function(c, e) {
+        return c.getInputField().spellcheck = e;
+      }, true);
+      b("autocorrect", false, function(c, e) {
+        return c.getInputField().autocorrect = e;
+      }, true);
+      b(
+        "autocapitalize",
+        false,
+        function(c, e) {
+          return c.getInputField().autocapitalize = e;
+        },
+        true
+      );
+      b("rtlMoveVisually", !Fh);
+      b("wholeLineUpdateBefore", true);
+      b("theme", "default", function(c) {
+        lg(c);
+        $b(c);
+      }, true);
+      b("keyMap", "default", function(c, e, f) {
+        e = Xc(e);
+        (f = f != Hb && Xc(f)) && f.detach && f.detach(c, e);
+        e.attach && e.attach(c, f || null);
+      });
+      b("extraKeys", null);
+      b("configureMouse", null);
+      b("lineWrapping", false, yh, true);
+      b("gutters", [], function(c, e) {
+        c.display.gutterSpecs = Yd(e, c.options.lineNumbers);
+        $b(c);
+      }, true);
+      b("fixedGutter", true, function(c, e) {
+        c.display.gutters.style.left = e ? Md(c.display) + "px" : "0";
+        c.refresh();
+      }, true);
+      b("coverGutterNextToScrollbar", false, function(c) {
+        return yb(c);
+      }, true);
+      b("scrollbarStyle", "native", function(c) {
+        of(c);
+        yb(c);
+        c.display.scrollbars.setScrollTop(c.doc.scrollTop);
+        c.display.scrollbars.setScrollLeft(c.doc.scrollLeft);
+      }, true);
+      b("lineNumbers", false, function(c, e) {
+        c.display.gutterSpecs = Yd(c.options.gutters, e);
+        $b(c);
+      }, true);
+      b("firstLineNumber", 1, $b, true);
+      b("lineNumberFormatter", function(c) {
+        return c;
+      }, $b, true);
+      b("showCursorWhenSelecting", false, Vb, true);
+      b(
+        "resetSelectionOnContextMenu",
+        true
+      );
+      b("lineWiseCopyCut", true);
+      b("pasteLinesPerSelection", true);
+      b("selectionsMayTouch", false);
+      b("readOnly", false, function(c, e) {
+        "nocursor" == e && (wb(c), c.display.input.blur());
+        c.display.input.readOnlyChanged(e);
+      });
+      b("screenReaderLabel", null, function(c, e) {
+        c.display.input.screenReaderLabelChanged("" === e ? null : e);
+      });
+      b("disableInput", false, function(c, e) {
+        e || c.display.input.reset();
+      }, true);
+      b("dragDrop", true, xh);
+      b("allowDropFileTypes", null);
+      b("cursorBlinkRate", 530);
+      b("cursorScrollMargin", 0);
+      b("cursorHeight", 1, Vb, true);
+      b(
+        "singleCursorHeightPerLine",
+        true,
+        Vb,
+        true
+      );
+      b("workTime", 100);
+      b("workDelay", 100);
+      b("flattenSpans", true, bc, true);
+      b("addModeClass", false, bc, true);
+      b("pollInterval", 100);
+      b("undoDepth", 200, function(c, e) {
+        return c.doc.history.undoDepth = e;
+      });
+      b("historyEventDelay", 1250);
+      b("viewportMargin", 10, function(c) {
+        return c.refresh();
+      }, true);
+      b("maxHighlightLength", 1e4, bc, true);
+      b("moveInputWithCursor", true, function(c, e) {
+        e || c.display.input.resetPosition();
+      });
+      b("tabindex", null, function(c, e) {
+        return c.display.input.getField().tabIndex = e || "";
+      });
+      b("autofocus", null);
+      b(
+        "direction",
+        "ltr",
+        function(c, e) {
+          return c.doc.setDirection(e);
+        },
+        true
+      );
+      b("phrases", null);
+    })(U);
+    (function(a) {
+      var b = a.optionHandlers, d2 = a.helpers = {};
+      a.prototype = {
+        constructor: a,
+        focus: function() {
+          qa(this).defaultView.focus();
+          this.display.input.focus();
+        },
+        setOption: function(c, e) {
+          var f = this.options, g = f[c];
+          if (f[c] != e || "mode" == c)
+            f[c] = e, b.hasOwnProperty(c) && ba(this, b[c])(this, e, g), W(this, "optionChange", this, c);
+        },
+        getOption: function(c) {
+          return this.options[c];
+        },
+        getDoc: function() {
+          return this.doc;
+        },
+        addKeyMap: function(c, e) {
+          this.state.keyMaps[e ? "push" : "unshift"](Xc(c));
+        },
+        removeKeyMap: function(c) {
+          for (var e = this.state.keyMaps, f = 0; f < e.length; ++f)
+            if (e[f] == c || e[f].name == c)
+              return e.splice(f, 1), true;
+        },
+        addOverlay: ia(function(c, e) {
+          var f = c.token ? c : a.getMode(this.options, c);
+          if (f.startState)
+            throw Error("Overlays may not be stateful.");
+          yg(this.state.overlays, { mode: f, modeSpec: c, opaque: e && e.opaque, priority: e && e.priority || 0 }, function(g) {
+            return g.priority;
+          });
+          this.state.modeGen++;
+          ma(this);
+        }),
+        removeOverlay: ia(function(c) {
+          for (var e = this.state.overlays, f = 0; f < e.length; ++f) {
+            var g = e[f].modeSpec;
+            if (g == c || "string" == typeof c && g.name == c) {
+              e.splice(f, 1);
+              this.state.modeGen++;
+              ma(this);
+              break;
+            }
+          }
+        }),
+        indentLine: ia(function(c, e, f) {
+          "string" != typeof e && "number" != typeof e && (e = null == e ? this.options.smartIndent ? "smart" : "prev" : e ? "add" : "subtract");
+          Nb(this.doc, c) && nc(this, c, e, f);
+        }),
+        indentSelection: ia(function(c) {
+          for (var e = this.doc.sel.ranges, f = -1, g = 0; g < e.length; g++) {
+            var h2 = e[g];
+            if (h2.empty())
+              h2.head.line > f && (nc(this, h2.head.line, c, true), f = h2.head.line, g == this.doc.sel.primIndex && xb(this));
+            else {
+              var k = h2.from();
+              h2 = h2.to();
+              var l = Math.max(f, k.line);
+              f = Math.min(this.lastLine(), h2.line - (h2.ch ? 0 : 1)) + 1;
+              for (h2 = l; h2 < f; ++h2)
+                nc(this, h2, c);
+              h2 = this.doc.sel.ranges;
+              0 == k.ch && e.length == h2.length && 0 < h2[g].from().ch && de(this.doc, g, new I(k, h2[g].to()), Ia);
+            }
+          }
+        }),
+        getTokenAt: function(c, e) {
+          return Ce(this, c, e);
+        },
+        getLineTokens: function(c, e) {
+          return Ce(this, t(c), e, true);
+        },
+        getTokenTypeAt: function(c) {
+          c = C(this.doc, c);
+          var e = Ae(this, w(this.doc, c.line)), f = 0, g = (e.length - 1) / 2;
+          c = c.ch;
+          if (0 == c)
+            e = e[2];
+          else
+            for (; ; ) {
+              var h2 = f + g >> 1;
+              if ((h2 ? e[2 * h2 - 1] : 0) >= c)
+                g = h2;
+              else if (e[2 * h2 + 1] < c)
+                f = h2 + 1;
+              else {
+                e = e[2 * h2 + 2];
                 break;
               }
             }
-          }),
-          indentLine: ia(function(c, e, f) {
-            "string" != typeof e && "number" != typeof e && (e = null == e ? this.options.smartIndent ? "smart" : "prev" : e ? "add" : "subtract");
-            Nb(this.doc, c) && nc(this, c, e, f);
-          }),
-          indentSelection: ia(function(c) {
-            for (var e = this.doc.sel.ranges, f = -1, g = 0; g < e.length; g++) {
-              var h2 = e[g];
-              if (h2.empty())
-                h2.head.line > f && (nc(this, h2.head.line, c, true), f = h2.head.line, g == this.doc.sel.primIndex && xb(this));
-              else {
-                var k = h2.from();
-                h2 = h2.to();
-                var l = Math.max(f, k.line);
-                f = Math.min(this.lastLine(), h2.line - (h2.ch ? 0 : 1)) + 1;
-                for (h2 = l; h2 < f; ++h2)
-                  nc(this, h2, c);
-                h2 = this.doc.sel.ranges;
-                0 == k.ch && e.length == h2.length && 0 < h2[g].from().ch && de(this.doc, g, new I(k, h2[g].to()), Ia);
-              }
+          f = e ? e.indexOf("overlay ") : -1;
+          return 0 > f ? e : 0 == f ? null : e.slice(0, f - 1);
+        },
+        getModeAt: function(c) {
+          var e = this.doc.mode;
+          return e.innerMode ? a.innerMode(e, this.getTokenAt(c).state).mode : e;
+        },
+        getHelper: function(c, e) {
+          return this.getHelpers(c, e)[0];
+        },
+        getHelpers: function(c, e) {
+          var f = [];
+          if (!d2.hasOwnProperty(e))
+            return f;
+          var g = d2[e];
+          c = this.getModeAt(c);
+          if ("string" == typeof c[e])
+            g[c[e]] && f.push(g[c[e]]);
+          else if (c[e])
+            for (var h2 = 0; h2 < c[e].length; h2++) {
+              var k = g[c[e][h2]];
+              k && f.push(k);
             }
-          }),
-          getTokenAt: function(c, e) {
-            return Ce(this, c, e);
-          },
-          getLineTokens: function(c, e) {
-            return Ce(this, t(c), e, true);
-          },
-          getTokenTypeAt: function(c) {
-            c = C(this.doc, c);
-            var e = Ae(this, w(this.doc, c.line)), f = 0, g = (e.length - 1) / 2;
-            c = c.ch;
-            if (0 == c)
-              e = e[2];
-            else
-              for (; ; ) {
-                var h2 = f + g >> 1;
-                if ((h2 ? e[2 * h2 - 1] : 0) >= c)
-                  g = h2;
-                else if (e[2 * h2 + 1] < c)
-                  f = h2 + 1;
-                else {
-                  e = e[2 * h2 + 2];
+          else
+            c.helperType && g[c.helperType] ? f.push(g[c.helperType]) : g[c.name] && f.push(g[c.name]);
+          for (e = 0; e < g._global.length; e++)
+            h2 = g._global[e], h2.pred(c, this) && -1 == ea(f, h2.val) && f.push(h2.val);
+          return f;
+        },
+        getStateAfter: function(c, e) {
+          var f = this.doc;
+          c = Math.max(f.first, Math.min(null == c ? f.first + f.size - 1 : c, f.first + f.size - 1));
+          return Ob(this, c + 1, e).state;
+        },
+        cursorCoords: function(c, e) {
+          var f = this.doc.sel.primary();
+          c = null == c ? f.head : "object" == typeof c ? C(this.doc, c) : c ? f.from() : f.to();
+          return Ba(this, c, e || "page");
+        },
+        charCoords: function(c, e) {
+          return Ic(
+            this,
+            C(this.doc, c),
+            e || "page"
+          );
+        },
+        coordsChar: function(c, e) {
+          c = af(this, c, e || "page");
+          return Kd(this, c.left, c.top);
+        },
+        lineAtHeight: function(c, e) {
+          c = af(this, { top: c, left: 0 }, e || "page").top;
+          return bb(this.doc, c + this.display.viewOffset);
+        },
+        heightAtLine: function(c, e, f) {
+          var g = false;
+          if ("number" == typeof c) {
+            var h2 = this.doc.first + this.doc.size - 1;
+            c < this.doc.first ? c = this.doc.first : c > h2 && (c = h2, g = true);
+            c = w(this.doc, c);
+          }
+          return Hc(this, c, { top: 0, left: 0 }, e || "page", f || g).top + (g ? this.doc.height - Ga(c) : 0);
+        },
+        defaultTextHeight: function() {
+          return vb(this.display);
+        },
+        defaultCharWidth: function() {
+          return ub(this.display);
+        },
+        getViewport: function() {
+          return { from: this.display.viewFrom, to: this.display.viewTo };
+        },
+        addWidget: function(c, e, f, g, h2) {
+          var k = this.display;
+          c = Ba(this, C(this.doc, c));
+          var l = c.bottom, m2 = c.left;
+          e.style.position = "absolute";
+          e.setAttribute("cm-ignore-events", "true");
+          this.display.input.setUneditable(e);
+          k.sizer.appendChild(e);
+          if ("over" == g)
+            l = c.top;
+          else if ("above" == g || "near" == g) {
+            var n = Math.max(k.wrapper.clientHeight, this.doc.height), p = Math.max(k.sizer.clientWidth, k.lineSpace.clientWidth);
+            ("above" == g || c.bottom + e.offsetHeight > n) && c.top > e.offsetHeight ? l = c.top - e.offsetHeight : c.bottom + e.offsetHeight <= n && (l = c.bottom);
+            m2 + e.offsetWidth > p && (m2 = p - e.offsetWidth);
+          }
+          e.style.top = l + "px";
+          e.style.left = e.style.right = "";
+          "right" == h2 ? (m2 = k.sizer.clientWidth - e.offsetWidth, e.style.right = "0px") : ("left" == h2 ? m2 = 0 : "middle" == h2 && (m2 = (k.sizer.clientWidth - e.offsetWidth) / 2), e.style.left = m2 + "px");
+          f && (c = Td(this, { left: m2, top: l, right: m2 + e.offsetWidth, bottom: l + e.offsetHeight }), null != c.scrollTop && Xb(this, c.scrollTop), null != c.scrollLeft && kb(this, c.scrollLeft));
+        },
+        triggerOnKeyDown: ia(fg),
+        triggerOnKeyPress: ia(hg),
+        triggerOnKeyUp: gg,
+        triggerOnMouseDown: ia(ig),
+        execCommand: function(c) {
+          if (jc.hasOwnProperty(c))
+            return jc[c].call(null, this);
+        },
+        triggerElectric: ia(function(c) {
+          og(this, c);
+        }),
+        findPosH: function(c, e, f, g) {
+          var h2 = 1;
+          0 > e && (h2 = -1, e = -e);
+          c = C(this.doc, c);
+          for (var k = 0; k < e && (c = oe(this.doc, c, h2, f, g), !c.hitSide); ++k)
+            ;
+          return c;
+        },
+        moveH: ia(function(c, e) {
+          var f = this;
+          this.extendSelectionsBy(function(g) {
+            return f.display.shift || f.doc.extend || g.empty() ? oe(
+              f.doc,
+              g.head,
+              c,
+              e,
+              f.options.rtlMoveVisually
+            ) : 0 > c ? g.from() : g.to();
+          }, qc);
+        }),
+        deleteH: ia(function(c, e) {
+          var f = this.doc;
+          this.doc.sel.somethingSelected() ? f.replaceSelection("", null, "+delete") : Gb(this, function(g) {
+            var h2 = oe(f, g.head, c, e, false);
+            return 0 > c ? { from: h2, to: g.head } : { from: g.head, to: h2 };
+          });
+        }),
+        findPosV: function(c, e, f, g) {
+          var h2 = 1;
+          0 > e && (h2 = -1, e = -e);
+          var k = C(this.doc, c);
+          for (c = 0; c < e && (k = Ba(this, k, "div"), null == g ? g = k.left : k.left = g, k = tg(this, k, h2, f), !k.hitSide); ++c)
+            ;
+          return k;
+        },
+        moveV: ia(function(c, e) {
+          var f = this, g = this.doc, h2 = [], k = !this.display.shift && !g.extend && g.sel.somethingSelected();
+          g.extendSelectionsBy(function(m2) {
+            if (k)
+              return 0 > c ? m2.from() : m2.to();
+            var n = Ba(f, m2.head, "div");
+            null != m2.goalColumn && (n.left = m2.goalColumn);
+            h2.push(n.left);
+            var p = tg(f, n, c, e);
+            "page" == e && m2 == g.sel.primary() && Nc(f, Ic(f, p, "div").top - n.top);
+            return p;
+          }, qc);
+          if (h2.length)
+            for (var l = 0; l < g.sel.ranges.length; l++)
+              g.sel.ranges[l].goalColumn = h2[l];
+        }),
+        findWordAt: function(c) {
+          var e = w(this.doc, c.line).text, f = c.ch, g = c.ch;
+          if (e) {
+            var h2 = this.getHelper(c, "wordChars");
+            "before" != c.sticky && g != e.length || !f ? ++g : --f;
+            var k = e.charAt(f);
+            for (k = xc(k, h2) ? function(l) {
+              return xc(l, h2);
+            } : /\s/.test(k) ? function(l) {
+              return /\s/.test(l);
+            } : function(l) {
+              return !/\s/.test(l) && !xc(l);
+            }; 0 < f && k(e.charAt(f - 1)); )
+              --f;
+            for (; g < e.length && k(e.charAt(g)); )
+              ++g;
+          }
+          return new I(t(c.line, f), t(c.line, g));
+        },
+        toggleOverwrite: function(c) {
+          if (null == c || c != this.state.overwrite)
+            (this.state.overwrite = !this.state.overwrite) ? Ya(this.display.cursorDiv, "CodeMirror-overwrite") : jb(this.display.cursorDiv, "CodeMirror-overwrite"), W(
+              this,
+              "overwriteToggle",
+              this,
+              this.state.overwrite
+            );
+        },
+        hasFocus: function() {
+          return this.display.input.getField() == ka(qa(this));
+        },
+        isReadOnly: function() {
+          return !(!this.options.readOnly && !this.doc.cantEdit);
+        },
+        scrollTo: ia(function(c, e) {
+          Wb(this, c, e);
+        }),
+        getScrollInfo: function() {
+          var c = this.display.scroller;
+          return { left: c.scrollLeft, top: c.scrollTop, height: c.scrollHeight - Ha(this) - this.display.barHeight, width: c.scrollWidth - Ha(this) - this.display.barWidth, clientHeight: Ed(this), clientWidth: cb(this) };
+        },
+        scrollIntoView: ia(function(c, e) {
+          null == c ? (c = { from: this.doc.sel.primary().head, to: null }, null == e && (e = this.options.cursorScrollMargin)) : "number" == typeof c ? c = { from: t(c, 0), to: null } : null == c.from && (c = { from: c, to: null });
+          c.to || (c.to = c.from);
+          c.margin = e || 0;
+          null != c.from.line ? (Oc(this), this.curOp.scrollToPos = c) : kf(this, c.from, c.to, c.margin);
+        }),
+        setSize: ia(function(c, e) {
+          var f = this, g = function(k) {
+            return "number" == typeof k || /^\d+$/.test(String(k)) ? k + "px" : k;
+          };
+          null != c && (this.display.wrapper.style.width = g(c));
+          null != e && (this.display.wrapper.style.height = g(e));
+          this.options.lineWrapping && Ye(this);
+          var h2 = this.display.viewFrom;
+          this.doc.iter(h2, this.display.viewTo, function(k) {
+            if (k.widgets) {
+              for (var l = 0; l < k.widgets.length; l++)
+                if (k.widgets[l].noHScroll) {
+                  Sa(f, h2, "widget");
                   break;
                 }
-              }
-            f = e ? e.indexOf("overlay ") : -1;
-            return 0 > f ? e : 0 == f ? null : e.slice(0, f - 1);
-          },
-          getModeAt: function(c) {
-            var e = this.doc.mode;
-            return e.innerMode ? a.innerMode(e, this.getTokenAt(c).state).mode : e;
-          },
-          getHelper: function(c, e) {
-            return this.getHelpers(c, e)[0];
-          },
-          getHelpers: function(c, e) {
-            var f = [];
-            if (!d2.hasOwnProperty(e))
-              return f;
-            var g = d2[e];
-            c = this.getModeAt(c);
-            if ("string" == typeof c[e])
-              g[c[e]] && f.push(g[c[e]]);
-            else if (c[e])
-              for (var h2 = 0; h2 < c[e].length; h2++) {
-                var k = g[c[e][h2]];
-                k && f.push(k);
-              }
-            else
-              c.helperType && g[c.helperType] ? f.push(g[c.helperType]) : g[c.name] && f.push(g[c.name]);
-            for (e = 0; e < g._global.length; e++)
-              h2 = g._global[e], h2.pred(c, this) && -1 == ea(f, h2.val) && f.push(h2.val);
-            return f;
-          },
-          getStateAfter: function(c, e) {
-            var f = this.doc;
-            c = Math.max(f.first, Math.min(null == c ? f.first + f.size - 1 : c, f.first + f.size - 1));
-            return Ob(this, c + 1, e).state;
-          },
-          cursorCoords: function(c, e) {
-            var f = this.doc.sel.primary();
-            c = null == c ? f.head : "object" == typeof c ? C(this.doc, c) : c ? f.from() : f.to();
-            return Ba(this, c, e || "page");
-          },
-          charCoords: function(c, e) {
-            return Ic(
-              this,
-              C(this.doc, c),
-              e || "page"
-            );
-          },
-          coordsChar: function(c, e) {
-            c = af(this, c, e || "page");
-            return Kd(this, c.left, c.top);
-          },
-          lineAtHeight: function(c, e) {
-            c = af(this, { top: c, left: 0 }, e || "page").top;
-            return bb(this.doc, c + this.display.viewOffset);
-          },
-          heightAtLine: function(c, e, f) {
-            var g = false;
-            if ("number" == typeof c) {
-              var h2 = this.doc.first + this.doc.size - 1;
-              c < this.doc.first ? c = this.doc.first : c > h2 && (c = h2, g = true);
-              c = w(this.doc, c);
             }
-            return Hc(this, c, { top: 0, left: 0 }, e || "page", f || g).top + (g ? this.doc.height - Ga(c) : 0);
-          },
-          defaultTextHeight: function() {
-            return vb(this.display);
-          },
-          defaultCharWidth: function() {
-            return ub(this.display);
-          },
-          getViewport: function() {
-            return { from: this.display.viewFrom, to: this.display.viewTo };
-          },
-          addWidget: function(c, e, f, g, h2) {
-            var k = this.display;
-            c = Ba(this, C(this.doc, c));
-            var l = c.bottom, m2 = c.left;
-            e.style.position = "absolute";
-            e.setAttribute("cm-ignore-events", "true");
-            this.display.input.setUneditable(e);
-            k.sizer.appendChild(e);
-            if ("over" == g)
-              l = c.top;
-            else if ("above" == g || "near" == g) {
-              var n = Math.max(k.wrapper.clientHeight, this.doc.height), p = Math.max(k.sizer.clientWidth, k.lineSpace.clientWidth);
-              ("above" == g || c.bottom + e.offsetHeight > n) && c.top > e.offsetHeight ? l = c.top - e.offsetHeight : c.bottom + e.offsetHeight <= n && (l = c.bottom);
-              m2 + e.offsetWidth > p && (m2 = p - e.offsetWidth);
-            }
-            e.style.top = l + "px";
-            e.style.left = e.style.right = "";
-            "right" == h2 ? (m2 = k.sizer.clientWidth - e.offsetWidth, e.style.right = "0px") : ("left" == h2 ? m2 = 0 : "middle" == h2 && (m2 = (k.sizer.clientWidth - e.offsetWidth) / 2), e.style.left = m2 + "px");
-            f && (c = Td(this, { left: m2, top: l, right: m2 + e.offsetWidth, bottom: l + e.offsetHeight }), null != c.scrollTop && Xb(this, c.scrollTop), null != c.scrollLeft && kb(this, c.scrollLeft));
-          },
-          triggerOnKeyDown: ia(fg),
-          triggerOnKeyPress: ia(hg),
-          triggerOnKeyUp: gg,
-          triggerOnMouseDown: ia(ig),
-          execCommand: function(c) {
-            if (jc.hasOwnProperty(c))
-              return jc[c].call(null, this);
-          },
-          triggerElectric: ia(function(c) {
-            og(this, c);
-          }),
-          findPosH: function(c, e, f, g) {
-            var h2 = 1;
-            0 > e && (h2 = -1, e = -e);
-            c = C(this.doc, c);
-            for (var k = 0; k < e && (c = oe(this.doc, c, h2, f, g), !c.hitSide); ++k)
-              ;
-            return c;
-          },
-          moveH: ia(function(c, e) {
-            var f = this;
-            this.extendSelectionsBy(function(g) {
-              return f.display.shift || f.doc.extend || g.empty() ? oe(
-                f.doc,
-                g.head,
-                c,
-                e,
-                f.options.rtlMoveVisually
-              ) : 0 > c ? g.from() : g.to();
-            }, qc);
-          }),
-          deleteH: ia(function(c, e) {
-            var f = this.doc;
-            this.doc.sel.somethingSelected() ? f.replaceSelection("", null, "+delete") : Gb(this, function(g) {
-              var h2 = oe(f, g.head, c, e, false);
-              return 0 > c ? { from: h2, to: g.head } : { from: g.head, to: h2 };
-            });
-          }),
-          findPosV: function(c, e, f, g) {
-            var h2 = 1;
-            0 > e && (h2 = -1, e = -e);
-            var k = C(this.doc, c);
-            for (c = 0; c < e && (k = Ba(this, k, "div"), null == g ? g = k.left : k.left = g, k = tg(this, k, h2, f), !k.hitSide); ++c)
-              ;
-            return k;
-          },
-          moveV: ia(function(c, e) {
-            var f = this, g = this.doc, h2 = [], k = !this.display.shift && !g.extend && g.sel.somethingSelected();
-            g.extendSelectionsBy(function(m2) {
-              if (k)
-                return 0 > c ? m2.from() : m2.to();
-              var n = Ba(f, m2.head, "div");
-              null != m2.goalColumn && (n.left = m2.goalColumn);
-              h2.push(n.left);
-              var p = tg(f, n, c, e);
-              "page" == e && m2 == g.sel.primary() && Nc(f, Ic(f, p, "div").top - n.top);
-              return p;
-            }, qc);
-            if (h2.length)
-              for (var l = 0; l < g.sel.ranges.length; l++)
-                g.sel.ranges[l].goalColumn = h2[l];
-          }),
-          findWordAt: function(c) {
-            var e = w(this.doc, c.line).text, f = c.ch, g = c.ch;
-            if (e) {
-              var h2 = this.getHelper(c, "wordChars");
-              "before" != c.sticky && g != e.length || !f ? ++g : --f;
-              var k = e.charAt(f);
-              for (k = xc(k, h2) ? function(l) {
-                return xc(l, h2);
-              } : /\s/.test(k) ? function(l) {
-                return /\s/.test(l);
-              } : function(l) {
-                return !/\s/.test(l) && !xc(l);
-              }; 0 < f && k(e.charAt(f - 1)); )
-                --f;
-              for (; g < e.length && k(e.charAt(g)); )
-                ++g;
-            }
-            return new I(t(c.line, f), t(c.line, g));
-          },
-          toggleOverwrite: function(c) {
-            if (null == c || c != this.state.overwrite)
-              (this.state.overwrite = !this.state.overwrite) ? Ya(this.display.cursorDiv, "CodeMirror-overwrite") : jb(this.display.cursorDiv, "CodeMirror-overwrite"), W(
-                this,
-                "overwriteToggle",
-                this,
-                this.state.overwrite
-              );
-          },
-          hasFocus: function() {
-            return this.display.input.getField() == ka(qa(this));
-          },
-          isReadOnly: function() {
-            return !(!this.options.readOnly && !this.doc.cantEdit);
-          },
-          scrollTo: ia(function(c, e) {
-            Wb(this, c, e);
-          }),
-          getScrollInfo: function() {
-            var c = this.display.scroller;
-            return { left: c.scrollLeft, top: c.scrollTop, height: c.scrollHeight - Ha(this) - this.display.barHeight, width: c.scrollWidth - Ha(this) - this.display.barWidth, clientHeight: Ed(this), clientWidth: cb(this) };
-          },
-          scrollIntoView: ia(function(c, e) {
-            null == c ? (c = { from: this.doc.sel.primary().head, to: null }, null == e && (e = this.options.cursorScrollMargin)) : "number" == typeof c ? c = { from: t(c, 0), to: null } : null == c.from && (c = { from: c, to: null });
-            c.to || (c.to = c.from);
-            c.margin = e || 0;
-            null != c.from.line ? (Oc(this), this.curOp.scrollToPos = c) : kf(this, c.from, c.to, c.margin);
-          }),
-          setSize: ia(function(c, e) {
-            var f = this, g = function(k) {
-              return "number" == typeof k || /^\d+$/.test(String(k)) ? k + "px" : k;
-            };
-            null != c && (this.display.wrapper.style.width = g(c));
-            null != e && (this.display.wrapper.style.height = g(e));
-            this.options.lineWrapping && Ye(this);
-            var h2 = this.display.viewFrom;
-            this.doc.iter(h2, this.display.viewTo, function(k) {
-              if (k.widgets) {
-                for (var l = 0; l < k.widgets.length; l++)
-                  if (k.widgets[l].noHScroll) {
-                    Sa(f, h2, "widget");
-                    break;
-                  }
-              }
-              ++h2;
-            });
-            this.curOp.forceUpdate = true;
-            W(this, "refresh", this);
-          }),
-          operation: function(c) {
-            return ra(this, c);
-          },
-          startOperation: function() {
-            return lb(this);
-          },
-          endOperation: function() {
-            return mb(this);
-          },
-          refresh: ia(function() {
-            var c = this.display.cachedTextHeight;
-            ma(this);
-            this.curOp.forceUpdate = true;
-            Ub(this);
-            Wb(this, this.doc.scrollLeft, this.doc.scrollTop);
-            Xd(this.display);
-            (null == c || 0.5 < Math.abs(c - vb(this.display)) || this.options.lineWrapping) && Nd(this);
-            W(this, "refresh", this);
-          }),
-          swapDoc: ia(function(c) {
-            var e = this.doc;
-            e.cm = null;
-            this.state.selectingText && this.state.selectingText();
-            zf(this, c);
-            Ub(this);
-            this.display.input.reset();
-            Wb(this, c.scrollLeft, c.scrollTop);
-            this.curOp.forceScroll = true;
-            aa(this, "swapDoc", this, e);
-            return e;
-          }),
-          phrase: function(c) {
-            var e = this.options.phrases;
-            return e && Object.prototype.hasOwnProperty.call(e, c) ? e[c] : c;
-          },
-          getInputField: function() {
-            return this.display.input.getField();
-          },
-          getWrapperElement: function() {
-            return this.display.wrapper;
-          },
-          getScrollerElement: function() {
-            return this.display.scroller;
-          },
-          getGutterElement: function() {
-            return this.display.gutters;
-          }
-        };
-        pb(a);
-        a.registerHelper = function(c, e, f) {
-          d2.hasOwnProperty(c) || (d2[c] = a[c] = { _global: [] });
-          d2[c][e] = f;
-        };
-        a.registerGlobalHelper = function(c, e, f, g) {
-          a.registerHelper(c, e, g);
-          d2[c]._global.push({ pred: f, val: g });
-        };
-      })(U);
-      var Ih = "iter insert remove copy getEditor constructor".split(" "), uc;
-      for (uc in oa.prototype)
-        oa.prototype.hasOwnProperty(uc) && 0 > ea(Ih, uc) && (U.prototype[uc] = function(a) {
-          return function() {
-            return a.apply(this.doc, arguments);
-          };
-        }(oa.prototype[uc]));
-      pb(oa);
-      U.inputStyles = { textarea: V, contenteditable: O };
-      U.defineMode = function(a) {
-        U.defaults.mode || "null" == a || (U.defaults.mode = a);
-        Dg.apply(this, arguments);
-      };
-      U.defineMIME = function(a, b) {
-        qb[a] = b;
-      };
-      U.defineMode("null", function() {
-        return { token: function(a) {
-          return a.skipToEnd();
-        } };
-      });
-      U.defineMIME("text/plain", "null");
-      U.defineExtension = function(a, b) {
-        U.prototype[a] = b;
-      };
-      U.defineDocExtension = function(a, b) {
-        oa.prototype[a] = b;
-      };
-      U.fromTextArea = function(a, b) {
-        function d2() {
-          a.value = h2.getValue();
+            ++h2;
+          });
+          this.curOp.forceUpdate = true;
+          W(this, "refresh", this);
+        }),
+        operation: function(c) {
+          return ra(this, c);
+        },
+        startOperation: function() {
+          return lb(this);
+        },
+        endOperation: function() {
+          return mb(this);
+        },
+        refresh: ia(function() {
+          var c = this.display.cachedTextHeight;
+          ma(this);
+          this.curOp.forceUpdate = true;
+          Ub(this);
+          Wb(this, this.doc.scrollLeft, this.doc.scrollTop);
+          Xd(this.display);
+          (null == c || 0.5 < Math.abs(c - vb(this.display)) || this.options.lineWrapping) && Nd(this);
+          W(this, "refresh", this);
+        }),
+        swapDoc: ia(function(c) {
+          var e = this.doc;
+          e.cm = null;
+          this.state.selectingText && this.state.selectingText();
+          zf(this, c);
+          Ub(this);
+          this.display.input.reset();
+          Wb(this, c.scrollLeft, c.scrollTop);
+          this.curOp.forceScroll = true;
+          aa(this, "swapDoc", this, e);
+          return e;
+        }),
+        phrase: function(c) {
+          var e = this.options.phrases;
+          return e && Object.prototype.hasOwnProperty.call(e, c) ? e[c] : c;
+        },
+        getInputField: function() {
+          return this.display.input.getField();
+        },
+        getWrapperElement: function() {
+          return this.display.wrapper;
+        },
+        getScrollerElement: function() {
+          return this.display.scroller;
+        },
+        getGutterElement: function() {
+          return this.display.gutters;
         }
-        b = b ? Za(b) : {};
-        b.value = a.value;
-        !b.tabindex && a.tabIndex && (b.tabindex = a.tabIndex);
-        !b.placeholder && a.placeholder && (b.placeholder = a.placeholder);
-        if (null == b.autofocus) {
-          var c = ka(a.ownerDocument);
-          b.autofocus = c == a || null != a.getAttribute("autofocus") && c == document.body;
-        }
-        if (a.form && (z(a.form, "submit", d2), !b.leaveSubmitMethodAlone)) {
-          var e = a.form;
-          var f = e.submit;
-          try {
-            var g = e.submit = function() {
-              d2();
-              e.submit = f;
-              e.submit();
-              e.submit = g;
-            };
-          } catch (k) {
-          }
-        }
-        b.finishInit = function(k) {
-          k.save = d2;
-          k.getTextArea = function() {
-            return a;
-          };
-          k.toTextArea = function() {
-            k.toTextArea = isNaN;
-            d2();
-            a.parentNode.removeChild(k.getWrapperElement());
-            a.style.display = "";
-            a.form && (ta(a.form, "submit", d2), b.leaveSubmitMethodAlone || "function" != typeof a.form.submit || (a.form.submit = f));
-          };
-        };
-        a.style.display = "none";
-        var h2 = U(function(k) {
-          return a.parentNode.insertBefore(k, a.nextSibling);
-        }, b);
-        return h2;
       };
-      (function(a) {
-        a.off = ta;
-        a.on = z;
-        a.wheelEventPixels = Zg;
-        a.Doc = oa;
-        a.splitLines = ne;
-        a.countColumn = wa;
-        a.findColumn = hd;
-        a.isWordChar = jd;
-        a.Pass = Zc;
-        a.signal = W;
-        a.Line = zb;
-        a.changeEnd = Ta;
-        a.scrollbarModel = pf;
-        a.Pos = t;
-        a.cmpPos = B;
-        a.modes = md;
-        a.mimeModes = qb;
-        a.resolveMode = zc;
-        a.getMode = nd;
-        a.modeExtensions = rb;
-        a.extendMode = Eg;
-        a.copyState = $a;
-        a.startState = we;
-        a.innerMode = od;
-        a.commands = jc;
-        a.keyMap = ic;
-        a.keyName = ag;
-        a.isModifierKey = Yf;
-        a.lookupKey = Fb;
-        a.normalizeKeyMap = jh;
-        a.StringStream = X;
-        a.SharedTextMarker = hc;
-        a.TextMarker = Va;
-        a.LineWidget = gc;
-        a.e_preventDefault = la;
-        a.e_stopPropagation = ue;
-        a.e_stop = Mb;
-        a.addClass = Ya;
-        a.contains = ja;
-        a.rmClass = jb;
-        a.keyNames = Wa;
-      })(U);
-      U.version = "5.65.9";
-      return U;
+      pb(a);
+      a.registerHelper = function(c, e, f) {
+        d2.hasOwnProperty(c) || (d2[c] = a[c] = { _global: [] });
+        d2[c][e] = f;
+      };
+      a.registerGlobalHelper = function(c, e, f, g) {
+        a.registerHelper(c, e, g);
+        d2[c]._global.push({ pred: f, val: g });
+      };
+    })(U);
+    var Ih = "iter insert remove copy getEditor constructor".split(" "), uc;
+    for (uc in oa.prototype)
+      oa.prototype.hasOwnProperty(uc) && 0 > ea(Ih, uc) && (U.prototype[uc] = function(a) {
+        return function() {
+          return a.apply(this.doc, arguments);
+        };
+      }(oa.prototype[uc]));
+    pb(oa);
+    U.inputStyles = { textarea: V, contenteditable: O };
+    U.defineMode = function(a) {
+      U.defaults.mode || "null" == a || (U.defaults.mode = a);
+      Dg.apply(this, arguments);
+    };
+    U.defineMIME = function(a, b) {
+      qb[a] = b;
+    };
+    U.defineMode("null", function() {
+      return { token: function(a) {
+        return a.skipToEnd();
+      } };
     });
-  })(codemirror);
-  return codemirror.exports;
-}
-var codemirrorExports = requireCodemirror();
+    U.defineMIME("text/plain", "null");
+    U.defineExtension = function(a, b) {
+      U.prototype[a] = b;
+    };
+    U.defineDocExtension = function(a, b) {
+      oa.prototype[a] = b;
+    };
+    U.fromTextArea = function(a, b) {
+      function d2() {
+        a.value = h2.getValue();
+      }
+      b = b ? Za(b) : {};
+      b.value = a.value;
+      !b.tabindex && a.tabIndex && (b.tabindex = a.tabIndex);
+      !b.placeholder && a.placeholder && (b.placeholder = a.placeholder);
+      if (null == b.autofocus) {
+        var c = ka(a.ownerDocument);
+        b.autofocus = c == a || null != a.getAttribute("autofocus") && c == document.body;
+      }
+      if (a.form && (z(a.form, "submit", d2), !b.leaveSubmitMethodAlone)) {
+        var e = a.form;
+        var f = e.submit;
+        try {
+          var g = e.submit = function() {
+            d2();
+            e.submit = f;
+            e.submit();
+            e.submit = g;
+          };
+        } catch (k) {
+        }
+      }
+      b.finishInit = function(k) {
+        k.save = d2;
+        k.getTextArea = function() {
+          return a;
+        };
+        k.toTextArea = function() {
+          k.toTextArea = isNaN;
+          d2();
+          a.parentNode.removeChild(k.getWrapperElement());
+          a.style.display = "";
+          a.form && (ta(a.form, "submit", d2), b.leaveSubmitMethodAlone || "function" != typeof a.form.submit || (a.form.submit = f));
+        };
+      };
+      a.style.display = "none";
+      var h2 = U(function(k) {
+        return a.parentNode.insertBefore(k, a.nextSibling);
+      }, b);
+      return h2;
+    };
+    (function(a) {
+      a.off = ta;
+      a.on = z;
+      a.wheelEventPixels = Zg;
+      a.Doc = oa;
+      a.splitLines = ne;
+      a.countColumn = wa;
+      a.findColumn = hd;
+      a.isWordChar = jd;
+      a.Pass = Zc;
+      a.signal = W;
+      a.Line = zb;
+      a.changeEnd = Ta;
+      a.scrollbarModel = pf;
+      a.Pos = t;
+      a.cmpPos = B;
+      a.modes = md;
+      a.mimeModes = qb;
+      a.resolveMode = zc;
+      a.getMode = nd;
+      a.modeExtensions = rb;
+      a.extendMode = Eg;
+      a.copyState = $a;
+      a.startState = we;
+      a.innerMode = od;
+      a.commands = jc;
+      a.keyMap = ic;
+      a.keyName = ag;
+      a.isModifierKey = Yf;
+      a.lookupKey = Fb;
+      a.normalizeKeyMap = jh;
+      a.StringStream = X;
+      a.SharedTextMarker = hc;
+      a.TextMarker = Va;
+      a.LineWidget = gc;
+      a.e_preventDefault = la;
+      a.e_stopPropagation = ue;
+      a.e_stop = Mb;
+      a.addClass = Ya;
+      a.contains = ja;
+      a.rmClass = jb;
+      a.keyNames = Wa;
+    })(U);
+    U.version = "5.65.9";
+    return U;
+  });
+})(codemirror);
+var codemirrorExports = codemirror.exports;
 const CodeMirror = /* @__PURE__ */ getDefaultExportFromCjs(codemirrorExports);
 (function(module, exports2) {
   (function(v2) {
-    v2(requireCodemirror());
+    v2(codemirrorExports);
   })(function(v2) {
     v2.defineMode("javascript", function(Ua, A) {
       var p, w, f;
@@ -36263,7 +36294,7 @@ const CodeMirror = /* @__PURE__ */ getDefaultExportFromCjs(codemirrorExports);
 })();
 (function(module, exports2) {
   (function(m2) {
-    m2(requireCodemirror());
+    m2(codemirrorExports);
   })(function(m2) {
     function q(a, b) {
       for (var l = 0, e = a.length; l < e; ++l)
@@ -36366,7 +36397,7 @@ const CodeMirror = /* @__PURE__ */ getDefaultExportFromCjs(codemirrorExports);
 })();
 (function(module, exports2) {
   (function(h2) {
-    h2(requireCodemirror());
+    h2(codemirrorExports);
   })(function(h2) {
     function B(a, b) {
       this.cm = a;
@@ -36794,7 +36825,7 @@ const CodeMirror = /* @__PURE__ */ getDefaultExportFromCjs(codemirrorExports);
     };
   }, "es6", "es3");
   (function(a) {
-    a(requireCodemirror());
+    a(codemirrorExports);
   })(function(a) {
     function d2(b) {
       b.state.markedSelection && b.operation(function() {
@@ -36859,7 +36890,7 @@ const CodeMirror = /* @__PURE__ */ getDefaultExportFromCjs(codemirrorExports);
 })();
 (function(module, exports2) {
   (function(r) {
-    r(requireCodemirror());
+    r(codemirrorExports);
   })(function(r) {
     function I(c) {
       c = c.search(u);
@@ -49439,4 +49470,4 @@ app.route("/hydra/", mainView);
 app.route("/hydra/index.html", mainView);
 app.route("*", mainView);
 app.mount("body");
-//# sourceMappingURL=index-0aeaf15a.js.map
+//# sourceMappingURL=index-a02c4020.js.map

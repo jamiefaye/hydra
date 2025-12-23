@@ -25,8 +25,9 @@ const infoText = (t) => html`
 <p>${t('info.built-in-extensions')}<ul>
 ${t('info.built-in-extensions-list', { returnObjects: true }).map((text) => html`<li>${text}</li>`)}
 </ul>
-${raw(t('info.vertex-docs', {
-  'vertex-ref': link("https://github.com/jamiefaye/hydra-synth/blob/extensions/docs/vertex-reference.md")
+${raw(t('info.extension-docs', {
+  'vertex-ref': link("https://github.com/jamiefaye/hydra-synth/blob/extensions/docs/vertex-reference.md"),
+  'inact-ref': link("https://github.com/jamiefaye/hydra-synth/blob/extensions/docs/inact-reference.md")
 }))}
 </p>
 <p>${t('info.uses')}<ul>

@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hydra Vertex Documentation</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      color: #e8e8e8;
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      background: linear-gradient(90deg, #e94560, #ff6b6b, #feca57);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 10px;
+    }
+
+    .back-link {
+      color: #e94560;
+      text-decoration: none;
+      display: inline-block;
+      margin-bottom: 20px;
+    }
+
+    .back-link:hover {
+      text-decoration: underline;
+    }
+
+    h2 {
+      color: #feca57;
+      margin: 40px 0 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    h3 {
+      color: #ff6b6b;
+      margin: 30px 0 15px;
+    }
+
+    p {
+      margin-bottom: 15px;
+      color: #c8c8c8;
+    }
+
+    .code-example {
+      background: #0d1117;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px 0;
+      overflow-x: auto;
+      position: relative;
+    }
+
+    .code-example code {
+      color: #c9d1d9;
+      font-family: 'Fira Code', 'Consolas', monospace;
+      font-size: 0.9rem;
+      white-space: pre;
+      display: block;
+    }
+
+    .code-example .comment { color: #8b949e; }
+    .code-example .function { color: #d2a8ff; }
+    .code-example .number { color: #79c0ff; }
+    .code-example .string { color: #a5d6ff; }
+    .code-example .keyword { color: #ff7b72; }
+    .code-example .property { color: #7ee787; }
+
+    .run-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: #e94560;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.8rem;
+    }
+
+    .run-btn:hover {
+      background: #ff6b6b;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    th {
+      color: #feca57;
+      font-weight: 600;
+    }
+
+    td code {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: 'Fira Code', 'Consolas', monospace;
+      font-size: 0.85rem;
+    }
+
+    .note {
+      background: rgba(254, 202, 87, 0.1);
+      border-left: 3px solid #feca57;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .note strong {
+      color: #feca57;
+    }
+
+    footer {
+      text-align: center;
+      padding: 40px 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      color: #666;
+      margin-top: 60px;
+    }
+
+    footer a {
+      color: #e94560;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="/hydra/" class="back-link">&larr; Back to Home</a>
+
+    <header>
+      <h1>Hydra Vertex Documentation</h1>
+      <p>3D models, vertex shaders, and geometry in Hydra</p>
+    </header>
+
+    <h2>What is a Vertex Shader?</h2>
+
+    <p>Standard Hydra uses <strong>fragment shaders</strong> - programs that run once per pixel to determine its color. Every pixel is processed independently, which is why Hydra patterns tile across the entire screen.</p>
+
+    <p><strong>Vertex shaders</strong> run once per vertex (corner point) of geometry. They transform 3D positions into 2D screen coordinates and pass data like normals and texture coordinates to the fragment shader.</p>
+
+    <div class="code-example">
+      <code><span class="comment">// Traditional Hydra (fragment shader only)</span>
+<span class="comment">// Runs for every pixel, no 3D geometry</span>
+<span class="function">osc</span>(<span class="number">10</span>).<span class="function">out</span>(o0)
+
+<span class="comment">// Hydra Vertex (vertex + fragment shader)</span>
+<span class="comment">// Vertex shader transforms 3D model</span>
+<span class="comment">// Fragment shader colors each pixel of the model</span>
+<span class="function">osc</span>(<span class="number">10</span>).<span class="function">out</span>(o0, model.<span class="function">perspective</span>(<span class="number">45</span>))</code>
+    </div>
+
+    <p>With vertex shaders, Hydra can:</p>
+    <ul style="margin: 15px 0 15px 20px; color: #c8c8c8;">
+      <li>Render 3D models with perspective</li>
+      <li>Access vertex attributes (position, normal, UV) in your code</li>
+      <li>Apply Hydra textures to geometry surfaces</li>
+      <li>Animate skeletal meshes</li>
+    </ul>
+
+    <h2>Loading 3D Models</h2>
+
+    <p>Hydra Vertex adds support for loading and rendering 3D models. Models are loaded asynchronously and can be used as geometry for Hydra textures.</p>
+
+    <h3>loadGlb(url)</h3>
+    <p>Loads a GLB/GLTF model. Supports skeletal animation.</p>
+
+    <div class="code-example" data-code="loadGlb('https://raw.githubusercontent.com/jamiefaye/hydra-models/main/AnimalKit/Cat.glb')
+  .then(model => {
+    osc(10).color(1, 0.5, 0.2)
+      .out(o0, model.rotateX(3.14).rotateY(() => time).perspective(45))
+})">
+      <button class="run-btn">Run</button>
+      <code><span class="comment">// Load a GLB model</span>
+<span class="function">loadGlb</span>(<span class="string">'https://raw.githubusercontent.com/jamiefaye/hydra-models/main/AnimalKit/Cat.glb'</span>)
+  .<span class="function">then</span>(model => {
+    <span class="function">osc</span>(<span class="number">10</span>).<span class="function">color</span>(<span class="number">1</span>, <span class="number">0.5</span>, <span class="number">0.2</span>)
+      .<span class="function">out</span>(o0, model.<span class="function">rotateX</span>(<span class="number">3.14</span>).<span class="function">rotateY</span>(() => time).<span class="function">perspective</span>(<span class="number">45</span>))
+})</code>
+    </div>
+
+    <h3>loadObj(url)</h3>
+    <p>Loads an OBJ model. Good for static geometry.</p>
+
+    <div class="code-example" data-code="loadObj('https://raw.githubusercontent.com/jamiefaye/hydra-models/main/AnimalKit/Alpaca.obj')
+  .then(model => {
+    gradient(0.5).out(o0, model.rotateY(() => time * 0.5).perspective(45))
+})">
+      <button class="run-btn">Run</button>
+      <code><span class="comment">// Load an OBJ model</span>
+<span class="function">loadObj</span>(<span class="string">'https://raw.githubusercontent.com/jamiefaye/hydra-models/main/AnimalKit/Alpaca.obj'</span>)
+  .<span class="function">then</span>(model => {
+    <span class="function">gradient</span>(<span class="number">0.5</span>).<span class="function">out</span>(o0, model.<span class="function">rotateY</span>(() => time * <span class="number">0.5</span>).<span class="function">perspective</span>(<span class="number">45</span>))
+})</code>
+    </div>
+
+    <h2>Model Transforms</h2>
+
+    <p>Once loaded, models can be transformed using chainable methods:</p>
+
+    <table>
+      <tr>
+        <th>Method</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td><code>.rotateX(angle)</code></td>
+        <td>Rotate around X axis (radians or function)</td>
+      </tr>
+      <tr>
+        <td><code>.rotateY(angle)</code></td>
+        <td>Rotate around Y axis</td>
+      </tr>
+      <tr>
+        <td><code>.rotateZ(angle)</code></td>
+        <td>Rotate around Z axis</td>
+      </tr>
+      <tr>
+        <td><code>.scale(s)</code></td>
+        <td>Uniform scale</td>
+      </tr>
+      <tr>
+        <td><code>.translate(x, y, z)</code></td>
+        <td>Move in 3D space</td>
+      </tr>
+      <tr>
+        <td><code>.perspective(fov)</code></td>
+        <td>Apply perspective projection (field of view in degrees)</td>
+      </tr>
+    </table>
+
+    <div class="code-example" data-code="loadGlb('https://raw.githubusercontent.com/jamiefaye/hydra-models/main/AnimalKit/Fox.glb')
+  .then(model => {
+    noise(3, 0.2).color(1, 0.6, 0.2)
+      .out(o0, model
+        .rotateX(3.14)
+        .rotateY(() => time)
+        .scale(1.5)
+        .translate(0, -0.2, 0)
+        .perspective(60))
+})">
+      <button class="run-btn">Run</button>
+      <code><span class="comment">// Combining transforms</span>
+<span class="function">loadGlb</span>(<span class="string">'https://raw.githubusercontent.com/jamiefaye/hydra-models/main/AnimalKit/Fox.glb'</span>)
+  .<span class="function">then</span>(model => {
+    <span class="function">noise</span>(<span class="number">3</span>, <span class="number">0.2</span>).<span class="function">color</span>(<span class="number">1</span>, <span class="number">0.6</span>, <span class="number">0.2</span>)
+      .<span class="function">out</span>(o0, model
+        .<span class="function">rotateX</span>(<span class="number">3.14</span>)
+        .<span class="function">rotateY</span>(() => time)
+        .<span class="function">scale</span>(<span class="number">1.5</span>)
+        .<span class="function">translate</span>(<span class="number">0</span>, <span class="number">-0.2</span>, <span class="number">0</span>)
+        .<span class="function">perspective</span>(<span class="number">60</span>))
+})</code>
+    </div>
+
+    <h2>Skeletal Animation</h2>
+
+    <p>GLB models with skeletal animations can be animated using the <code>.animate()</code> method.</p>
+
+    <div class="code-example" data-code="loadGlb('https://raw.githubusercontent.com/jamiefaye/hydra-models/main/AnimatedWomenPack/Breakdance.glb')
+  .then(model => {
+    osc(5, 0.1).color(0.8, 0.2, 0.6)
+      .out(o0, model.animate().rotateX(3.14).scale(0.8).perspective(45))
+})">
+      <button class="run-btn">Run</button>
+      <code><span class="comment">// Animated character</span>
+<span class="function">loadGlb</span>(<span class="string">'https://raw.githubusercontent.com/jamiefaye/hydra-models/main/AnimatedWomenPack/Breakdance.glb'</span>)
+  .<span class="function">then</span>(model => {
+    <span class="function">osc</span>(<span class="number">5</span>, <span class="number">0.1</span>).<span class="function">color</span>(<span class="number">0.8</span>, <span class="number">0.2</span>, <span class="number">0.6</span>)
+      .<span class="function">out</span>(o0, model.<span class="function">animate</span>().<span class="function">rotateX</span>(<span class="number">3.14</span>).<span class="function">scale</span>(<span class="number">0.8</span>).<span class="function">perspective</span>(<span class="number">45</span>))
+})</code>
+    </div>
+
+    <h3>Animation Options</h3>
+    <table>
+      <tr>
+        <th>Method</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td><code>.animate()</code></td>
+        <td>Play the default animation</td>
+      </tr>
+      <tr>
+        <td><code>.animate('name')</code></td>
+        <td>Play animation by name</td>
+      </tr>
+      <tr>
+        <td><code>.animate('name', () => time)</code></td>
+        <td>Control animation time with a function</td>
+      </tr>
+    </table>
+
+    <h2>Sprite Levels</h2>
+
+    <p>The <code>.out()</code> function accepts an optional third parameter for sprite level rendering. This allows layering multiple geometries or rendering modes on the same output.</p>
+
+    <h3>Syntax</h3>
+    <div class="code-example">
+      <code><span class="function">texture</span>().<span class="function">out</span>(output, geometry, level)</code>
+    </div>
+
+    <table>
+      <tr>
+        <th>Parameter</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td><code>output</code></td>
+        <td>Output buffer (o0, o1, o2, o3)</td>
+      </tr>
+      <tr>
+        <td><code>geometry</code></td>
+        <td>Optional geometry/model to render onto</td>
+      </tr>
+      <tr>
+        <td><code>level</code></td>
+        <td>Sprite level (0 = background, 1+ = foreground layers)</td>
+      </tr>
+    </table>
+
+    <h3>Level 0 (Default)</h3>
+    <p>Standard full-screen rendering. This is the default when no level is specified.</p>
+
+    <div class="code-example" data-code="osc(10).out(o0)">
+      <button class="run-btn">Run</button>
+      <code><span class="comment">// Default rendering (level 0)</span>
+<span class="function">osc</span>(<span class="number">10</span>).<span class="function">out</span>(o0)</code>
+    </div>
+
+    <h3>Level 1+ (Sprite Layers)</h3>
+    <p>Higher levels render as sprites on top of lower levels. Use this to composite 3D geometry over a background.</p>
+
+    <div class="code-example" data-code="// Background layer
+osc(5, 0.1).color(0.2, 0.1, 0.3).out(o0)
+
+// Load model on sprite level 1
+loadGlb('https://raw.githubusercontent.com/jamiefaye/hydra-models/main/AnimalKit/Dog.glb')
+  .then(model => {
+    solid(1, 0.8, 0.5)
+      .out(o0, model.rotateX(3.14).rotateY(() => time).perspective(45), 1)
+})">
+      <button class="run-btn">Run</button>
+      <code><span class="comment">// Background layer (level 0)</span>
+<span class="function">osc</span>(<span class="number">5</span>, <span class="number">0.1</span>).<span class="function">color</span>(<span class="number">0.2</span>, <span class="number">0.1</span>, <span class="number">0.3</span>).<span class="function">out</span>(o0)
+
+<span class="comment">// Load model on sprite level 1 (foreground)</span>
+<span class="function">loadGlb</span>(<span class="string">'https://raw.githubusercontent.com/jamiefaye/hydra-models/main/AnimalKit/Dog.glb'</span>)
+  .<span class="function">then</span>(model => {
+    <span class="function">solid</span>(<span class="number">1</span>, <span class="number">0.8</span>, <span class="number">0.5</span>)
+      .<span class="function">out</span>(o0, model.<span class="function">rotateX</span>(<span class="number">3.14</span>).<span class="function">rotateY</span>(() => time).<span class="function">perspective</span>(<span class="number">45</span>), <span class="number">1</span>)
+})</code>
+    </div>
+
+    <div class="note">
+      <strong>Tip:</strong> Sprite levels allow you to create complex compositions with multiple 3D objects, each with their own textures, layered over animated backgrounds.
+    </div>
+
+    <h2>Vertex Attributes</h2>
+
+    <p>When rendering with geometry, you can access vertex attributes using the <code>v</code> proxy:</p>
+
+    <table>
+      <tr>
+        <th>Attribute</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td><code>v.position</code></td>
+        <td>Vertex position (vec3)</td>
+      </tr>
+      <tr>
+        <td><code>v.normal</code></td>
+        <td>Vertex normal (vec3)</td>
+      </tr>
+      <tr>
+        <td><code>v.uv</code></td>
+        <td>Texture coordinates (vec2)</td>
+      </tr>
+    </table>
+
+    <div class="code-example" data-code="loadGlb('https://raw.githubusercontent.com/jamiefaye/hydra-models/main/AnimalKit/Bear.glb')
+  .then(model => {
+    solid(v.normal.x, v.normal.y, v.normal.z)
+      .out(o0, model.rotateX(3.14).rotateY(() => time).perspective(45))
+})">
+      <button class="run-btn">Run</button>
+      <code><span class="comment">// Color by vertex normals</span>
+<span class="function">loadGlb</span>(<span class="string">'https://raw.githubusercontent.com/jamiefaye/hydra-models/main/AnimalKit/Bear.glb'</span>)
+  .<span class="function">then</span>(model => {
+    <span class="function">solid</span>(<span class="property">v.normal.x</span>, <span class="property">v.normal.y</span>, <span class="property">v.normal.z</span>)
+      .<span class="function">out</span>(o0, model.<span class="function">rotateX</span>(<span class="number">3.14</span>).<span class="function">rotateY</span>(() => time).<span class="function">perspective</span>(<span class="number">45</span>))
+})</code>
+    </div>
+
+    <div class="note">
+      <strong>Note:</strong> Vertex attributes like <code>v.normal</code> only contain meaningful data when geometry is passed to <code>.out()</code>. Without geometry, they default to zero.
+    </div>
+
+    <h2>Sprite Sheets</h2>
+
+    <p>Sprite sheets are textures containing multiple frames of animation arranged in a grid. Hydra Vertex can load sprite sheets and animate through the frames.</p>
+
+    <h3>Loading a Sprite Sheet</h3>
+    <p>Use <code>loadSprite()</code> to load a sprite sheet image and specify the grid dimensions.</p>
+
+    <div class="code-example">
+      <code><span class="function">loadSprite</span>(url, columns, rows)</code>
+    </div>
+
+    <table>
+      <tr>
+        <th>Parameter</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td><code>url</code></td>
+        <td>URL to the sprite sheet image</td>
+      </tr>
+      <tr>
+        <td><code>columns</code></td>
+        <td>Number of columns in the grid</td>
+      </tr>
+      <tr>
+        <td><code>rows</code></td>
+        <td>Number of rows in the grid</td>
+      </tr>
+    </table>
+
+    <h3>Sprite Methods</h3>
+    <table>
+      <tr>
+        <th>Method</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td><code>.frame(n)</code></td>
+        <td>Display a specific frame (0-indexed)</td>
+      </tr>
+      <tr>
+        <td><code>.frame(() => expr)</code></td>
+        <td>Animate frames with a function</td>
+      </tr>
+      <tr>
+        <td><code>.scale(s)</code></td>
+        <td>Scale the sprite</td>
+      </tr>
+      <tr>
+        <td><code>.translate(x, y)</code></td>
+        <td>Position the sprite</td>
+      </tr>
+    </table>
+
+    <h3>Animating Through Frames</h3>
+    <p>Use a time-based function to cycle through frames:</p>
+
+    <div class="code-example" data-code="loadSprite('https://raw.githubusercontent.com/jamiefaye/hydra-models/main/test-grid-4x4.png', 4, 4)
+  .then(sprite => {
+    src(sprite.frame(() => Math.floor(time * 8) % 16))
+      .out(o0)
+})">
+      <button class="run-btn">Run</button>
+      <code><span class="comment">// Animate through a 4x4 sprite sheet</span>
+<span class="function">loadSprite</span>(<span class="string">'https://raw.githubusercontent.com/jamiefaye/hydra-models/main/test-grid-4x4.png'</span>, <span class="number">4</span>, <span class="number">4</span>)
+  .<span class="function">then</span>(sprite => {
+    <span class="function">src</span>(sprite.<span class="function">frame</span>(() => Math.<span class="function">floor</span>(time * <span class="number">8</span>) % <span class="number">16</span>))
+      .<span class="function">out</span>(o0)
+})</code>
+    </div>
+
+    <h3>Combining Sprites with Effects</h3>
+    <p>Sprites work with all standard Hydra functions:</p>
+
+    <div class="code-example" data-code="loadSprite('https://raw.githubusercontent.com/jamiefaye/hydra-models/main/test-grid-4x4.png', 4, 4)
+  .then(sprite => {
+    osc(10, 0.1).color(0.5, 0.2, 0.8).out(o0)
+    src(sprite.frame(() => Math.floor(time * 8) % 16).scale(0.5))
+      .mult(osc(20))
+      .out(o0, null, 1)
+})">
+      <button class="run-btn">Run</button>
+      <code><span class="comment">// Sprite with oscillator blend on level 1</span>
+<span class="function">loadSprite</span>(<span class="string">'https://raw.githubusercontent.com/jamiefaye/hydra-models/main/test-grid-4x4.png'</span>, <span class="number">4</span>, <span class="number">4</span>)
+  .<span class="function">then</span>(sprite => {
+    <span class="function">osc</span>(<span class="number">10</span>, <span class="number">0.1</span>).<span class="function">color</span>(<span class="number">0.5</span>, <span class="number">0.2</span>, <span class="number">0.8</span>).<span class="function">out</span>(o0)
+    <span class="function">src</span>(sprite.<span class="function">frame</span>(() => Math.<span class="function">floor</span>(time * <span class="number">8</span>) % <span class="number">16</span>).<span class="function">scale</span>(<span class="number">0.5</span>))
+      .<span class="function">mult</span>(<span class="function">osc</span>(<span class="number">20</span>))
+      .<span class="function">out</span>(o0, <span class="keyword">null</span>, <span class="number">1</span>)
+})</code>
+    </div>
+
+    <div class="note">
+      <strong>Note:</strong> The frame index wraps around automatically. Use modulo (%) with the total frame count to loop through all frames.
+    </div>
+
+    <h2>Creative Examples</h2>
+
+    <h3>Oscillating Texture on Model</h3>
+    <div class="code-example" data-code="loadGlb('https://raw.githubusercontent.com/jamiefaye/hydra-models/main/AnimalKit/Rabbit.glb')
+  .then(model => {
+    osc(20, 0.1, 1.5)
+      .modulate(noise(3), 0.1)
+      .color(1, 0.8, 0.9)
+      .out(o0, model.rotateX(3.14).rotateY(() => time * 0.3).perspective(50))
+})">
+      <button class="run-btn">Run</button>
+      <code><span class="comment">// Modulated oscillator on a rabbit</span>
+<span class="function">loadGlb</span>(<span class="string">'https://raw.githubusercontent.com/jamiefaye/hydra-models/main/AnimalKit/Rabbit.glb'</span>)
+  .<span class="function">then</span>(model => {
+    <span class="function">osc</span>(<span class="number">20</span>, <span class="number">0.1</span>, <span class="number">1.5</span>)
+      .<span class="function">modulate</span>(<span class="function">noise</span>(<span class="number">3</span>), <span class="number">0.1</span>)
+      .<span class="function">color</span>(<span class="number">1</span>, <span class="number">0.8</span>, <span class="number">0.9</span>)
+      .<span class="function">out</span>(o0, model.<span class="function">rotateX</span>(<span class="number">3.14</span>).<span class="function">rotateY</span>(() => time * <span class="number">0.3</span>).<span class="function">perspective</span>(<span class="number">50</span>))
+})</code>
+    </div>
+
+    <h3>Feedback with 3D</h3>
+    <div class="code-example" data-code="loadGlb('https://raw.githubusercontent.com/jamiefaye/hydra-models/main/AnimalKit/Penguin.glb')
+  .then(model => {
+    src(o0).scale(1.01).rotate(0.01).blend(osc(10).color(0.2, 0.5, 1), 0.1)
+      .out(o0, model.rotateX(3.14).rotateY(() => time * 0.5).perspective(45))
+})">
+      <button class="run-btn">Run</button>
+      <code><span class="comment">// Feedback loop with geometry</span>
+<span class="function">loadGlb</span>(<span class="string">'https://raw.githubusercontent.com/jamiefaye/hydra-models/main/AnimalKit/Penguin.glb'</span>)
+  .<span class="function">then</span>(model => {
+    <span class="function">src</span>(o0).<span class="function">scale</span>(<span class="number">1.01</span>).<span class="function">rotate</span>(<span class="number">0.01</span>).<span class="function">blend</span>(<span class="function">osc</span>(<span class="number">10</span>).<span class="function">color</span>(<span class="number">0.2</span>, <span class="number">0.5</span>, <span class="number">1</span>), <span class="number">0.1</span>)
+      .<span class="function">out</span>(o0, model.<span class="function">rotateX</span>(<span class="number">3.14</span>).<span class="function">rotateY</span>(() => time * <span class="number">0.5</span>).<span class="function">perspective</span>(<span class="number">45</span>))
+})</code>
+    </div>
+
+    <h3>Dancing Character</h3>
+    <div class="code-example" data-code="loadGlb('https://raw.githubusercontent.com/jamiefaye/hydra-models/main/AnimatedWomenPack/Rumba.glb')
+  .then(model => {
+    gradient(0.3).hue(() => time * 0.1)
+      .out(o0, model.animate().rotateX(3.14).scale(0.7).perspective(45))
+})">
+      <button class="run-btn">Run</button>
+      <code><span class="comment">// Dancing with hue shift</span>
+<span class="function">loadGlb</span>(<span class="string">'https://raw.githubusercontent.com/jamiefaye/hydra-models/main/AnimatedWomenPack/Rumba.glb'</span>)
+  .<span class="function">then</span>(model => {
+    <span class="function">gradient</span>(<span class="number">0.3</span>).<span class="function">hue</span>(() => time * <span class="number">0.1</span>)
+      .<span class="function">out</span>(o0, model.<span class="function">animate</span>().<span class="function">rotateX</span>(<span class="number">3.14</span>).<span class="function">scale</span>(<span class="number">0.7</span>).<span class="function">perspective</span>(<span class="number">45</span>))
+})</code>
+    </div>
+
+    <h2>Available Models</h2>
+
+    <p>Free models are available in the <a href="https://github.com/jamiefaye/hydra-models" style="color: #e94560;">hydra-models repository</a>:</p>
+
+    <h3>AnimalKit (Static GLB)</h3>
+    <p>Low-poly animals: Cat, Dog, Fox, Bear, Rabbit, Penguin, Deer, Horse, Cow, Shark, Frog, and more.</p>
+
+    <h3>AnimatedWomenPack (Animated GLB)</h3>
+    <p>Character animations: Breakdance, Rumba, Walking, and more.</p>
+
+    <footer>
+      <p>
+        <a href="/hydra/">Home</a> |
+        <a href="/hydra/">Hydra Editor</a> |
+        <a href="https://github.com/jamiefaye/hydra-models">Models Repo</a>
+      </p>
+    </footer>
+  </div>
+
+  <script>
+    document.querySelectorAll('.run-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const codeBlock = this.closest('.code-example');
+        const code = codeBlock.dataset.code;
+        const encoded = btoa(unescape(encodeURIComponent(code)));
+        window.open('/hydra/?code=' + encoded, '_blank');
+      });
+    });
+  </script>
+</body>
+</html>

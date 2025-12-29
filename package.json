@@ -23,7 +23,7 @@
     "choo-devtools": "^3.0.4",
     "codemirror": "^6.0.1",
     "codemirror-minified": "^5.65.0",
-    "hydra-synth": "^1.3.27",
+    "hydra-synth": "file:../hyv",
     "i18next": "^21.6.13",
     "i18next-browser-languagedetector": "^6.1.3",
     "i18next-http-backend": "^1.4.0",

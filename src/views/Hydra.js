@@ -1,10 +1,10 @@
 import html from 'choo/html'
 import Component from 'choo/component'
-import { Hydra } from 'hydra-synth'
+import Hydra from 'hydra-synth'
 import P5 from './../lib/p5-wrapper.js'
 import PatchBay from './../lib/patch-bay/pb-live.js'
-import { install as installInAct } from 'hydra-synth/extensions/inact'
 import { install as installVertex } from 'hydra-synth/extensions/vertex'
+// import { install as installInAct } from 'hydra-synth/extensions/inact' // TODO: create inact extension
 
 let pb
 
@@ -54,7 +54,7 @@ export default class HydraCanvas extends Component {
     // window.pb = pb
 
     // Install extensions
-    installInAct(this.hydra)    // Recording/playback toolbar
+    // installInAct(this.hydra)    // Recording/playback toolbar - TODO: create inact extension
     installVertex(this.hydra)   // 3D/vertex shader support
 
     this.emit('hydra loaded')
